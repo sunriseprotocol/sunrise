@@ -1,7 +1,7 @@
 {
     "CurrencyId": {
         "_enum": [
-            "Native",
+            "SRS",
             "DOT",
             "KSM",
             "BTC"
@@ -18,5 +18,23 @@
         "owner": "AccountId"
     },
     "OrderOf": "Order",
-    "OrderId": "u32"
+    "OrderId": "u32",
+    "PoolId": "u32",
+    "LiquidityPool": {
+        "base_cur_id": "CurrencyId",
+        "base_amnt": "Compact<Balance>"
+        "pool_config_id": "u32"
+    },
+
+    "LiquidityPoolOf": "LiquidityPool",
+    "PoolConfig": {
+        "num_in_set": "u32",
+        "currency_ids": "[CurrencyId; 4]",
+        "token_weights": "[f32; 4]",
+        "fees": "Compact<Balance>",
+        "depth": "f32",
+        "slippage": "Compact<Balance>",
+        "alpha": "Compact<Balance>",
+        "kmpa": "u32"
+    }
 }

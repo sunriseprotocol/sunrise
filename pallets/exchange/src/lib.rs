@@ -17,11 +17,13 @@ pub trait Trait: frame_system::Trait {
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Trait>::Event>;
 	type Currency: MultiReservableCurrency<Self::AccountId>;
 	type OrderId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
+	type PoolId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
+	
 }
 
 #[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
 pub struct Order<CurrencyId, Balance, AccountId> {
-	pub base_currency_id: CurrencyId,
+	 base_currency_id: CurrencyId,
 	#[codec(compact)]
 	pub base_amount: Balance,
 	pub target_currency_id: CurrencyId,
@@ -30,22 +32,62 @@ pub struct Order<CurrencyId, Balance, AccountId> {
 	pub owner: AccountId,
 }
 
+#[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
+pub struct LiquidityPool<Balance> {
+	base_currency_id: CurrencyIds,
+	#[codec(compact)]
+	base_amnt: Balance, 
+	pool_config_id: u32,
+	pool_reserves: PoolReserves,
+
+}
+
+type PoolReserves = [u32; 4];
+type CurrencyIds = [u32; 4];
+type TokenWeights = [u32; 4];
+
+
+#[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
+pub struct PoolConfig<Balance> {
+	num_in_set: u32, 
+	currency_ids: CurrencyIds,
+	token_weights: TokenWeights,
+	#[codec(compact)]
+	fees: Balance, 
+	depth: u32,
+	#[codec(compact)]
+	slippage: Balance,
+	#[codec(compact)]
+	alpha: Balance,
+	kmpa: u32,
+}
+
+
 type BalanceOf<T> = <<T as Trait>::Currency as MultiCurrency<<T as frame_system::Trait>::AccountId>>::Balance;
 type CurrencyIdOf<T> = <<T as Trait>::Currency as MultiCurrency<<T as frame_system::Trait>::AccountId>>::CurrencyId;
 type OrderOf<T> = Order<CurrencyIdOf<T>, BalanceOf<T>, <T as frame_system::Trait>::AccountId>;
+type LiquidityPool_<T> = LiquidityPool<BalanceOf<T>>;
+type LiquidityPoolConfig_<T> = PoolConfig<BalanceOf<T>>; 
 
 decl_storage! {
 	trait Store for Module<T: Trait> as Exchange {
-		pub Orders: map hasher(twox_64_concat) T::OrderId => Option<OrderOf<T>>;
-		pub NextOrderId: T::OrderId;
+		Orders: map hasher(twox_64_concat) T::OrderId => Option<OrderOf<T>>;
+		NextOrderId: T::OrderId;
+		NextPoolId: T::PoolId;
+		LiquidityPools: map hasher(twox_64_concat) T::PoolId => Option<LiquidityPool_<T>>;
+		LiquidityPoolConfigs: map hasher(twox_64_concat) T::PoolId => Option<LiquidityPoolConfig_<T>>;
 	}
+
 }
 
 decl_event!(
 	pub enum Event<T> where
 		<T as Trait>::OrderId,
 		Order = OrderOf<T>,
+	//	LiquidityPool = LiquidityPool_<T>,
+//		Balance = BalanceOf<T>,
 		<T as frame_system::Trait>::AccountId,
+//		Currency = CurrencyIdOf<T>,
 	{
 		OrderCreated(OrderId, Order),
 		OrderTaken(AccountId, OrderId, Order),
@@ -99,6 +141,8 @@ decl_module! {
 			})?;
 		}
 
+
+
 		#[weight = 1000]
 		fn take_order(origin, order_id: T::OrderId) {
 			let who = ensure_signed(origin)?;
@@ -132,6 +176,52 @@ decl_module! {
 				Ok(())
 			})?;
 		}
+
+		#[weight = 1000]
+		fn liquidity_add (origin, _pool_id: T::PoolId ){
+			let _who = ensure_signed(origin)?;
+			LiquidityPools::<T>::try_mutate(_pool_id, |_liquidity_pool| -> DispatchResult {
+				Ok(())
+
+			})?;
+
+		}
+
+		#[weight = 1000]
+		fn liquidity_remove (origin, _pool_id: T::PoolId ){
+			let _who = ensure_signed(origin)?;
+			LiquidityPools::<T>::try_mutate(_pool_id, |_liquidity_pool| -> DispatchResult {
+				Ok(())
+			})?;
+
+		}
+
+		#[weight = 1000]
+		fn liquidity_pool_create (origin, _pool_id: T::PoolId ){
+			let _who = ensure_signed(origin)?;
+			NextPoolId::<T>::try_mutate(|_pool_id| -> DispatchResult {
+				Ok(())
+			})?;
+
+		}
+
+		#[weight = 1000]
+		fn liquidity_pool_remove (origin, _pool_id: T::PoolId, to:T::AccountId){
+			let _who = ensure_signed(origin)?;
+			NextPoolId::<T>::try_mutate(|_pool_id| -> DispatchResult {
+				Ok(())
+			})?;
+
+		}
+
+		#[weight = 1000]
+		fn swap(origin, _pool_id: T::PoolId, balances: [u32;2] ){
+			let _who = ensure_signed(origin)?;
+			LiquidityPools::<T>::try_mutate(_pool_id, |_liquidity_pool| -> DispatchResult {
+					Ok(())
+				})?;
+		}
+	
 	}
 }
 

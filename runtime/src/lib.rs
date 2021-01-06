@@ -74,10 +74,12 @@ pub type Hash = sp_core::H256;
 pub type DigestItem = generic::DigestItem<Hash>;
 
 
+
+
 #[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum CurrencyId {
-	Native,
+	SRS,
 	DOT,
 	KSM,
 	BTC,
@@ -294,7 +296,7 @@ impl orml_tokens::Trait for Runtime {
 }
 
 parameter_types! {
-	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Native;
+	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::SRS;
 }
 
 impl orml_currencies::Trait for Runtime {
@@ -309,7 +311,10 @@ impl pallet_exchange::Trait for Runtime {
 	type Event = Event;
 	type Currency = Currencies;
 	type OrderId = u32;
+	type PoolId = u32;
 }
+
+
 
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
