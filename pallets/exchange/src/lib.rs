@@ -34,17 +34,16 @@ pub struct Order<CurrencyId, Balance, AccountId> {
 
 #[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
 pub struct LiquidityPool<Balance> {
-	base_currency_id: CurrencyIds,
+	currency_ids: CurrencyIds,
 	#[codec(compact)]
 	base_amnt: Balance, 
 	pool_config_id: u32,
 	pool_reserves: PoolReserves,
-
 }
 
-type PoolReserves = [u32; 4];
-type CurrencyIds = [u32; 4];
-type TokenWeights = [u32; 4];
+type PoolReserves = [u64; 4];
+type CurrencyIds = [u64; 4];
+type TokenWeights = [u64; 4];
 
 
 #[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
@@ -70,12 +69,12 @@ type LiquidityPool_<T> = LiquidityPool<BalanceOf<T>>;
 type LiquidityPoolConfig_<T> = PoolConfig<BalanceOf<T>>; 
 
 decl_storage! {
-	trait Store for Module<T: Trait> as Exchange {
+	trait Store for Module<T: Trait> as pool {
 		Orders: map hasher(twox_64_concat) T::OrderId => Option<OrderOf<T>>;
 		NextOrderId: T::OrderId;
-		NextPoolId: T::PoolId;
-		LiquidityPools: map hasher(twox_64_concat) T::PoolId => Option<LiquidityPool_<T>>;
-		LiquidityPoolConfigs: map hasher(twox_64_concat) T::PoolId => Option<LiquidityPoolConfig_<T>>;
+		NextPoolId get(fn next_pool_id): T::PoolId;
+		LiquidityPools get(fn pools): map hasher(twox_64_concat) T::PoolId => Option<LiquidityPool_<T>>;
+		LiquidityPoolConfigs get(fn poolconfigs): map hasher(twox_64_concat) T::PoolId => Option<LiquidityPoolConfig_<T>>;
 	}
 
 }
@@ -101,6 +100,7 @@ decl_error! {
 		InvalidOrderId,
 		InsufficientBalance,
 		NotOwner,
+		TooLate,
 	}
 }
 
@@ -178,28 +178,29 @@ decl_module! {
 		}
 
 		#[weight = 1000]
-		fn liquidity_add (origin, _pool_id: T::PoolId ){
+		fn liquidity_pool_create (origin ){
 			let _who = ensure_signed(origin)?;
-			LiquidityPools::<T>::try_mutate(_pool_id, |_liquidity_pool| -> DispatchResult {
+			let next_pool_id = Self::next_pool_id();
+			
+
+		}
+
+		#[weight = 1000]
+		fn liquidity_add (origin, pool_id: T::PoolId, deadline: T::BlockNumber ){
+			let _who = ensure_signed(origin)?;
+			ensure!(deadline > <frame_system::Module<T>>::block_number(), Error::<T>::TooLate);
+
+			let mut pool = Self::pools(&pool_id).unwrap();
+
+			LiquidityPools::<T>::try_mutate(pool_id, |_liquidity_pool| -> DispatchResult {
 				Ok(())
-
 			})?;
-
 		}
 
 		#[weight = 1000]
 		fn liquidity_remove (origin, _pool_id: T::PoolId ){
 			let _who = ensure_signed(origin)?;
 			LiquidityPools::<T>::try_mutate(_pool_id, |_liquidity_pool| -> DispatchResult {
-				Ok(())
-			})?;
-
-		}
-
-		#[weight = 1000]
-		fn liquidity_pool_create (origin, _pool_id: T::PoolId ){
-			let _who = ensure_signed(origin)?;
-			NextPoolId::<T>::try_mutate(|_pool_id| -> DispatchResult {
 				Ok(())
 			})?;
 
@@ -225,4 +226,6 @@ decl_module! {
 	}
 }
 
-impl<T: Trait> Module<T> {}
+impl<T: Trait> Module<T> {
+
+}

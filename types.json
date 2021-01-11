@@ -10,6 +10,7 @@
     "CurrencyIdOf": "CurrencyId",
     "Amount": "i128",
     "AmountOf": "Amount",
+    "AssetIdOf": "u64",
     "Order": {
         "base_currency_id": "CurrencyId",
         "base_amount": "Compact<Balance>",
@@ -22,11 +23,11 @@
     "PoolId": "u32",
     "LiquidityPool": {
         "base_cur_id": "CurrencyId",
-        "base_amnt": "Compact<Balance>"
+        "base_amnt": "Compact<Balance>",
         "pool_config_id": "u32"
     },
 
-    "LiquidityPoolOf": "LiquidityPool",
+    "LiquidityPool_": "LiquidityPool",
     "PoolConfig": {
         "num_in_set": "u32",
         "currency_ids": "[CurrencyId; 4]",
@@ -36,5 +37,15 @@
         "slippage": "Compact<Balance>",
         "alpha": "Compact<Balance>",
         "kmpa": "u32"
+    },
+    "Name": "u8",
+    "Symbol": "u8",
+    "TokenInfo": {
+        "name": "Name",
+        "symbol": "Symbol",
+        "decimals": "u8",
+        "owner": "AccountId"
     }
+
+
 }

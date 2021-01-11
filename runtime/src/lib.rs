@@ -315,6 +315,11 @@ impl pallet_exchange::Trait for Runtime {
 }
 
 
+impl pallet_srstokens::Trait for Runtime {
+	type Event = Event;
+	type Balance = u128;
+	type AssetId = u64;
+} 
 
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
@@ -332,11 +337,10 @@ construct_runtime!(
 		Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
-		// Include the custom logic from the template pallet in the runtime.
 		TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
-                Currencies: orml_currencies::{Module, Call, Event<T>},
+        Currencies: orml_currencies::{Module, Call, Event<T>},
 		Tokens: orml_tokens::{Module, Storage, Event<T>, Config<T>},
-
+		SRSTokens: pallet_srstokens::{Module, Storage, Call, Event<T>},
 		Exchange: pallet_exchange::{Module, Storage, Call, Event<T>},
 	}
 );

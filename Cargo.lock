@@ -3283,6 +3283,7 @@ dependencies = [
  "pallet-exchange",
  "pallet-grandpa",
  "pallet-randomness-collective-flip",
+ "pallet-srstokens",
  "pallet-sudo",
  "pallet-template",
  "pallet-timestamp",
@@ -3649,6 +3650,18 @@ dependencies = [
  "sp-staking",
  "sp-std",
  "sp-trie",
+]
+
+[[package]]
+name = "pallet-srstokens"
+version = "2.0.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "serde",
+ "sp-runtime",
+ "sp-std",
 ]
 
 [[package]]
