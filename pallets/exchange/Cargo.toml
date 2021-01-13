@@ -1,8 +1,8 @@
 [package]
 name = 'pallet-exchange'
-description = 'Simple orderbook based exchange pallet'
-repository = 'https://github.com/xlc/orml-workshop/'
-authors = ['Bryan Chen']
+description = 'dex prototype'
+repository = 'https://github.com/sunriseprotocol/sunrise'
+authors = ['Sunrise']
 version = '2.0.0'
 edition = '2018'
 
@@ -14,6 +14,7 @@ sp-runtime = { default-features = false, version = '2.0.0' }
 
 orml-traits = { default-features = false, version = '0.3.0' }
 orml-utilities = { default-features = false, version = '0.3.0' }
+pallet-srstokens = { default-features = false, path = "../srstoken" }
 
 [features]
 default = ['std']
@@ -23,5 +24,6 @@ std = [
     'frame-system/std',
     'sp-runtime/std',
     'orml-traits/std',
-    'orml-utilities/std'
+    'orml-utilities/std',
+    'pallet-srstokens/std'
 ]

@@ -1,51 +1,48 @@
 {
     "CurrencyId": {
-        "_enum": [
-            "SRS",
-            "DOT",
-            "KSM",
-            "BTC"
-        ]
+      "_enum": [
+        "SRS",
+        "DOT",
+        "KSM",
+        "BTC"
+      ]
     },
     "CurrencyIdOf": "CurrencyId",
     "Amount": "i128",
     "AmountOf": "Amount",
-    "AssetIdOf": "u64",
     "Order": {
-        "base_currency_id": "CurrencyId",
-        "base_amount": "Compact<Balance>",
-        "target_currency_id": "CurrencyId",
-        "target_amount": "Compact<Balance>",
-        "owner": "AccountId"
+      "base_currency_id": "CurrencyId",
+      "base_amount": "Compact<Balance>",
+      "target_currency_id": "CurrencyId",
+      "target_amount": "Compact<Balance>",
+      "owner": "AccountId"
     },
     "OrderOf": "Order",
     "OrderId": "u32",
-    "PoolId": "u32",
-    "LiquidityPool": {
-        "base_cur_id": "CurrencyId",
-        "base_amnt": "Compact<Balance>",
-        "pool_config_id": "u32"
-    },
-
-    "LiquidityPool_": "LiquidityPool",
-    "PoolConfig": {
-        "num_in_set": "u32",
-        "currency_ids": "[CurrencyId; 4]",
-        "token_weights": "[f32; 4]",
-        "fees": "Compact<Balance>",
-        "depth": "f32",
-        "slippage": "Compact<Balance>",
-        "alpha": "Compact<Balance>",
-        "kmpa": "u32"
-    },
     "Name": "u8",
     "Symbol": "u8",
+    "PoolId": "u32",
+    "AccountIdOf": "AccountId",
     "TokenInfo": {
-        "name": "Name",
-        "symbol": "Symbol",
-        "decimals": "u8",
-        "owner": "AccountId"
+      "name": "u8",
+      "symbol": "u8",
+      "decimals": "u8",
+      "owner": "AccountId"
+    },
+    "LiquidityPool": {
+      "base_cur_id": "CurrencyId",
+      "base_amnt": "Compact<Balance>",
+      "pool_config_id": "u32"
+    },
+    "LiquidityPool_": "LiquidityPool",
+    "PoolConfig": {
+      "num_in_set": "u32",
+      "currency_ids": "[CurrencyId; 4]",
+      "token_weights": "[f32; 4]",
+      "fees": "Compact<Balance>",
+      "depth": "f32",
+      "slippage": "Compact<Balance>",
+      "alpha": "Compact<Balance>",
+      "kmpa": "u32"
     }
-
-
-}
+  }

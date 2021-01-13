@@ -3573,6 +3573,7 @@ dependencies = [
  "frame-system",
  "orml-traits",
  "orml-utilities",
+ "pallet-srstokens",
  "parity-scale-codec",
  "sp-runtime",
 ]

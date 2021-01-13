@@ -312,6 +312,8 @@ impl pallet_exchange::Trait for Runtime {
 	type Currency = Currencies;
 	type OrderId = u32;
 	type PoolId = u32;
+	type Balance = u128;
+	type PoolConfigId = u32;
 }
 
 
