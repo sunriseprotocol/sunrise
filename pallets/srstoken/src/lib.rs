@@ -12,10 +12,7 @@ use sp_runtime::{
 use frame_system::ensure_signed;
 use sp_runtime::traits::One;
 use codec::{Encode, Decode};
-use sp_runtime::print;
 
-type Symbol = u8;
-type Name = u8;
 
 #[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
 pub struct TokenInfo<AccountId> {
@@ -86,10 +83,28 @@ decl_module! {
 
 		#[weight = 100]
 		fn asset_id_check(origin){
-			let origin = ensure_signed(origin)?;
+			let _origin = ensure_signed(origin)?;
 
-		//	<Self as Token<_, _>>::asset_id();
-		//	Self::deposit_event(RawEvent::AssetId());
+			let asset_id = <Self as Token<_, _>>::asset_id();
+			debug::info!("ASSETID sent by: {:?}", asset_id);
+
+			
+
+			Self::deposit_event(RawEvent::AssetId());
+		}
+
+
+		#[weight = 100]
+		fn account_balance(origin,
+			#[compact] asset_id: T::AssetId,
+			account_id: T::AccountId,
+		) {
+			let _origin = ensure_signed(origin)?;
+
+			let bal = Self::balances(asset_id, account_id);
+			debug::info!("BALANCE sent by: {:?}", bal);
+
+			//Self::deposit_event(RawEvent::Transferred(id, origin, target.clone(), amount));
 		}
 
 		#[weight = 100]
@@ -105,18 +120,17 @@ decl_module! {
 		}
 
 		#[weight = 100]
-		fn create_new_asset(origin, name_: u8, decimals_: u8, symbol_: u8, owner_: T::AccountId, #[compact] initial_amount: T::Balance ){
+		fn create_new_asset(origin, name_: u8, decimals_: u8, symbol_: u8, owner_: T::AccountId, #[compact] initial_amount: T::Balance
+		 ){
 
 			let _origin = ensure_signed(origin)?;
-			print("ff");
-			let cloned_owner = owner_.clone();
-			let second_owner = owner_.clone();
+			let token = TokenInfo::new(name_, symbol_, decimals_, owner_.clone());
+			let asset_id = <Self as CreateTokenInfo<_, _>>::create_new_asset(token);
+			<Self as CreateTokenInfo<_, _>>::issue(&asset_id, &owner_, initial_amount)?;
+			Self::deposit_event(RawEvent::Issued(asset_id, owner_.clone(), initial_amount));
+		
 
-			let token_test = TokenInfo::new(name_, symbol_, decimals_, owner_);
-
-			debug::info!("ASSETID sent by: {:?}", token_test);
-
-		}
+		 }
 	}	
 }
 
@@ -141,6 +155,7 @@ pub trait Token<AssetId, AccountId> {
 	type AssetId: Parameter + AtLeast32Bit + Default + Copy;
 	//fn ownership(owner: &AccountId) -> Self::AccountId;
 	//fn transferOwnership(new_owner: &AccountId) -> DispatchResult;
+	//fn approve(asset_id: &AssetId, who: &AccountId, spender: &AccountId) -> Self::Balance 
 	fn total_supply(asset_id: &AssetId) -> Self::Balance;
 	fn balances(asset_id: &AssetId, who: &AccountId) -> Self::Balance;
 	fn allowances(asset_id: &AssetId, owner: &AccountId, spender: &AccountId) -> Self::Balance;
@@ -162,7 +177,7 @@ impl<T: Trait> Token<T::AssetId, T::AccountId> for Module<T> {
 	type AssetId = T::AssetId;
 
 	fn asset_id() -> Self::AssetId {
-		Self::asset_id()
+		Self::next_asset_id()
 	}
 
 	fn total_supply(asset_id: &T::AssetId) -> Self::Balance {
@@ -207,8 +222,12 @@ impl<T: Trait> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
 
 	fn create_new_asset(token_info: TokenInfo< T::AccountId>) -> T::AssetId {
 		let id = Self::next_asset_id();
+
 		<NextAssetId<T>>::mutate(|id| *id += One::one());
-		<TokenInfos<T>>::insert(id, token_info);
+		<TokenInfos<T>>::insert(id, &token_info);
+
+		//self:issue(id, token_info)
+
 		id
 	}
 

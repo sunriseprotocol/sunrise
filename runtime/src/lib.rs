@@ -310,7 +310,6 @@ impl orml_currencies::Trait for Runtime {
 impl pallet_exchange::Trait for Runtime {
 	type Event = Event;
 	type Currency = Currencies;
-	type OrderId = u32;
 	type PoolId = u32;
 	type Balance = u128;
 	type PoolConfigId = u32;
