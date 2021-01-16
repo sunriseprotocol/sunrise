@@ -313,6 +313,8 @@ impl pallet_exchange::Trait for Runtime {
 	type PoolId = u32;
 	type Balance = u128;
 	type PoolConfigId = u32;
+	type SRSToken = SRSTokens; 
+	//type TokenFunctions = 
 }
 
 

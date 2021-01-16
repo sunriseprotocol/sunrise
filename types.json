@@ -36,6 +36,7 @@
       "pool_reserves": "PoolReserves"
     },
     "LiquidityPool_": "LiquidityPool",
+    "LiquidityPoolConfig_": "LiquidityPoolConfig",
     "PoolConfigId": "u32",
     "PoolConfig": {
       "num_in_set": "u32",
