@@ -4,7 +4,7 @@ use frame_support::{
 };
 use sp_runtime::{
 	DispatchResult, RuntimeDebug,
-	traits::{ CheckedSub, Saturating, Member, AtLeast32Bit, AtLeast32BitUnsigned },
+	traits::{ CheckedSub, Saturating, Member, AtLeast32Bit, AtLeast32BitUnsigned, SaturatedConversion },
 };
 use frame_system::ensure_signed;
 use sp_runtime::traits::One;
@@ -145,6 +145,8 @@ pub trait Token<AssetId, AccountId> {
 	fn transfer(asset_id: &AssetId, from: &AccountId, to: &AccountId, value: Self::Balance) -> DispatchResult;
 	fn transfer_from(asset_id: &AssetId, from: &AccountId, operator: &AccountId, to: &AccountId, value: Self::Balance) -> DispatchResult;
 	fn asset_id() -> Self::AssetId;
+	fn bal_conver(num: u128) -> Self::Balance;
+
 }
 
 pub trait CreateTokenInfo<AssetId, AccountId>: Token<AssetId, AccountId> {
@@ -152,12 +154,18 @@ pub trait CreateTokenInfo<AssetId, AccountId>: Token<AssetId, AccountId> {
 	fn create_new_asset(token_info: TokenInfo<AccountId>) -> AssetId;
 	fn mint(asset_id: &AssetId, who: &AccountId, value: Self::Balance) -> DispatchResult;
 	fn burn(asset_id: &AssetId, who: &AccountId, value: Self::Balance) -> DispatchResult;
+	fn initial_amount(asset_id: &AssetId, account_id: &AccountId ) -> Self::Balance;
+	fn bal_conv(num: u128) -> Self::Balance;
 }
 
 
 impl<T: Trait> Token<T::AssetId, T::AccountId> for Module<T> {
 	type Balance = T::Balance;
 	type AssetId = T::AssetId;
+
+	fn bal_conver(num: u128) -> Self::Balance { 
+		num.saturated_into::<Self::Balance>()
+	}
 
 	fn asset_id() -> Self::AssetId {
 		Self::next_asset_id()
@@ -197,6 +205,15 @@ impl<T: Trait> Token<T::AssetId, T::AccountId> for Module<T> {
 }
 
 impl<T: Trait> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
+
+	fn initial_amount(asset_id: &T::AssetId, account_id: &T::AccountId ) -> Self::Balance {
+		Self::balances(&asset_id, account_id)
+	}
+
+	fn bal_conv(num: u128) -> Self::Balance { 
+		num.saturated_into::<Self::Balance>()
+	}
+	
 
 	fn exists(asset_id: &T::AssetId) -> bool {
 		Self::token_infos(asset_id).is_some()

@@ -20,6 +20,7 @@
     "AssetId": "u64",
     "PoolId": "u32",
     "AccountIdOf": "AccountId",
+    "TokenBalanceOf":"Balance",
     "TokenInfo": {
       "name": "Text",
       "symbol": "Text",
@@ -31,7 +32,7 @@
     "TokenWeights": "[u64; 4]",
     "LiquidityPool": {
       "base_cur_id": "CurrencyId",
-      "base_amnt": "Compact<Balance>",
+      "lp_token_id": "AssetId",
       "pool_config_id": "u32",
       "pool_reserves": "PoolReserves"
     },
