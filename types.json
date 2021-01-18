@@ -21,8 +21,8 @@
     "PoolId": "u32",
     "AccountIdOf": "AccountId",
     "TokenInfo": {
-      "name": "u8",
-      "symbol": "u8",
+      "name": "Text",
+      "symbol": "Text",
       "decimals": "u8",
       "owner": "AccountId"
     },

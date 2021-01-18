@@ -1,28 +1,25 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 use frame_support::{
-	Parameter, decl_module, decl_event, decl_storage, decl_error, ensure, //debug,
+	decl_event, decl_module, decl_storage, decl_error, ensure, Parameter,  //debug,
 };
-
 use sp_runtime::{
-	RuntimeDebug, DispatchResult,
-	traits::{
-		CheckedSub, Saturating, Member, AtLeast32Bit, AtLeast32BitUnsigned
-	},
+	DispatchResult, RuntimeDebug,
+	traits::{ CheckedSub, Saturating, Member, AtLeast32Bit, AtLeast32BitUnsigned },
 };
 use frame_system::ensure_signed;
 use sp_runtime::traits::One;
 use codec::{Encode, Decode};
-
+use frame_support::traits::Vec;
 #[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
 pub struct TokenInfo<AccountId> {
-	name: u8,
-	symbol: u8,
+	name: Vec<u8>,
+	symbol: Vec<u8>,
 	decimals: u8,
 	owner: AccountId,
 }
 
 impl<A> TokenInfo<A> {
-	pub fn new(name_: u8, symbol_: u8, decimals_: u8 ,owner_: A) ->  TokenInfo<A> {
+	pub fn new(name_: Vec<u8>, symbol_: Vec<u8>, decimals_: u8 ,owner_: A) ->  TokenInfo<A> {
 		TokenInfo {
 			name: name_, 
 			symbol: symbol_, 
@@ -109,7 +106,7 @@ decl_module! {
 		}
 
 		#[weight = 100]
-		fn create_new_asset(origin, name_: u8, decimals_: u8, symbol_: u8, owner_: T::AccountId, #[compact] initial_amount: T::Balance
+		fn create_new_asset(origin, name_: Vec<u8>, decimals_: u8, symbol_: Vec<u8>, owner_: T::AccountId, #[compact] initial_amount: T::Balance
 		 ){
 			let _origin = ensure_signed(origin)?;
 			let token = TokenInfo::new(name_, symbol_, decimals_, owner_.clone());

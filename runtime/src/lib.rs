@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 use sp_std::prelude::*;
 use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
 use sp_runtime::{
-	ApplyExtrinsicResult, generic, create_runtime_str, impl_opaque_keys, MultiSignature, RuntimeDebug,
+	ApplyExtrinsicResult, generic, create_runtime_str, impl_opaque_keys, MultiSignature, RuntimeDebug, ModuleId,
 	transaction_validity::{TransactionValidity, TransactionSource},
 };
 use sp_runtime::traits::{
@@ -148,6 +148,7 @@ parameter_types! {
 		.saturating_sub(Perbill::from_percent(10)) * MaximumBlockWeight::get();
 	pub const MaximumBlockLength: u32 = 5 * 1024 * 1024;
 	pub const Version: RuntimeVersion = VERSION;
+
 }
 
 // Configure FRAME pallets to include in runtime.
@@ -307,6 +308,10 @@ impl orml_currencies::Trait for Runtime {
 	type WeightInfo = ();
 }
 
+parameter_types! {
+	pub const ExchangeModuleId: ModuleId = ModuleId(*b"exchange");
+}
+
 impl pallet_exchange::Trait for Runtime {
 	type Event = Event;
 	type Currency = Currencies;
@@ -314,7 +319,9 @@ impl pallet_exchange::Trait for Runtime {
 	type Balance = u128;
 	type PoolConfigId = u32;
 	type SRSToken = SRSTokens; 
+	type ModuleId = ExchangeModuleId;
 	//type TokenFunctions = 
+	
 }
 
 
