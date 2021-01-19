@@ -267,14 +267,14 @@ impl<T: Trait> Module<T> {
 			let mut mutant_pool = Self::pools(&pool_id).unwrap();
 			//received by lp
 			for (x, _val) in currencies_in.iter().enumerate() {
-				in_pair = Some((currencies_in[x], balances_in[x]));
+				_in_pair = Some((currencies_in[x], balances_in[x]));
 				T::Token::transfer(&currencies_in[x], who, &Self::account_id(), T::Token::bal_conver(Self::fixed_token_bal(balances_in[x])))?;
 				mutant_pool.pool_reserves[x] += Self::fixed_bal(balances_in[x]);
 				
 			}
 			//received by user
 			for (x, _val) in currencies_out.iter().enumerate() {
-				out_pair = Some((currencies_out[x], balances_out[x]));
+				_out_pair = Some((currencies_out[x], balances_out[x]));
 				T::Token::transfer(&currencies_out[x], &Self::account_id(), who, T::Token::bal_conver(Self::fixed_token_bal(balances_out[x])))?;
 				mutant_pool.pool_reserves[x] -= Self::fixed_bal(balances_out[x]);
 			}
