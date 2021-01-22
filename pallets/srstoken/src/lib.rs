@@ -7,9 +7,15 @@ use sp_runtime::{
 	traits::{ CheckedSub, Saturating, Member, AtLeast32Bit, AtLeast32BitUnsigned, SaturatedConversion },
 };
 use frame_system::ensure_signed;
-use sp_runtime::traits::One;
 use codec::{Encode, Decode};
 use frame_support::traits::Vec;
+
+#[cfg(test)]
+mod mock;
+
+#[cfg(test)]
+mod tests;
+
 #[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
 pub struct TokenInfo<AccountId> {
 	name: Vec<u8>,
@@ -50,11 +56,10 @@ decl_event! {
 
 decl_error! {
 	pub enum Error for Module<T: Trait> {
-		AmountZero,
-		BalanceLow,
-		BalanceZero,
-		NotAllowed,
-		AssetNotExists,
+		InsufficientBalance,
+		InsufficientAllowance,
+		InvalidAsset,
+		InvalidIdGeneration,
 	}
 }
 
@@ -68,7 +73,6 @@ decl_storage! {
 			double_map hasher(twox_64_concat) T::AssetId, hasher(blake2_128_concat) T::AccountId => T::Balance;
 		Allowances get(fn allowances):
 			double_map  hasher(twox_64_concat) T::AssetId, hasher(blake2_128_concat) (T::AccountId, T::AccountId) => T::Balance;
-		NextAssetId get(fn next_asset_id): T::AssetId;
 		TotalSupply get(fn total_supply): map hasher(twox_64_concat) T::AssetId => T::Balance;
 	}
 }
@@ -79,38 +83,24 @@ decl_module! {
 		fn deposit_event() = default;
 
 		#[weight = 100]
-		fn asset_id_check(origin){
-			let _origin = ensure_signed(origin)?;
-			let _asset_id = <Self as Token<_, _>>::asset_id();
-			Self::deposit_event(RawEvent::AssetId());
-		}
-
-		#[weight = 100]
-		fn account_balance(origin,
-			#[compact] asset_id: T::AssetId,
-			account_id: T::AccountId,
-		) {
-			let _origin = ensure_signed(origin)?;
-			let _bal = Self::balances(asset_id, account_id);
-		}
-
-		#[weight = 100]
 		fn transfer(origin,
-			#[compact] id: T::AssetId,
-			target: T::AccountId,
+			#[compact] asset_id: T::AssetId,
+			to: T::AccountId,
 			#[compact] amount: T::Balance
 		) {
 			let origin = ensure_signed(origin)?;
-			<Self as Token<_, _>>::transfer(&id, &origin, &target, amount)?;
-			Self::deposit_event(RawEvent::Swap(id, origin, target.clone(), amount));
+			ensure!(Self::token_infos(asset_id).is_some(), Error::<T>::InvalidAsset);
+			<Self as Token<_, _>>::transfer(&asset_id, &origin, &to, amount)?;
+			Self::deposit_event(RawEvent::Swap(asset_id, origin, to.clone(), amount));
 		}
 
 		#[weight = 100]
-		fn create_new_asset(origin, name_: Vec<u8>, decimals_: u8, symbol_: Vec<u8>, owner_: T::AccountId, #[compact] initial_amount: T::Balance
+		fn create_new_asset(origin, name_: Vec<u8>, decimals_: u8, symbol_: Vec<u8>, owner_: T::AccountId, #[compact] initial_amount: T::Balance, asset_id_: T::AssetId
 		 ){
 			let _origin = ensure_signed(origin)?;
 			let token = TokenInfo::new(name_, symbol_, decimals_, owner_.clone());
-			let asset_id = <Self as CreateTokenInfo<_, _>>::create_new_asset(token);
+			ensure!(!Self::token_infos(asset_id_).is_some(), Error::<T>::InvalidIdGeneration);
+			let asset_id = <Self as CreateTokenInfo<_, _>>::create_new_asset(token, asset_id_);
 			<Self as CreateTokenInfo<_, _>>::mint(&asset_id, &owner_, initial_amount)?;
 			Self::deposit_event(RawEvent::Mint(asset_id, owner_.clone(), initial_amount));
 		 }
@@ -122,7 +112,7 @@ impl<T: Trait> Module<T> {
 	pub fn impl_transfer(asset_id: &T::AssetId, from: &T::AccountId, to: &T::AccountId, value: T::Balance) -> DispatchResult {
 		let _new_balance = Self::balances(asset_id, from)
 			.checked_sub(&value)
-			.ok_or(Error::<T>::BalanceLow)?;
+			.ok_or(Error::<T>::InsufficientBalance)?;
 
 		if from != to {
 			<Balances<T>>::mutate(asset_id, from, |balance| *balance -= value);
@@ -144,14 +134,13 @@ pub trait Token<AssetId, AccountId> {
 	fn allowances(asset_id: &AssetId, owner: &AccountId, spender: &AccountId) -> Self::Balance;
 	fn transfer(asset_id: &AssetId, from: &AccountId, to: &AccountId, value: Self::Balance) -> DispatchResult;
 	fn transfer_from(asset_id: &AssetId, from: &AccountId, operator: &AccountId, to: &AccountId, value: Self::Balance) -> DispatchResult;
-	fn asset_id() -> Self::AssetId;
 	fn bal_conver(num: u128) -> Self::Balance;
 
 }
 
 pub trait CreateTokenInfo<AssetId, AccountId>: Token<AssetId, AccountId> {
 	fn exists(asset_id: &AssetId) -> bool;
-	fn create_new_asset(token_info: TokenInfo<AccountId>) -> AssetId;
+	fn create_new_asset(token_info: TokenInfo<AccountId>, asset_id: AssetId) -> AssetId;
 	fn mint(asset_id: &AssetId, who: &AccountId, value: Self::Balance) -> DispatchResult;
 	fn burn(asset_id: &AssetId, who: &AccountId, value: Self::Balance) -> DispatchResult;
 	fn initial_amount(asset_id: &AssetId, account_id: &AccountId ) -> Self::Balance;
@@ -165,10 +154,6 @@ impl<T: Trait> Token<T::AssetId, T::AccountId> for Module<T> {
 
 	fn bal_conver(num: u128) -> Self::Balance { 
 		num.saturated_into::<Self::Balance>()
-	}
-
-	fn asset_id() -> Self::AssetId {
-		Self::next_asset_id()
 	}
 
 	fn total_supply(asset_id: &T::AssetId) -> Self::Balance {
@@ -191,7 +176,7 @@ impl<T: Trait> Token<T::AssetId, T::AccountId> for Module<T> {
 
 		let new_allowance = Self::allowances(asset_id, (from, operator))
 			.checked_sub(&value)
-			.ok_or(Error::<T>::NotAllowed)?;
+			.ok_or(Error::<T>::InsufficientAllowance)?;
 
 		if from != to {
 			Self::impl_transfer(asset_id, from, to, value)?;
@@ -219,15 +204,13 @@ impl<T: Trait> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
 		Self::token_infos(asset_id).is_some()
 	}
 
-	fn create_new_asset(token_info: TokenInfo< T::AccountId>) -> T::AssetId {
-		let id = Self::next_asset_id();
-		<NextAssetId<T>>::mutate(|id| *id += One::one());
-		<TokenInfos<T>>::insert(id, &token_info);
-		id
+	fn create_new_asset(token_info: TokenInfo< T::AccountId>, asset_id: T::AssetId) -> T::AssetId {
+		<TokenInfos<T>>::insert(asset_id, &token_info);
+		asset_id
 	}
 
 	fn mint(asset_id: &T::AssetId, who: &T::AccountId, value: Self::Balance) -> DispatchResult {
-		ensure!(Self::exists(asset_id), Error::<T>::AssetNotExists);
+		ensure!(Self::exists(asset_id), Error::<T>::InvalidAsset);
 		<Balances<T>>::mutate(asset_id, who, |balance| {
 			*balance = balance.saturating_add(value);
 		});
@@ -240,10 +223,10 @@ impl<T: Trait> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
 	}
 
 	fn burn(asset_id: &T::AssetId, who: &T::AccountId, value: Self::Balance) -> DispatchResult {
-		ensure!(Self::exists(asset_id), Error::<T>::AssetNotExists);
+		ensure!(Self::exists(asset_id), Error::<T>::InvalidAsset);
 		let new_balance = Self::balances(asset_id, who)
 			.checked_sub(&value)
-			.ok_or(Error::<T>::BalanceLow)?;
+			.ok_or(Error::<T>::InsufficientBalance)?;
 
 		<Balances<T>>::mutate(asset_id, who, |balance| *balance = new_balance);
 		<TotalSupply<T>>::mutate(asset_id, |supply| {

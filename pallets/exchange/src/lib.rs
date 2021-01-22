@@ -11,6 +11,21 @@ use codec::{Encode, Decode};
 use frame_support::traits::{Get, Vec};
 #[macro_use]
 extern crate alloc;
+
+#[cfg(test)]
+mod mock;
+
+#[cfg(test)]
+mod tests;
+
+#[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub enum CurrencyId {
+	Token(TokenSymbol),
+	DEXShare(TokenSymbol, TokenSymbol),
+	ERC20(EvmAddress),
+}
+
 //Debug string -> debug::info!("test value: {:?}", temp);			
 use orml_traits::{MultiReservableCurrency, MultiCurrency};
 //use orml_utilities::with_transaction_result;
@@ -153,7 +168,7 @@ decl_module! {
 		}
 
 		#[weight = 100]
-		fn liquidity_pool_create(origin, id: u32 , currency_ids: Vec<AssetIdOf<T>>, pool_config_id: T::PoolConfigId, pool_reserves: Vec<BalanceOf<T>>, owner: T::AccountId ){
+		fn liquidity_pool_create(origin, id: u32 , currency_ids: Vec<AssetIdOf<T>>, pool_config_id: T::PoolConfigId, pool_reserves: Vec<BalanceOf<T>>, owner: T::AccountId, asset_id: AssetIdOf<T> ){
 			ensure_signed(origin)?;
 			let who = owner;
 
@@ -167,7 +182,8 @@ decl_module! {
 			ensure!(Self::poolconfigs(&pool_config_id).is_some(), Error::<T>::ConfigDoesntExist);
 
 			let lp_token = TokenInfo::new(temp.clone(), temp, numb, who);
-			let asset_id = T::TokenFunctions::create_new_asset(lp_token);
+			//check asset_id / fix to be auto gen'd
+			let asset_id = T::TokenFunctions::create_new_asset(lp_token, asset_id);
 
 			let liq_pool = LiquidityPool::new(
 				currency_ids, asset_id, pool_config_id, pool_reserves); 
@@ -200,7 +216,7 @@ decl_module! {
 
 			Self::remove_liquidity(&who, currencies, balances, pool_id, lp_amount)?;
 		}
-
+		
 		#[weight = 100]
 		fn exchange(origin, pool_id: T::PoolId, deadline: T::BlockNumber,  currencies_in: Vec<AssetIdOf<T>>, balances_in: Vec<TokenBalanceOf<T>>,
 			currencies_out: Vec<AssetIdOf<T>>, balances_out: Vec<TokenBalanceOf<T>>){

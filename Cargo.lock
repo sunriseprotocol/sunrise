@@ -3579,6 +3579,8 @@ dependencies = [
  "pallet-srstokens",
  "parity-scale-codec",
  "serde",
+ "sp-core",
+ "sp-io",
  "sp-runtime",
 ]
 
@@ -3664,6 +3666,8 @@ dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
+ "sp-core",
+ "sp-io",
  "sp-runtime",
  "sp-std",
 ]
@@ -3691,6 +3695,7 @@ dependencies = [
  "frame-system",
  "parity-scale-codec",
  "sp-core",
+ "sp-io",
  "sp-runtime",
 ]
 
