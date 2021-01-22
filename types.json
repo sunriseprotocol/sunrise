@@ -1,0 +1,53 @@
+{
+    "CurrencyId": {
+      "_enum": [
+        "SRS",
+        "DOT",
+        "KSM",
+        "BTC"
+      ]
+    },
+    "CurveType": {
+      "enum": [
+        "Stable",
+        "Oracle",
+        "Asset"
+      ]
+    },
+    "CurrencyIdOf": "CurrencyId",
+    "Amount": "i128",
+    "AmountOf": "Amount",
+    "AssetId": "u64",
+    "PoolId": "u32",
+    "AccountIdOf": "AccountId",
+    "TokenBalanceOf":"Balance",
+    "TokenInfo": {
+      "name": "Text",
+      "symbol": "Text",
+      "decimals": "u8",
+      "owner": "AccountId"
+    },
+    "PoolReserves": "[u64; 4]",
+    "CurrencyIds": "[u64; 4]",
+    "TokenWeights": "[u64; 4]",
+    "LiquidityPool": {
+      "base_cur_id": "CurrencyId",
+      "lp_token_id": "AssetId",
+      "pool_config_id": "u32",
+      "pool_reserves": "PoolReserves"
+    },
+    "LiquidityPool_": "LiquidityPool",
+    "LiquidityPoolConfig_": "LiquidityPoolConfig",
+    "PoolConfigId": "u32",
+    "PoolConfig": {
+      "num_in_set": "u32",
+      "currency_ids": "[CurrencyId; 4]",
+      "token_weights": "[f32; 4]",
+      "fees": "Compact<Balance>",
+      "depth": "f32",
+      "slippage": "Compact<Balance>",
+      "alpha": "Compact<Balance>",
+      "kmpa": "u32",
+      "curve_type": "u8"
+    }
+  }

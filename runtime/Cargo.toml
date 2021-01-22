@@ -1,10 +1,10 @@
 [package]
-authors = ['Substrate DevHub <https://github.com/substrate-developer-hub>']
+authors = ['Sunrise Protocol']
 edition = '2018'
-homepage = 'https://substrate.dev'
-license = 'Unlicense'
+homepage = 'https://sunriseprotocol.com'
+license = 'Apache 2.0'
 name = 'node-template-runtime'
-repository = 'https://github.com/substrate-developer-hub/substrate-node-template/'
+repository = 'https://github.com/sunriseprotocol/sunrise/'
 version = '2.0.0'
 
 [package.metadata.docs.rs]
@@ -26,6 +26,8 @@ serde = { features = ['derive'], optional = true, version = '1.0.101' }
 
 # local dependencies
 pallet-template = { path = '../pallets/template', default-features = false, version = '2.0.0' }
+pallet-exchange = { path = '../pallets/exchange', default-features = false, version = '2.0.0' }
+pallet-srstokens = { path = '../pallets/srstoken', default-features = false, version = '2.0.0' }
 
 # Substrate dependencies
 frame-benchmarking = { default-features = false, optional = true, version = '2.0.0' }
@@ -53,6 +55,9 @@ sp-session = { default-features = false, version = '2.0.0' }
 sp-std = { default-features = false, version = '2.0.0' }
 sp-transaction-pool = { default-features = false, version = '2.0.0' }
 sp-version = { default-features = false, version = '2.0.0' }
+
+orml-currencies = { default-features = false, version = '0.3.0' }
+orml-tokens = { default-features = false, version = '0.3.0' }
 
 [features]
 default = ['std']
@@ -93,4 +98,8 @@ std = [
     'sp-std/std',
     'sp-transaction-pool/std',
     'sp-version/std',
+    'orml-currencies/std',
+    'orml-tokens/std',
+    'pallet-exchange/std',
+    'pallet-srstokens/std'
 ]
