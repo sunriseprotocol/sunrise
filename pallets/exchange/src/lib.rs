@@ -18,14 +18,6 @@ mod mock;
 #[cfg(test)]
 mod tests;
 
-#[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
-#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub enum CurrencyId {
-	Token(TokenSymbol),
-	DEXShare(TokenSymbol, TokenSymbol),
-	ERC20(EvmAddress),
-}
-
 //Debug string -> debug::info!("test value: {:?}", temp);			
 use orml_traits::{MultiReservableCurrency, MultiCurrency};
 //use orml_utilities::with_transaction_result;
