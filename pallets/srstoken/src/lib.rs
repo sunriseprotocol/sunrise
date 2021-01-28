@@ -10,6 +10,10 @@ use frame_system::ensure_signed;
 use codec::{Encode, Decode};
 use frame_support::traits::Vec;
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> evm_integration
 #[cfg(test)]
 mod mock;
 
@@ -17,11 +21,11 @@ mod mock;
 mod tests;
 
 #[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
-pub struct TokenInfo<AccountId> {
+pub struct TokenInfo<A> {
 	name: Vec<u8>,
 	symbol: Vec<u8>,
 	decimals: u8,
-	owner: AccountId,
+	owner: A,
 }
 
 impl<A> TokenInfo<A> {
@@ -64,7 +68,6 @@ decl_error! {
 }
 
 type AccountIdOf<T> = <T as frame_system::Trait>::AccountId;
-//type AssetIdOf<T> = <T as Trait>::AssetId;
 decl_storage! {
 	trait Store for Module<T: Trait> as SRSTokens {
 
@@ -199,7 +202,6 @@ impl<T: Trait> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
 		num.saturated_into::<Self::Balance>()
 	}
 	
-
 	fn exists(asset_id: &T::AssetId) -> bool {
 		Self::token_infos(asset_id).is_some()
 	}

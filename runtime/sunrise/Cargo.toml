@@ -59,6 +59,14 @@ sp-version = { default-features = false, version = '2.0.0' }
 orml-currencies = { default-features = false, version = '0.3.0' }
 orml-tokens = { default-features = false, version = '0.3.0' }
 
+primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
+fp-rpc = { default-features = false, path = "../../primitives/rpc" }
+
+pallet-ethereum = { version = "0.1.0", default-features = false, path = "../../pallets/ethereum" }
+pallet-evm = { version = "2.0.0-dev", default-features = false, path = "../../pallets/evm" }
+pallet-evm-precompile-simple = { version = "2.0.0-dev", default-features = false, path = "../../pallets/evm/precompile/simple" }
+
+
 [features]
 default = ['std']
 runtime-benchmarks = [
@@ -101,5 +109,10 @@ std = [
     'orml-currencies/std',
     'orml-tokens/std',
     'pallet-exchange/std',
-    'pallet-srstokens/std'
+    'pallet-srstokens/std',
+    'fp-rpc/std',
+    'primitives/std',
+    'pallet-ethereum/std',
+    'pallet-evm/std',
+    'pallet-evm-precompile-simple/std',
 ]

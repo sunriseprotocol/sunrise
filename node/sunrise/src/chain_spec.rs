@@ -1,13 +1,12 @@
 use sp_core::{Pair, Public, sr25519};
 use sunrise_runtime::{
 	AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig,
-	SudoConfig, SystemConfig, WASM_BINARY, Signature, TokensConfig, CurrencyId,
+	SudoConfig, SystemConfig, WASM_BINARY, Signature, TokensConfig, CurrencyId, TokenSymbol,
 };
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_finality_grandpa::AuthorityId as GrandpaId;
 use sp_runtime::traits::{Verify, IdentifyAccount};
 use sc_service::ChainType;
-
 // The URL for the telemetry server.
 // const STAGING_TELEMETRY_URL: &str = "wss://telemetry.polkadot.io/submit/";
 
@@ -158,8 +157,8 @@ fn testnet_genesis(
 			.iter()
 			.flat_map(|x| {
 				vec![
-					(x.clone(), CurrencyId::DOT, 10u128.pow(16)),
-					(x.clone(), CurrencyId::BTC, 10u128.pow(16)),
+					(x.clone(), CurrencyId::Native(TokenSymbol::DOT), 10u128.pow(16)),
+					(x.clone(), CurrencyId::Native(TokenSymbol::BTC), 10u128.pow(16)),
 				]
 			})
 			.collect(),
