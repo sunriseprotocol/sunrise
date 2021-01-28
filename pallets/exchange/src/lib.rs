@@ -42,12 +42,12 @@ enum _CurveType {
 }
 
 #[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
-pub struct LiquidityPool<Balance, PoolConfigId, AssetId> {
-	currency_ids: Vec<AssetId>,
+pub struct LiquidityPool<A, B, C> {
+	currency_ids: Vec<C>,
 	#[codec(compact)]
-	lp_token_id: AssetId, 
-	pool_config_id: PoolConfigId,
-	pool_reserves: Vec<Balance>,
+	lp_token_id: C, 
+	pool_config_id: B,
+	pool_reserves: Vec<A>,
 }
 
 impl<A, B, C> LiquidityPool<A, B, C>{
@@ -63,17 +63,17 @@ impl<A, B, C> LiquidityPool<A, B, C>{
 }
 
 #[derive(Encode, Decode, Clone, RuntimeDebug, Eq, PartialEq)]
-pub struct PoolConfig<Balance, AssetId> {
+pub struct PoolConfig<A, B> {
 	num_in_set: u32, 
-	currency_ids: Vec<AssetId>,
+	currency_ids: Vec<B>,
 	token_weights: Vec<u64>,
 	#[codec(compact)]
-	fees: Balance, 
+	fees: A, 
 	depth: u32,
 	#[codec(compact)]
-	slippage: Balance,
+	slippage: A,
 	#[codec(compact)]
-	alpha: Balance,
+	alpha: A,
 	kmpa: u32,
 	curve_type: u8
 }
