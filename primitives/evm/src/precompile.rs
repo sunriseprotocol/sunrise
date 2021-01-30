@@ -16,7 +16,7 @@
 // limitations under the License.
 
 use sp_std::vec::Vec;
-use sp_core::H160;
+use primitive_types::{H160};
 use impl_trait_for_tuples::impl_for_tuples;
 use evm::{ExitSucceed, ExitError, Context};
 

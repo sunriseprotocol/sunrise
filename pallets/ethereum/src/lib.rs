@@ -60,7 +60,7 @@ pub enum ReturnValue {
 }
 
 /// A type alias for the balance type from this pallet's point of view.
-pub type BalanceOf<T> = <T as pallet_balances::Config>::Balance;
+pub type BalanceOf<T> = <T as pallet_balances::Trait>::Balance;
 
 pub struct IntermediateStateRoot;
 
@@ -72,9 +72,9 @@ impl Get<H256> for IntermediateStateRoot {
 }
 
 /// Configuration trait for Ethereum pallet.
-pub trait Config: frame_system::Config<Hash=H256> + pallet_balances::Config + pallet_timestamp::Config + pallet_evm::Config {
+pub trait Config: frame_system::Trait + pallet_balances::Trait + pallet_timestamp::Trait + pallet_evm::Config {
 	/// The overarching event type.
-	type Event: From<Event> + Into<<Self as frame_system::Config>::Event>;
+	type Event: From<Event> + Into<<Self as frame_system::Trait>::Event>;
 	/// Find author for Ethereum.
 	type FindAuthor: FindAuthor<H160>;
 	/// How Ethereum state root is calculated.

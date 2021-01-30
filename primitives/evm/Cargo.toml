@@ -20,7 +20,7 @@ serde = { version = "1.0.101", optional = true, features = ["derive"] }
 codec = { package = "parity-scale-codec", version = "1.3.4", default-features = false }
 evm = { version = "0.21.0", default-features = false, features = ["with-codec"] }
 impl-trait-for-tuples = "0.1"
-
+primitive-types = { version = "0.8.0", default-features = false} 
 [features]
 default = ["std"]
 std = [
@@ -30,4 +30,5 @@ std = [
 	"codec/std",
 	"evm/std",
 	"evm/with-serde",
+	"primitive-types/std",
 ]

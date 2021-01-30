@@ -17,7 +17,7 @@
 
 #![cfg_attr(not(feature = "std"), no_std)]
 
-use sp_core::{H160, H256, U256};
+use ethereum_types::{H160, H256, U256};
 use ethereum::{Log, Block as EthereumBlock};
 use ethereum_types::Bloom;
 use codec::{Encode, Decode};

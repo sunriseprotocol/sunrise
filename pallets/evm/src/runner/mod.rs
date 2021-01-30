@@ -19,7 +19,7 @@ pub mod stack;
 pub mod builtin;
 
 use sp_std::vec::Vec;
-use sp_core::{H160, U256, H256};
+use primitive_types::{H160, U256, H256};
 use fp_evm::{CallInfo, CreateInfo};
 use crate::Config;
 

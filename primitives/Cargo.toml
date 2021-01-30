@@ -6,11 +6,11 @@ edition = "2018"
 
 [dependencies]
 serde = { features = ['derive'], optional = true, version = '1.0.101' }
-codec = { package = "parity-scale-codec", version = "1.3.0", default-features = false }
+codec = { package = "parity-scale-codec", version = "1.3.4", default-features = false }
 sp-core = { version = "2.0.0", default-features = false }
 sp-runtime = { version = "2.0.0", default-features = false }
 sp-std = { version = "2.0.0", default-features = false }
-
+primitive-types = { version = "0.8.0", default-features = false}
 
 
 
@@ -22,4 +22,5 @@ std = [
 	"sp-runtime/std",
 	"sp-core/std",
 	"sp-std/std",
+	"primitive-types/std",
 ]

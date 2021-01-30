@@ -10,10 +10,6 @@ use frame_system::ensure_signed;
 use codec::{Encode, Decode};
 use frame_support::traits::Vec;
 
-<<<<<<< HEAD
-=======
-
->>>>>>> evm_integration
 #[cfg(test)]
 mod mock;
 

@@ -23,7 +23,7 @@ use codec::{Encode, Decode};
 #[cfg(feature = "std")]
 use serde::{Serialize, Deserialize};
 use sp_std::vec::Vec;
-use sp_core::{U256, H160};
+use primitive_types::{U256, H160};
 use evm::ExitReason;
 
 pub use evm::backend::{Basic as Account, Log};

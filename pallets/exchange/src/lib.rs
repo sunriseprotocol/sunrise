@@ -155,8 +155,6 @@ decl_module! {
 				id, currency_ids, token_weights, fees, depth, slippage, alpha, kmpa, curve_type ); 
 
 			<LiquidityPoolConfigs<T>>::insert(&pool_config_id, liq_config);
-		
-
 		}
 
 		#[weight = 100]

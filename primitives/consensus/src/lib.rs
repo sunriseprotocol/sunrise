@@ -19,7 +19,7 @@
 
 use codec::{Encode, Decode};
 use sp_std::vec::Vec;
-use sp_core::H256;
+use ethereum_types::{H256};
 use sp_runtime::ConsensusEngineId;
 
 pub const FRONTIER_ENGINE_ID: ConsensusEngineId = [b'f', b'r', b'o', b'n'];

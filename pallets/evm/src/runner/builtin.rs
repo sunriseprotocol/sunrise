@@ -21,8 +21,7 @@ use sp_std::{
 	convert::Infallible, marker::PhantomData, rc::Rc,
 	collections::btree_set::BTreeSet, vec::Vec, mem, cmp::{min, max},
 };
-use primitive_types::{H160, U256, H256};
-use sp_core::{H160 as SH160, U256 as SU256, H256 as SH256};
+use primitive_types::{H160 as H160, U256 , H256};
 use sp_runtime::{TransactionOutcome, traits::UniqueSaturatedInto};
 use frame_support::{
 	ensure, traits::{Get, Currency, ExistenceRequirement},
@@ -49,13 +48,13 @@ impl<T: Config> RunnerT<T> for Runner<T> {
 	type Error = Error<T>;
 
 	fn call(
-		source: SH160,
-		target: SH160,
+		source: H160,
+		target: H160,
 		input: Vec<u8>,
-		value: SU256,
+		value: U256,
 		gas_limit: u64,
-		gas_price: Option<SU256>,
-		nonce: Option<SU256>,
+		gas_price: Option<U256>,
+		nonce: Option<U256>,
 		config: &evm::Config,
 	) -> Result<CallInfo, Self::Error> {
 		let gas_price = match gas_price {
@@ -117,12 +116,12 @@ impl<T: Config> RunnerT<T> for Runner<T> {
 	}
 
 	fn create(
-		source: SH160,
+		source: H160,
 		init: Vec<u8>,
-		value: SU256,
+		value: U256,
 		gas_limit: u64,
-		gas_price: Option<SU256>,
-		nonce: Option<SU256>,
+		gas_price: Option<U256>,
+		nonce: Option<U256>,
 		config: &evm::Config,
 	) -> Result<CreateInfo, Self::Error> {
 		let gas_price = match gas_price {
@@ -195,13 +194,13 @@ impl<T: Config> RunnerT<T> for Runner<T> {
 	}
 
 	fn create2(
-		source: SH160,
+		source: H160,
 		init: Vec<u8>,
-		salt: SH256,
-		value: SU256,
+		salt: H256,
+		value: U256,
 		gas_limit: u64,
-		gas_price: Option<SU256>,
-		nonce: Option<SU256>,
+		gas_price: Option<U256>,
+		nonce: Option<U256>,
 		config: &evm::Config,
 	) -> Result<CreateInfo, Self::Error> {
 		let gas_price = match gas_price {
@@ -233,7 +232,7 @@ impl<T: Config> RunnerT<T> for Runner<T> {
 				T::Precompiles::execute,
 			);
 
-			let code_hash = SH256::from_slice(Keccak256::digest(&init).as_slice());
+			let code_hash = H256::from_slice(Keccak256::digest(&init).as_slice());
 			let address = substate.create_address(
 				CreateScheme::Create2 { caller: source, code_hash, salt }
 			);
@@ -246,7 +245,7 @@ impl<T: Config> RunnerT<T> for Runner<T> {
 				Vec::new()
 			);
 
-			let used_gas = SU256::from(substate.used_gas());
+			let used_gas = U256::from(substate.used_gas());
 			let logs = substate.logs.clone();
 
 			let mut create_info = CreateInfo {
@@ -285,9 +284,9 @@ pub struct Handler<'vicinity, 'config, T: Config> {
 	vicinity: &'vicinity Vicinity,
 	config: &'config EvmConfig,
 	gasometer: Gasometer<'config>,
-	deleted: BTreeSet<SH160>,
+	deleted: BTreeSet<H160>,
 	logs: Vec<Log>,
-	precompile: fn(SH160, &[u8], Option<u64>, &Context) ->
+	precompile: fn(H160, &[u8], Option<u64>, &Context) ->
 		Option<Result<(ExitSucceed, Vec<u8>, u64), ExitError>>,
 	is_static: bool,
 	_marker: PhantomData<T>,
@@ -300,7 +299,7 @@ impl<'vicinity, 'config, T: Config> Handler<'vicinity, 'config, T> {
 		gas_limit: u64,
 		is_static: bool,
 		config: &'config EvmConfig,
-		precompile: fn(SH160, &[u8], Option<u64>, &Context) ->
+		precompile: fn(H160, &[u8], Option<u64>, &Context) ->
 			Option<Result<(ExitSucceed, Vec<u8>, u64), ExitError>>,
 	) -> Self {
 		Self {
@@ -325,9 +324,9 @@ impl<'vicinity, 'config, T: Config> Handler<'vicinity, 'config, T> {
 
 	pub fn execute(
 		&mut self,
-		caller: SH160,
-		address: SH160,
-		value: SU256,
+		caller: H160,
+		address: H160,
+		value: U256,
 		code: Vec<u8>,
 		input: Vec<u8>,
 	) -> (ExitReason, Vec<u8>) {
@@ -378,17 +377,17 @@ impl<'vicinity, 'config, T: Config> Handler<'vicinity, 'config, T> {
 		).map_err(|_| ExitError::OutOfGas)
 	}
 
-	fn nonce(&self, address: SH160) -> SU256 {
+	fn nonce(&self, address: H160) -> U256 {
 		let account = Module::<T>::account_basic(&address);
 		account.nonce
 	}
 
-	fn inc_nonce(&self, address: SH160) {
+	fn inc_nonce(&self, address: H160) {
 		let account_id = T::AddressMapping::into_account_id(address);
 		frame_system::Module::<T>::inc_account_nonce(&account_id);
 	}
 
-	fn create_address(&self, scheme: CreateScheme) -> SH160 {
+	fn create_address(&self, scheme: CreateScheme) -> H160 {
 		match scheme {
 			CreateScheme::Create2 { caller, code_hash, salt } => {
 				let mut hasher = Keccak256::new();

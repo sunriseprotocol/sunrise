@@ -14,13 +14,12 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+#![cfg_attr(not(feature = "std"), no_std)]
 
 //! EVM stack-based runner.
-
 use sp_std::marker::PhantomData;
 use sp_std::vec::Vec;
 use primitive_types::{U256, H256, H160};
-use sp_core::{U256 as SU256, H256 as SH256, H160 as SH160};
 use sp_runtime::traits::UniqueSaturatedInto;
 use frame_support::{debug, ensure, traits::{Get, Currency}, storage::{StorageMap, StorageDoubleMap}};
 use sha3::{Keccak256, Digest};
@@ -117,13 +116,13 @@ impl<T: Config> RunnerT<T> for Runner<T> {
 	type Error = Error<T>;
 
 	fn call(
-		source: SH160,
-		target: SH160,
+		source: H160,
+		target: H160,
 		input: Vec<u8>,
-		value: SU256,
+		value: U256,
 		gas_limit: u64,
-		gas_price: Option<SU256>,
-		nonce: Option<SU256>,
+		gas_price: Option<U256>,
+		nonce: Option<U256>,
 		config: &evm::Config,
 	) -> Result<CallInfo, Self::Error> {
 		Self::execute(
@@ -144,12 +143,12 @@ impl<T: Config> RunnerT<T> for Runner<T> {
 	}
 
 	fn create(
-		source: SH160,
+		source: H160,
 		init: Vec<u8>,
-		value: SU256,
+		value: U256,
 		gas_limit: u64,
-		gas_price: Option<SU256>,
-		nonce: Option<SU256>,
+		gas_price: Option<U256>,
+		nonce: Option<U256>,
 		config: &evm::Config,
 	) -> Result<CreateInfo, Self::Error> {
 		Self::execute(
@@ -174,13 +173,13 @@ impl<T: Config> RunnerT<T> for Runner<T> {
 	}
 
 	fn create2(
-		source: SH160,
+		source: H160,
 		init: Vec<u8>,
-		salt: SH256,
-		value: SU256,
+		salt: H256,
+		value: U256,
 		gas_limit: u64,
-		gas_price: Option<SU256>,
-		nonce: Option<SU256>,
+		gas_price: Option<U256>,
+		nonce: Option<U256>,
 		config: &evm::Config,
 	) -> Result<CreateInfo, Self::Error> {
 		let code_hash = H256::from_slice(Keccak256::digest(&init).as_slice());
@@ -242,6 +241,8 @@ impl<'vicinity, T: Config> Backend<'vicinity, T> {
 }
 
 impl<'vicinity, T: Config> BackendT for Backend<'vicinity, T> {
+
+	
 	fn gas_price(&self) -> U256 { self.vicinity.gas_price }
 	fn origin(&self) -> H160 { self.vicinity.origin }
 

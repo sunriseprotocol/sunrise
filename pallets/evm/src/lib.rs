@@ -73,8 +73,7 @@ use frame_support::weights::{Weight, Pays, PostDispatchInfo};
 use frame_support::traits::{Currency, ExistenceRequirement, Get};
 use frame_support::dispatch::DispatchResultWithPostInfo;
 use frame_system::RawOrigin;
-use primitive_types::{U256 as PU256, H256 as PH256, H160 as PH160};
-use sp_core::{U256, H256, H160, Hasher};
+use primitive_types::{U256, H256, H160};
 use sp_runtime::{AccountId32, traits::{UniqueSaturatedInto, BadOrigin}};
 use evm::Config as EvmConfig;
 
@@ -198,7 +197,7 @@ impl AddressMapping<H160> for IdentityAddressMapping {
 /// Hashed address mapping.
 pub struct HashedAddressMapping<H>(sp_std::marker::PhantomData<H>);
 
-impl<H: Hasher<Out=H256>> AddressMapping<AccountId32> for HashedAddressMapping<H> {
+impl<H: sp_core::Hasher<Out=H256>> AddressMapping<AccountId32> for HashedAddressMapping<H> {
 	fn into_account_id(address: H160) -> AccountId32 {
 		let mut data = [0u8; 24];
 		data[0..4].copy_from_slice(b"evm:");
@@ -509,8 +508,8 @@ impl<T: Config> Module<T> {
 		let account = Self::account_basic(address);
 		let code_len = AccountCodes::decode_len(address).unwrap_or(0);
 
-		account.nonce == PU256::zero() &&
-			account.balance == PU256::zero() &&
+		account.nonce == U256::zero() &&
+			account.balance == U256::zero() &&
 			code_len == 0
 	}
 
@@ -535,8 +534,8 @@ impl<T: Config> Module<T> {
 		let balance = T::Currency::free_balance(&account_id);
 
 		Account {
-			nonce: PU256::from(UniqueSaturatedInto::<u128>::unique_saturated_into(nonce)),
-			balance: PU256::from(UniqueSaturatedInto::<u128>::unique_saturated_into(balance)),
+			nonce: U256::from(UniqueSaturatedInto::<u128>::unique_saturated_into(nonce)),
+			balance: U256::from(UniqueSaturatedInto::<u128>::unique_saturated_into(balance)),
 		}
 	}
 }

@@ -12,10 +12,10 @@ sp-api = { version = "2.0.0-dev", default-features = false}
 fp-evm = { version = "0.8.0", default-features = false, path = "../../primitives/evm" }
 ethereum = { version = "0.6", default-features = false, features = ["with-codec"] }
 ethereum-types = { version = "0.10", default-features = false }
-codec = { package = "parity-scale-codec", version = "1.0.0", default-features = false }
+codec = { package = "parity-scale-codec", version = "1.3.4", default-features = false }
 sp-runtime = { version = "2.0.0-dev", default-features = false}
 sp-std = { version = "2.0.0-dev", default-features = false }
-sp-io = { version = "2.0.0-dev", default-features = false}
+sp-io = { version = "2.0.0", default-features = false}
 
 [features]
 default = ["std"]

@@ -1134,9 +1134,9 @@ dependencies = [
 
 [[package]]
 name = "data-encoding"
-version = "2.3.1"
+version = "2.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "993a608597367c6377b258c25d7120740f00ed23a2252b729b1932dd7866f908"
+checksum = "3ee2393c4a91429dffb4bedf19f4d6abf27d8a732c8ce4980305d782e5426d57"
 
 [[package]]
 name = "derive_more"
@@ -1305,18 +1305,6 @@ dependencies = [
 
 [[package]]
 name = "ethbloom"
-version = "0.9.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "71a6567e6fd35589fea0c63b94b4cf2e55573e413901bdbe60ab15cf0e25e5df"
-dependencies = [
- "crunchy",
- "fixed-hash 0.6.1",
- "impl-rlp 0.2.1",
- "tiny-keccak",
-]
-
-[[package]]
-name = "ethbloom"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "22a621dcebea74f2a6f2002d0a885c81ccf6cbdf86760183316a7722b5707ca4"
@@ -1324,26 +1312,9 @@ dependencies = [
  "crunchy",
  "fixed-hash 0.7.0",
  "impl-codec",
- "impl-rlp 0.3.0",
+ "impl-rlp",
  "impl-serde",
  "tiny-keccak",
-]
-
-[[package]]
-name = "ethereum"
-version = "0.4.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "df706418ff7d3874b9506424b04ea0bef569a2b39412b43a27ea86e679be108e"
-dependencies = [
- "ethereum-types 0.9.2",
- "hash-db",
- "hash256-std-hasher",
- "parity-scale-codec",
- "rlp 0.4.6",
- "rlp-derive",
- "serde",
- "sha3 0.9.1",
- "triehash",
 ]
 
 [[package]]
@@ -1352,11 +1323,11 @@ version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d8603f637f22e3ab9aff8466b37850cd7ea2ae52034b07e41fdc82f1f68dfa2c"
 dependencies = [
- "ethereum-types 0.10.0",
+ "ethereum-types",
  "hash-db",
  "hash256-std-hasher",
  "parity-scale-codec",
- "rlp 0.5.0",
+ "rlp",
  "rlp-derive",
  "serde",
  "sha3 0.9.1",
@@ -1365,27 +1336,14 @@ dependencies = [
 
 [[package]]
 name = "ethereum-types"
-version = "0.9.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "473aecff686bd8e7b9db0165cbbb53562376b39bf35b427f0c60446a9e1634b0"
-dependencies = [
- "ethbloom 0.9.2",
- "fixed-hash 0.6.1",
- "impl-rlp 0.2.1",
- "primitive-types 0.7.3",
- "uint 0.8.5",
-]
-
-[[package]]
-name = "ethereum-types"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "05dc5f0df4915fa6dff7f975a8366ecfaaa8959c74235469495153e7bb1b280e"
 dependencies = [
- "ethbloom 0.10.0",
+ "ethbloom",
  "fixed-hash 0.7.0",
  "impl-codec",
- "impl-rlp 0.3.0",
+ "impl-rlp",
  "impl-serde",
  "primitive-types 0.8.0",
  "uint 0.9.0",
@@ -1399,48 +1357,20 @@ checksum = "f7531096570974c3a9dcf9e4b8e1cede1ec26cf5046219fb3b9d897503b9be59"
 
 [[package]]
 name = "evm"
-version = "0.17.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "16c8deca0ec3efa361b03d9cae6fe94321a1d2d0a523437edd720b3d140e3c08"
-dependencies = [
- "ethereum 0.4.2",
- "evm-core 0.17.2",
- "evm-gasometer 0.17.2",
- "evm-runtime 0.17.2",
- "log",
- "parity-scale-codec",
- "primitive-types 0.7.3",
- "rlp 0.4.6",
- "serde",
- "sha3 0.8.2",
-]
-
-[[package]]
-name = "evm"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b38d664e59bf9ae0114a275cdf785d4112c32b3df0e522f16585a77599e7c614"
 dependencies = [
- "ethereum 0.6.0",
- "evm-core 0.21.0",
- "evm-gasometer 0.21.0",
- "evm-runtime 0.21.0",
+ "ethereum",
+ "evm-core",
+ "evm-gasometer",
+ "evm-runtime",
  "log",
  "parity-scale-codec",
  "primitive-types 0.8.0",
- "rlp 0.5.0",
+ "rlp",
  "serde",
  "sha3 0.8.2",
-]
-
-[[package]]
-name = "evm-core"
-version = "0.17.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cf2d732b3c36df36833761cf67df8f65866be1d368d20508bc3e13e6f256c8c5"
-dependencies = [
- "log",
- "primitive-types 0.7.3",
 ]
 
 [[package]]
@@ -1456,35 +1386,13 @@ dependencies = [
 
 [[package]]
 name = "evm-gasometer"
-version = "0.17.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46de1b91ccd744627484183729f1b5af484b3bf15505007fc28cc54264cb9ea1"
-dependencies = [
- "evm-core 0.17.2",
- "evm-runtime 0.17.2",
- "primitive-types 0.7.3",
-]
-
-[[package]]
-name = "evm-gasometer"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f566265c4b49fab36e74db39f8c5499a7d4bbfb54c83896ef56f3f517b945eca"
 dependencies = [
- "evm-core 0.21.0",
- "evm-runtime 0.21.0",
+ "evm-core",
+ "evm-runtime",
  "primitive-types 0.8.0",
-]
-
-[[package]]
-name = "evm-runtime"
-version = "0.17.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f2c1d1ffe96f833788512c890d702457d790dba4917ac6f64f8f60fbd9bc40b8"
-dependencies = [
- "evm-core 0.17.2",
- "primitive-types 0.7.3",
- "sha3 0.8.2",
 ]
 
 [[package]]
@@ -1493,7 +1401,7 @@ version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1d22e83135ff4870046706c7bd8dd70bb321df98b42218812e99444332222250"
 dependencies = [
- "evm-core 0.21.0",
+ "evm-core",
  "primitive-types 0.8.0",
  "sha3 0.8.2",
 ]
@@ -1616,9 +1524,9 @@ checksum = "37ab347416e802de484e4d03c7316c48f1ecb56574dfd4a46a80f173ce1de04d"
 
 [[package]]
 name = "flate2"
-version = "1.0.19"
+version = "1.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7411863d55df97a419aa64cb4d2f167103ea9d767e2c54a1868b7ac3f6b47129"
+checksum = "cd3aec53de10fe96d7d8c565eb17f2c687bb5518a2ec453b5b1252964526abe0"
 dependencies = [
  "cfg-if 1.0.0",
  "crc32fast",
@@ -1656,8 +1564,8 @@ dependencies = [
 name = "fp-consensus"
 version = "0.1.0"
 dependencies = [
+ "ethereum-types",
  "parity-scale-codec",
- "sp-core",
  "sp-runtime",
  "sp-std",
 ]
@@ -1666,9 +1574,10 @@ dependencies = [
 name = "fp-evm"
 version = "0.8.0"
 dependencies = [
- "evm 0.21.0",
+ "evm",
  "impl-trait-for-tuples",
  "parity-scale-codec",
+ "primitive-types 0.8.0",
  "serde",
  "sp-core",
  "sp-std",
@@ -1678,8 +1587,8 @@ dependencies = [
 name = "fp-rpc"
 version = "0.1.0"
 dependencies = [
- "ethereum 0.6.0",
- "ethereum-types 0.10.0",
+ "ethereum",
+ "ethereum-types",
  "fp-evm",
  "parity-scale-codec",
  "sp-api",
@@ -2249,7 +2158,7 @@ dependencies = [
  "http 0.2.3",
  "indexmap",
  "slab",
- "tokio 0.2.24",
+ "tokio 0.2.25",
  "tokio-util",
  "tracing",
  "tracing-futures",
@@ -2479,7 +2388,7 @@ dependencies = [
  "itoa",
  "pin-project 1.0.4",
  "socket2",
- "tokio 0.2.24",
+ "tokio 0.2.25",
  "tower-service",
  "tracing",
  "want 0.3.0",
@@ -2498,7 +2407,7 @@ dependencies = [
  "log",
  "rustls",
  "rustls-native-certs",
- "tokio 0.2.24",
+ "tokio 0.2.25",
  "tokio-rustls",
  "webpki",
 ]
@@ -2536,20 +2445,11 @@ dependencies = [
 
 [[package]]
 name = "impl-rlp"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8f7a72f11830b52333f36e3b09a288333888bf54380fd0ac0790a3c31ab0f3c5"
-dependencies = [
- "rlp 0.4.6",
-]
-
-[[package]]
-name = "impl-rlp"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f28220f89297a075ddc7245cd538076ee98b01f2a9c23a53a4f1105d5a322808"
 dependencies = [
- "rlp 0.5.0",
+ "rlp",
 ]
 
 [[package]]
@@ -2880,9 +2780,9 @@ checksum = "3576a87f2ba00f6f106fdfcd16db1d698d648a26ad8e0573cad8537c3c362d2a"
 
 [[package]]
 name = "libc"
-version = "0.2.83"
+version = "0.2.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7eb0c4e9c72ee9d69b767adebc5f4788462a3b45624acd919475c92597bcaf4f"
+checksum = "1cca32fa0182e8c0989459524dc356b8f2b5c10f1b9eb521b7d182c03cf8c5ff"
 
 [[package]]
 name = "libloading"
@@ -4014,9 +3914,9 @@ dependencies = [
 name = "pallet-ethereum"
 version = "0.1.0"
 dependencies = [
- "ethereum 0.6.0",
- "ethereum-types 0.10.0",
- "evm 0.21.0",
+ "ethereum",
+ "ethereum-types",
+ "evm",
  "fp-consensus",
  "fp-evm",
  "fp-rpc",
@@ -4024,10 +3924,11 @@ dependencies = [
  "frame-system",
  "libsecp256k1",
  "pallet-balances",
- "pallet-evm 2.0.0",
+ "pallet-evm",
  "pallet-timestamp",
  "parity-scale-codec",
- "rlp 0.5.0",
+ "primitive-types 0.8.0",
+ "rlp",
  "rustc-hex",
  "serde",
  "sha3 0.8.2",
@@ -4041,9 +3942,9 @@ dependencies = [
 name = "pallet-evm"
 version = "2.0.0"
 dependencies = [
- "evm 0.21.0",
- "evm-gasometer 0.21.0",
- "evm-runtime 0.21.0",
+ "evm",
+ "evm-gasometer",
+ "evm-runtime",
  "fp-evm",
  "frame-support",
  "frame-system",
@@ -4051,31 +3952,7 @@ dependencies = [
  "pallet-timestamp",
  "parity-scale-codec",
  "primitive-types 0.8.0",
- "rlp 0.5.0",
- "serde",
- "sha3 0.8.2",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "pallet-evm"
-version = "2.0.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9b59d3bfd2c8199922b93cd71853ad809a9a1972f9016bd9c5fa4ed25a0ee4ba"
-dependencies = [
- "evm 0.17.3",
- "frame-support",
- "frame-system",
- "impl-trait-for-tuples",
- "pallet-balances",
- "pallet-timestamp",
- "parity-scale-codec",
- "primitive-types 0.7.3",
- "ripemd160",
- "rlp 0.4.6",
+ "rlp",
  "serde",
  "sha3 0.8.2",
  "sp-core",
@@ -4088,7 +3965,7 @@ dependencies = [
 name = "pallet-evm-precompile-simple"
 version = "2.0.0"
 dependencies = [
- "evm 0.21.0",
+ "evm",
  "fp-evm",
  "ripemd160",
  "sp-core",
@@ -4107,7 +3984,6 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-core",
- "sp-io",
  "sp-runtime",
 ]
 
@@ -4192,10 +4068,8 @@ version = "0.1.0"
 dependencies = [
  "frame-support",
  "frame-system",
- "pallet-evm 2.0.1",
  "parity-scale-codec",
  "sp-core",
- "sp-io",
  "sp-runtime",
  "sp-std",
  "srs-primitives",
@@ -4224,7 +4098,6 @@ dependencies = [
  "frame-system",
  "parity-scale-codec",
  "sp-core",
- "sp-io",
  "sp-runtime",
 ]
 
@@ -4711,7 +4584,6 @@ checksum = "7dd39dcacf71411ba488570da7bbc89b717225e46478b30ba99b92db6b149809"
 dependencies = [
  "fixed-hash 0.6.1",
  "impl-codec",
- "impl-rlp 0.2.1",
  "impl-serde",
  "uint 0.8.5",
 ]
@@ -4724,7 +4596,7 @@ checksum = "b3824ae2c5e27160113b9e029a10ec9e3f0237bad8029f69c7724393c9fdefd8"
 dependencies = [
  "fixed-hash 0.7.0",
  "impl-codec",
- "impl-rlp 0.3.0",
+ "impl-rlp",
  "impl-serde",
  "uint 0.9.0",
 ]
@@ -5315,15 +5187,6 @@ dependencies = [
 
 [[package]]
 name = "rlp"
-version = "0.4.6"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1190dcc8c3a512f1eef5d09bb8c84c7f39e1054e174d1795482e18f5272f2e73"
-dependencies = [
- "rustc-hex",
-]
-
-[[package]]
-name = "rlp"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e54369147e3e7796c9b885c7304db87ca3d09a0a98f72843d532868675bbfba8"
@@ -5579,7 +5442,7 @@ dependencies = [
  "structopt",
  "substrate-prometheus-endpoint",
  "time",
- "tokio 0.2.24",
+ "tokio 0.2.25",
  "tracing",
  "tracing-log",
  "tracing-subscriber",
@@ -7244,6 +7107,7 @@ name = "srs-primitives"
 version = "0.1.0"
 dependencies = [
  "parity-scale-codec",
+ "primitive-types 0.8.0",
  "serde",
  "sp-core",
  "sp-runtime",
@@ -7399,7 +7263,7 @@ dependencies = [
  "hyper 0.13.9",
  "log",
  "prometheus",
- "tokio 0.2.24",
+ "tokio 0.2.25",
 ]
 
 [[package]]
@@ -7473,7 +7337,7 @@ dependencies = [
  "pallet-aura",
  "pallet-balances",
  "pallet-ethereum",
- "pallet-evm 2.0.0",
+ "pallet-evm",
  "pallet-evm-precompile-simple",
  "pallet-exchange",
  "pallet-grandpa",
@@ -7683,9 +7547,9 @@ dependencies = [
 
 [[package]]
 name = "tokio"
-version = "0.2.24"
+version = "0.2.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "099837d3464c16a808060bb3f02263b412f6fafcb5d01c533d309985fbeebe48"
+checksum = "6703a273949a90131b290be1fe7b039d0fc884aa1935860dfcbe056f28cd8092"
 dependencies = [
  "bytes 0.5.6",
  "fnv",
@@ -7818,7 +7682,7 @@ checksum = "e12831b255bcfa39dc0436b01e19fea231a37db570686c06ee72c423479f889a"
 dependencies = [
  "futures-core",
  "rustls",
- "tokio 0.2.24",
+ "tokio 0.2.25",
  "webpki",
 ]
 
@@ -7939,7 +7803,7 @@ dependencies = [
  "futures-sink",
  "log",
  "pin-project-lite 0.1.11",
- "tokio 0.2.24",
+ "tokio 0.2.25",
 ]
 
 [[package]]
@@ -8045,9 +7909,9 @@ dependencies = [
 
 [[package]]
 name = "trie-db"
-version = "0.22.2"
+version = "0.22.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5cc176c377eb24d652c9c69c832c832019011b6106182bf84276c66b66d5c9a6"
+checksum = "ec051edf7f0fc9499a2cb0947652cab2148b9d7f61cee7605e312e9f970dacaf"
 dependencies = [
  "hash-db",
  "hashbrown 0.9.1",
@@ -8072,7 +7936,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a1631b201eb031b563d2e85ca18ec8092508e262a3196ce9bd10a67ec87b9f5c"
 dependencies = [
  "hash-db",
- "rlp 0.5.0",
+ "rlp",
 ]
 
 [[package]]
