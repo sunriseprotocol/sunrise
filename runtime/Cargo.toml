@@ -241,6 +241,14 @@ package = 'exchange'
 path = '../pallets/exchange'
 version = '0.1.0'
 
+
+[dependencies.primitives]
+default-features = false
+package = 'srs-primitives'
+path = '../primitives'
+version = '0.1.0'
+
+
 [features]
 default = ['std']
 runtime-benchmarks = [
@@ -286,4 +294,5 @@ std = [
 	"xcm-handler/std",
 	"tokens/std",
 	"exchange/std",
+	"primitives/std"
 ]

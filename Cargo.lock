@@ -4600,6 +4600,7 @@ dependencies = [
  "sp-std",
  "sp-transaction-pool",
  "sp-version",
+ "srs-primitives",
  "substrate-wasm-builder 3.0.0 (git+https://github.com/paritytech/substrate.git?branch=rococo-v1)",
  "tokens",
  "xcm",
@@ -8650,6 +8651,18 @@ name = "spin"
 version = "0.5.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
+
+[[package]]
+name = "srs-primitives"
+version = "0.1.0"
+dependencies = [
+ "parity-scale-codec",
+ "primitive-types",
+ "serde",
+ "sp-core",
+ "sp-runtime",
+ "sp-std",
+]
 
 [[package]]
 name = "stable_deref_trait"

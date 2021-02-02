@@ -1,4 +1,6 @@
 {
+  "Address": "MultiAddress",
+  "LookupSource": "MultiAddress",
     "CurrencyId": {
       "_enum": [
         "SRS",
