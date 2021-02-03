@@ -13,16 +13,17 @@ use sp_runtime::{
 	transaction_validity::{TransactionValidity, TransactionSource},
 };
 use sp_runtime::traits::{
-	BlakeTwo256, Block as BlockT, IdentityLookup, Verify, IdentifyAccount, NumberFor, Saturating,
+	BlakeTwo256, Block as BlockT, Verify, IdentifyAccount, NumberFor, Saturating,
 };
 use sp_api::impl_runtime_apis;
+use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use pallet_grandpa::{AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList};
 use pallet_grandpa::fg_primitives;
 use sp_version::RuntimeVersion;
 #[cfg(feature = "std")]
 use sp_version::NativeVersion;
-pub use primitives::{CurrencyId, TokenSymbol};
 
+use frame_system::limits::{BlockLength, BlockWeights};
 
 // A few exports that help ease life for downstream crates.
 #[cfg(any(feature = "std", test))]
@@ -34,30 +35,54 @@ pub use frame_support::{
 	construct_runtime, parameter_types, StorageValue,
 	traits::{KeyOwnerProofSystem, Randomness},
 	weights::{
-		Weight, IdentityFee,
+		Weight, IdentityFee, DispatchClass,
 		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
 	},
 };
 
-
+/// Import the template pallet.
 pub use pallet_template;
 
+/// An index to a block.
 pub type BlockNumber = u32;
+
+/// Alias to 512-bit hash when used in the context of a transaction signature on the chain.
 pub type Signature = MultiSignature;
+
+/// Some way of identifying an account on the chain. We intentionally make it equivalent
+/// to the public key of our transaction signing scheme.
 pub type AccountId = <<Signature as Verify>::Signer as IdentifyAccount>::AccountId;
+
+/// The type for looking up accounts. We don't expect more than 4 billion of them, but you
+/// never know...
 pub type AccountIndex = u32;
+
+/// Balance of an account.
 pub type Balance = u128;
+
+/// Index of a transaction in the chain.
 pub type Index = u32;
+
+/// A hash of some data used by the chain.
 pub type Hash = sp_core::H256;
+
+/// Digest item type.
 pub type DigestItem = generic::DigestItem<Hash>;
 
-pub type Amount = i128;
-
+/// Opaque types. These are used by the CLI to instantiate machinery that don't need to know
+/// the specifics of the runtime. They can then be made to be agnostic over specific formats
+/// of data like extrinsics, allowing for them to continue syncing the network through upgrades
+/// to even the core data structures.
 pub mod opaque {
 	use super::*;
+
 	pub use sp_runtime::OpaqueExtrinsic as UncheckedExtrinsic;
+
+	/// Opaque block header type.
 	pub type Header = generic::Header<BlockNumber, BlakeTwo256>;
+	/// Opaque block type.
 	pub type Block = generic::Block<Header, UncheckedExtrinsic>;
+	/// Opaque block identifier type.
 	pub type BlockId = generic::BlockId<Block>;
 
 	impl_opaque_keys! {
@@ -72,18 +97,22 @@ pub const VERSION: RuntimeVersion = RuntimeVersion {
 	spec_name: create_runtime_str!("node-template"),
 	impl_name: create_runtime_str!("node-template"),
 	authoring_version: 1,
-	spec_version: 1,
+	spec_version: 100,
 	impl_version: 1,
 	apis: RUNTIME_API_VERSIONS,
 	transaction_version: 1,
 };
 
 pub const MILLISECS_PER_BLOCK: u64 = 6000;
+
 pub const SLOT_DURATION: u64 = MILLISECS_PER_BLOCK;
+
+// Time is measured by number of blocks.
 pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
 pub const HOURS: BlockNumber = MINUTES * 60;
 pub const DAYS: BlockNumber = HOURS * 24;
 
+/// The version information used to identify this runtime when compiled natively.
 #[cfg(feature = "std")]
 pub fn native_version() -> NativeVersion {
 	NativeVersion {
@@ -91,6 +120,15 @@ pub fn native_version() -> NativeVersion {
 		can_author_with: Default::default(),
 	}
 }
+
+/// We assume that ~10% of the block weight is consumed by `on_initalize` handlers.
+/// This is used to limit the maximal weight of a single extrinsic.
+const AVERAGE_ON_INITIALIZE_RATIO: Perbill = Perbill::from_percent(10);
+/// We allow `Normal` extrinsics to fill up the block up to 75%, the rest can be used
+/// by  Operational  extrinsics.
+const NORMAL_DISPATCH_RATIO: Perbill = Perbill::from_percent(75);
+/// We allow for 2 seconds of compute with a 6 second average block time.
+const MAXIMUM_BLOCK_WEIGHT: Weight = 2 * WEIGHT_PER_SECOND;
 
 parameter_types! {
 	pub const BlockHashCount: BlockNumber = 2400;
@@ -102,44 +140,85 @@ parameter_types! {
 		.saturating_sub(Perbill::from_percent(10)) * MaximumBlockWeight::get();
 	pub const MaximumBlockLength: u32 = 5 * 1024 * 1024;
 	pub const Version: RuntimeVersion = VERSION;
-
+        pub RuntimeBlockLength: BlockLength =
+		BlockLength::max_with_normal_ratio(5 * 1024 * 1024, NORMAL_DISPATCH_RATIO);
+        pub RuntimeBlockWeights: BlockWeights = BlockWeights::builder()
+	    .base_block(BlockExecutionWeight::get())
+	    .for_class(DispatchClass::all(), |weights| {
+	    	weights.base_extrinsic = ExtrinsicBaseWeight::get();
+	    })
+	    .for_class(DispatchClass::Normal, |weights| {
+	    	weights.max_total = Some(NORMAL_DISPATCH_RATIO * MAXIMUM_BLOCK_WEIGHT);
+	    })
+	    .for_class(DispatchClass::Operational, |weights| {
+	    	weights.max_total = Some(MAXIMUM_BLOCK_WEIGHT);
+	    	// Operational transactions have some extra reserved space, so that they
+	    	// are included even if block reached `MAXIMUM_BLOCK_WEIGHT`.
+	    	weights.reserved = Some(
+	    		MAXIMUM_BLOCK_WEIGHT - NORMAL_DISPATCH_RATIO * MAXIMUM_BLOCK_WEIGHT
+	    	);
+	    })
+	    .avg_block_initialization(AVERAGE_ON_INITIALIZE_RATIO)
+	    .build_or_panic();
+        pub const SS58Prefix: u8 = 42;
 }
 
 // Configure FRAME pallets to include in runtime.
 
-impl frame_system::Trait for Runtime {
+impl frame_system::Config for Runtime {
+	/// The basic call filter to use in dispatchable.
 	type BaseCallFilter = ();
+	/// Block & extrinsics weights: base values and limits.
+	type BlockWeights = RuntimeBlockWeights;
+        /// The maximum length of a block (in bytes).
+	type BlockLength = RuntimeBlockLength;
+        /// The identifier used to distinguish between accounts.
 	type AccountId = AccountId;
+	/// The aggregated dispatch type that is available for extrinsics.
 	type Call = Call;
-	type Lookup = IdentityLookup<AccountId>;
+	/// The lookup mechanism to get account ID from whatever is passed in dispatchers.
+	type Lookup = multiaddress::AccountIdLookup<AccountId, ()>;
+	/// The index type for storing how many extrinsics an account has signed.
 	type Index = Index;
+	/// The index type for blocks.
 	type BlockNumber = BlockNumber;
+	/// The type for hashing blocks and tries.
 	type Hash = Hash;
+	/// The hashing algorithm used.
 	type Hashing = BlakeTwo256;
+	/// The header type.
 	type Header = generic::Header<BlockNumber, BlakeTwo256>;
+	/// The ubiquitous event type.
 	type Event = Event;
+	/// The ubiquitous origin type.
 	type Origin = Origin;
+	/// Maximum number of block number to block hash mappings to keep (oldest pruned first).
 	type BlockHashCount = BlockHashCount;
-	type MaximumBlockWeight = MaximumBlockWeight;
+	/// The weight of database operations that the runtime can invoke.
 	type DbWeight = RocksDbWeight;
-	type BlockExecutionWeight = BlockExecutionWeight;
-	type ExtrinsicBaseWeight = ExtrinsicBaseWeight;
-	type MaximumExtrinsicWeight = MaximumExtrinsicWeight;
-	type MaximumBlockLength = MaximumBlockLength;
-	type AvailableBlockRatio = AvailableBlockRatio;
+	/// Version of the runtime.
 	type Version = Version;
+	/// Converts a module to the index of the module in `construct_runtime!`.
+	///
+	/// This type is being generated by `construct_runtime!`.
 	type PalletInfo = PalletInfo;
+	/// What to do if a new account is created.
 	type OnNewAccount = ();
+	/// What to do if an account is fully reaped from the system.
 	type OnKilledAccount = ();
+	/// The data to be stored in an account.
 	type AccountData = pallet_balances::AccountData<Balance>;
+	/// Weight information for the extrinsics of this pallet.
 	type SystemWeightInfo = ();
+        /// This is used as an identifier of the chain. 42 is the generic substrate prefix.
+	type SS58Prefix = SS58Prefix;
 }
 
-impl pallet_aura::Trait for Runtime {
+impl pallet_aura::Config for Runtime {
 	type AuthorityId = AuraId;
 }
 
-impl pallet_grandpa::Trait for Runtime {
+impl pallet_grandpa::Config for Runtime {
 	type Event = Event;
 	type Call = Call;
 
@@ -162,7 +241,7 @@ parameter_types! {
 	pub const MinimumPeriod: u64 = SLOT_DURATION / 2;
 }
 
-impl pallet_timestamp::Trait for Runtime {
+impl pallet_timestamp::Config for Runtime {
 	/// A timestamp: milliseconds since the unix epoch.
 	type Moment = u64;
 	type OnTimestampSet = Aura;
@@ -175,9 +254,11 @@ parameter_types! {
 	pub const MaxLocks: u32 = 50;
 }
 
-impl pallet_balances::Trait for Runtime {
+impl pallet_balances::Config for Runtime {
 	type MaxLocks = MaxLocks;
+	/// The type for recording an account's balance.
 	type Balance = Balance;
+	/// The ubiquitous event type.
 	type Event = Event;
 	type DustRemoval = ();
 	type ExistentialDeposit = ExistentialDeposit;
@@ -189,44 +270,27 @@ parameter_types! {
 	pub const TransactionByteFee: Balance = 1;
 }
 
-impl pallet_transaction_payment::Trait for Runtime {
-	type Currency = Balances;
-	type OnTransactionPayment = ();
-	type TransactionByteFee = TransactionByteFee;
+impl pallet_transaction_payment::Config for Runtime {
+	type OnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, ()>;
+        type TransactionByteFee = TransactionByteFee;
 	type WeightToFee = IdentityFee<Balance>;
 	type FeeMultiplierUpdate = ();
 }
 
-impl pallet_sudo::Trait for Runtime {
+impl pallet_sudo::Config for Runtime {
 	type Event = Event;
 	type Call = Call;
 }
 
 /// Configure the template pallet in pallets/template.
-impl pallet_template::Trait for Runtime {
+impl pallet_template::Config for Runtime {
 	type Event = Event;
 }
 
-
-impl orml_tokens::Trait for Runtime {
+impl pallet_tokens::Trait for Runtime {
 	type Event = Event;
-	type Balance = Balance;
-	type Amount = Amount;
-	type CurrencyId = CurrencyId;
-	type OnReceived = ();
-	type WeightInfo = ();
-}
-
-parameter_types! {
-	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Native(TokenSymbol::SRS);
-}
-
-impl orml_currencies::Trait for Runtime {
-	type Event = Event;
-	type MultiCurrency = Tokens;
-	type NativeCurrency = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
-	type GetNativeCurrencyId = GetNativeCurrencyId;
-	type WeightInfo = ();
+	type Balance = u128;
+	type AssetId = u64;
 }
 
 parameter_types! {
@@ -235,22 +299,17 @@ parameter_types! {
 
 impl pallet_exchange::Trait for Runtime {
 	type Event = Event;
-	type Currency = Currencies;
+	type Currency = Balances;
 	type PoolId = u32;
 	type Balance = u128;
 	type PoolConfigId = u32;
-	type Token = SRSTokens; 
+	type Token = Tokens;
 	type ModuleId = ExchangeModuleId;
-	type TokenFunctions = SRSTokens;
-	
+	type TokenFunctions = Tokens;
+
 }
 
-impl pallet_srstokens::Trait for Runtime {
-	type Event = Event;
-	type Balance = u128;
-	type AssetId = u64;
-} 
-
+// Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub enum Runtime where
 		Block = Block,
@@ -265,16 +324,16 @@ construct_runtime!(
 		Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
+		// Include the custom logic from the template pallet in the runtime.
 		TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
-        Currencies: orml_currencies::{Module, Call, Event<T>},
-		Tokens: orml_tokens::{Module, Storage, Event<T>, Config<T>},
-		SRSTokens: pallet_srstokens::{Module, Storage, Call, Event<T>},
+                Tokens: pallet_tokens::{Module, Storage, Call, Event<T>},
 		Exchange: pallet_exchange::{Module, Storage, Call, Event<T>},
 	}
 );
 
 /// The address format for describing accounts.
-pub type Address = AccountId;
+mod multiaddress;
+pub type Address = multiaddress::MultiAddress<AccountId, ()>;
 /// Block header type as expected by this runtime.
 pub type Header = generic::Header<BlockNumber, BlakeTwo256>;
 /// Block type as expected by this runtime.
@@ -429,6 +488,12 @@ impl_runtime_apis! {
 			len: u32,
 		) -> pallet_transaction_payment_rpc_runtime_api::RuntimeDispatchInfo<Balance> {
 			TransactionPayment::query_info(uxt, len)
+		}
+                fn query_fee_details(
+			uxt: <Block as BlockT>::Extrinsic,
+			len: u32,
+		) -> pallet_transaction_payment::FeeDetails<Balance> {
+			TransactionPayment::query_fee_details(uxt, len)
 		}
 	}
 
