@@ -1244,6 +1244,57 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "993a608597367c6377b258c25d7120740f00ed23a2252b729b1932dd7866f908"
 
 [[package]]
+name = "dawn-collator"
+version = "0.1.0"
+dependencies = [
+ "cumulus-collator",
+ "cumulus-consensus",
+ "cumulus-network",
+ "cumulus-primitives",
+ "cumulus-service",
+ "derive_more 0.15.0",
+ "frame-benchmarking",
+ "frame-benchmarking-cli",
+ "hex-literal 0.2.1",
+ "jsonrpc-core",
+ "log",
+ "pallet-transaction-payment-rpc",
+ "parity-scale-codec",
+ "polkadot-cli",
+ "polkadot-parachain",
+ "polkadot-primitives",
+ "polkadot-service",
+ "polkadot-test-service",
+ "sc-basic-authorship",
+ "sc-chain-spec",
+ "sc-cli",
+ "sc-client-api",
+ "sc-consensus",
+ "sc-executor",
+ "sc-keystore",
+ "sc-rpc",
+ "sc-rpc-api",
+ "sc-service",
+ "sc-tracing",
+ "sc-transaction-pool",
+ "serde",
+ "sp-api",
+ "sp-block-builder",
+ "sp-blockchain",
+ "sp-consensus",
+ "sp-core",
+ "sp-inherents",
+ "sp-runtime",
+ "sp-timestamp",
+ "sp-transaction-pool",
+ "sp-trie",
+ "structopt",
+ "substrate-build-script-utils",
+ "substrate-frame-rpc-system",
+ "sunrise-runtime",
+]
+
+[[package]]
 name = "derive_more"
 version = "0.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4501,57 +4552,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "parachain-collator"
-version = "2.0.0"
-dependencies = [
- "cumulus-collator",
- "cumulus-consensus",
- "cumulus-network",
- "cumulus-primitives",
- "cumulus-service",
- "derive_more 0.15.0",
- "frame-benchmarking",
- "frame-benchmarking-cli",
- "hex-literal 0.2.1",
- "jsonrpc-core",
- "log",
- "pallet-transaction-payment-rpc",
- "parachain-runtime",
- "parity-scale-codec",
- "polkadot-cli",
- "polkadot-parachain",
- "polkadot-primitives",
- "polkadot-service",
- "polkadot-test-service",
- "sc-basic-authorship",
- "sc-chain-spec",
- "sc-cli",
- "sc-client-api",
- "sc-consensus",
- "sc-executor",
- "sc-keystore",
- "sc-rpc",
- "sc-rpc-api",
- "sc-service",
- "sc-tracing",
- "sc-transaction-pool",
- "serde",
- "sp-api",
- "sp-block-builder",
- "sp-blockchain",
- "sp-consensus",
- "sp-core",
- "sp-inherents",
- "sp-runtime",
- "sp-timestamp",
- "sp-transaction-pool",
- "sp-trie",
- "structopt",
- "substrate-build-script-utils",
- "substrate-frame-rpc-system",
-]
-
-[[package]]
 name = "parachain-info"
 version = "0.1.0"
 dependencies = [
@@ -4560,53 +4560,6 @@ dependencies = [
  "frame-system",
  "parity-scale-codec",
  "serde",
-]
-
-[[package]]
-name = "parachain-runtime"
-version = "2.0.0"
-dependencies = [
- "cumulus-message-broker",
- "cumulus-parachain-upgrade",
- "cumulus-primitives",
- "cumulus-runtime",
- "exchange",
- "frame-benchmarking",
- "frame-executive",
- "frame-support",
- "frame-system",
- "frame-system-benchmarking",
- "frame-system-rpc-runtime-api",
- "hex-literal 0.3.1",
- "pallet-balances",
- "pallet-randomness-collective-flip",
- "pallet-sudo",
- "pallet-template",
- "pallet-timestamp",
- "pallet-transaction-payment",
- "pallet-transaction-payment-rpc-runtime-api",
- "parachain-info",
- "parity-scale-codec",
- "polkadot-parachain",
- "serde",
- "sp-api",
- "sp-block-builder",
- "sp-core",
- "sp-inherents",
- "sp-io",
- "sp-offchain",
- "sp-runtime",
- "sp-session",
- "sp-std",
- "sp-transaction-pool",
- "sp-version",
- "srs-primitives",
- "substrate-wasm-builder 3.0.0 (git+https://github.com/paritytech/substrate.git?branch=rococo-v1)",
- "tokens",
- "xcm",
- "xcm-builder",
- "xcm-executor",
- "xcm-handler",
 ]
 
 [[package]]
@@ -8915,6 +8868,53 @@ name = "subtle"
 version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e81da0851ada1f3e9d4312c704aa4f8806f0f9d69faaf8df2f3464b4a9437c2"
+
+[[package]]
+name = "sunrise-runtime"
+version = "0.1.0"
+dependencies = [
+ "cumulus-message-broker",
+ "cumulus-parachain-upgrade",
+ "cumulus-primitives",
+ "cumulus-runtime",
+ "exchange",
+ "frame-benchmarking",
+ "frame-executive",
+ "frame-support",
+ "frame-system",
+ "frame-system-benchmarking",
+ "frame-system-rpc-runtime-api",
+ "hex-literal 0.3.1",
+ "pallet-balances",
+ "pallet-randomness-collective-flip",
+ "pallet-sudo",
+ "pallet-template",
+ "pallet-timestamp",
+ "pallet-transaction-payment",
+ "pallet-transaction-payment-rpc-runtime-api",
+ "parachain-info",
+ "parity-scale-codec",
+ "polkadot-parachain",
+ "serde",
+ "sp-api",
+ "sp-block-builder",
+ "sp-core",
+ "sp-inherents",
+ "sp-io",
+ "sp-offchain",
+ "sp-runtime",
+ "sp-session",
+ "sp-std",
+ "sp-transaction-pool",
+ "sp-version",
+ "srs-primitives",
+ "substrate-wasm-builder 3.0.0 (git+https://github.com/paritytech/substrate.git?branch=rococo-v1)",
+ "tokens",
+ "xcm",
+ "xcm-builder",
+ "xcm-executor",
+ "xcm-handler",
+]
 
 [[package]]
 name = "syn"
