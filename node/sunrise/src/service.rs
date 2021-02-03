@@ -2,7 +2,7 @@ use cumulus_network::build_block_announce_validator;
 use cumulus_service::{
 	prepare_node_config, start_collator, start_full_node, StartCollatorParams, StartFullNodeParams,
 };
-use parachain_runtime::{RuntimeApi, opaque::Block};
+use sunrise_runtime::{RuntimeApi, opaque::Block};
 use polkadot_primitives::v0::CollatorPair;
 use sc_executor::native_executor_instance;
 pub use sc_executor::NativeExecutor;
@@ -15,8 +15,8 @@ use std::sync::Arc;
 // Native executor instance.
 native_executor_instance!(
 	pub Executor,
-	parachain_runtime::api::dispatch,
-	parachain_runtime::native_version,
+	sunrise_runtime::api::dispatch,
+	sunrise_runtime::native_version,
 );
 
 /// Starts a `ServiceBuilder` for a full service.

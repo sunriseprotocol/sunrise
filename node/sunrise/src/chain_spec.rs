@@ -4,10 +4,10 @@ use sc_service::ChainType;
 use serde::{Deserialize, Serialize};
 use sp_core::{sr25519, Pair, Public};
 use sp_runtime::traits::{IdentifyAccount, Verify};
-use parachain_runtime::{AccountId, Signature};
+use sunrise_runtime::{AccountId, Signature};
 
 /// Specialized `ChainSpec` for the normal parachain runtime.
-pub type ChainSpec = sc_service::GenericChainSpec<parachain_runtime::GenesisConfig, Extensions>;
+pub type ChainSpec = sc_service::GenericChainSpec<sunrise_runtime::GenesisConfig, Extensions>;
 
 /// Helper function to generate a crypto pair from seed
 pub fn get_from_seed<TPublic: Public>(seed: &str) -> <TPublic::Pair as Pair>::Public {
@@ -115,22 +115,22 @@ fn testnet_genesis(
 	root_key: AccountId,
 	endowed_accounts: Vec<AccountId>,
 	id: ParaId,
-) -> parachain_runtime::GenesisConfig {
-	parachain_runtime::GenesisConfig {
-		frame_system: Some(parachain_runtime::SystemConfig {
-			code: parachain_runtime::WASM_BINARY
+) -> sunrise_runtime::GenesisConfig {
+	sunrise_runtime::GenesisConfig {
+		frame_system: Some(sunrise_runtime::SystemConfig {
+			code: sunrise_runtime::WASM_BINARY
 				.expect("WASM binary was not build, please build it!")
 				.to_vec(),
 			changes_trie_config: Default::default(),
 		}),
-		pallet_balances: Some(parachain_runtime::BalancesConfig {
+		pallet_balances: Some(sunrise_runtime::BalancesConfig {
 			balances: endowed_accounts
 				.iter()
 				.cloned()
 				.map(|k| (k, 1 << 60))
 				.collect(),
 		}),
-		pallet_sudo: Some(parachain_runtime::SudoConfig { key: root_key }),
-		parachain_info: Some(parachain_runtime::ParachainInfoConfig { parachain_id: id }),
+		pallet_sudo: Some(sunrise_runtime::SudoConfig { key: root_key }),
+		parachain_info: Some(sunrise_runtime::ParachainInfoConfig { parachain_id: id }),
 	}
 }
