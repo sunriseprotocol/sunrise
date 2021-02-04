@@ -1,3 +1,17 @@
+
+[package]
+authors = ['Sunrise Protocol']
+build = 'build.rs'
+edition = '2018'
+name = 'sunrise'
+version = '0.1.0'
+
+[package.metadata.docs.rs]
+targets = ['x86_64-unknown-linux-gnu']
+
+[[bin]]
+name = 'sunrise'
+
 [dependencies]
 derive_more = '0.15.0'
 log = "0.4.13"
@@ -18,9 +32,9 @@ git = 'https://github.com/paritytech/substrate.git'
 branch = "rococo-v1"
 version = '2.0.0'
 
-[dependencies.parachain-runtime]
-path = '../runtime'
-version = '2.0.0'
+[dependencies.sunrise-runtime]
+path = '../../runtime/sunrise'
+version = '0.1.0'
 
 [dependencies.pallet-transaction-payment-rpc]
 git = 'https://github.com/paritytech/substrate.git'
@@ -79,6 +93,17 @@ features = ['wasmtime']
 git = 'https://github.com/paritytech/substrate.git'
 branch = "rococo-v1"
 version = '0.8.0'
+
+
+[dependencies.sc-telemetry]
+git = 'https://github.com/paritytech/substrate.git'
+branch = "rococo-v1"
+version = '2.0.0'
+
+[dependencies.sc-keystore]
+git = 'https://github.com/paritytech/substrate.git'
+branch = "rococo-v1"
+version = '2.0.0'
 
 [dependencies.sc-transaction-pool]
 git = 'https://github.com/paritytech/substrate.git'
@@ -191,22 +216,6 @@ branch = "rococo-v1"
 [dependencies.polkadot-parachain]
 git = "https://github.com/paritytech/polkadot"
 branch = "rococo-v1"
-
-[[bin]]
-name = 'parachain-collator'
-
-[package]
-authors = ['Anonymous']
-build = 'build.rs'
-description = 'A new Cumulus FRAME-based Substrate node, ready for hacking.'
-edition = '2018'
-homepage = 'https://substrate.dev'
-license = 'Unlicense'
-name = 'parachain-collator'
-repository = 'https://github.com/substrate-developer-hub/substrate-parachain-template'
-version = '2.0.0'
-[package.metadata.docs.rs]
-targets = ['x86_64-unknown-linux-gnu']
 
 [features]
 default = []
