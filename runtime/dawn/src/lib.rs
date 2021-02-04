@@ -6,6 +6,9 @@
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+#[cfg(feature = "std")]
+use sp_version::NativeVersion;
+use sp_version::RuntimeVersion;
 use sp_std::prelude::*;
 use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
 use sp_runtime::{
@@ -13,15 +16,23 @@ use sp_runtime::{
 	transaction_validity::{TransactionValidity, TransactionSource},
 };
 use sp_runtime::traits::{
-	BlakeTwo256, Block as BlockT, AccountIdLookup, Verify, IdentifyAccount, NumberFor,
+	BlakeTwo256, Block as BlockT, AccountIdLookup, Verify, IdentifyAccount,
 };
 use sp_api::impl_runtime_apis;
-use sp_consensus_aura::sr25519::AuthorityId as AuraId;
-use pallet_grandpa::{AuthorityId as GrandpaId, AuthorityList as GrandpaAuthorityList};
-use pallet_grandpa::fg_primitives;
-use sp_version::RuntimeVersion;
-#[cfg(feature = "std")]
-use sp_version::NativeVersion;
+
+// XCM imports
+use polkadot_parachain::primitives::Sibling;
+use xcm::v0::{Junction, MultiLocation, NetworkId};
+use xcm_builder::{
+	AccountId32Aliases, CurrencyAdapter, LocationInverter, ParentIsDefault, RelayChainAsNative,
+	SiblingParachainAsNative, SiblingParachainConvertsVia, SignedAccountId32AsNative,
+	SovereignSignedViaLocation,
+};
+use xcm_executor::{
+	traits::{IsConcrete, NativeAsset},
+	Config, XcmExecutor,
+};
+use frame_system::limits::{BlockLength, BlockWeights};
 
 // A few exports that help ease life for downstream crates.
 #[cfg(any(feature = "std", test))]
@@ -33,14 +44,14 @@ pub use frame_support::{
 	construct_runtime, parameter_types, StorageValue,
 	traits::{KeyOwnerProofSystem, Randomness},
 	weights::{
-		Weight, IdentityFee,
+		Weight, IdentityFee, DispatchClass,
 		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
 	},
 };
-use pallet_transaction_payment::CurrencyAdapter;
+
 
 /// Import the template pallet.
-pub use pallet_template;
+pub use template;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -77,24 +88,19 @@ pub mod opaque {
 
 	pub use sp_runtime::OpaqueExtrinsic as UncheckedExtrinsic;
 
-	/// Opaque block header type.
-	pub type Header = generic::Header<BlockNumber, BlakeTwo256>;
 	/// Opaque block type.
 	pub type Block = generic::Block<Header, UncheckedExtrinsic>;
-	/// Opaque block identifier type.
-	pub type BlockId = generic::BlockId<Block>;
+
+	pub type SessionHandlers = ();
 
 	impl_opaque_keys! {
-		pub struct SessionKeys {
-			pub aura: Aura,
-			pub grandpa: Grandpa,
-		}
+		pub struct SessionKeys {}
 	}
 }
 
 pub const VERSION: RuntimeVersion = RuntimeVersion {
-	spec_name: create_runtime_str!("node-template"),
-	impl_name: create_runtime_str!("node-template"),
+	spec_name: create_runtime_str!("cumulus-test-parachain"),
+	impl_name: create_runtime_str!("cumulus-test-parachain"),
 	authoring_version: 1,
 	spec_version: 1,
 	impl_version: 1,
@@ -117,6 +123,15 @@ pub const MINUTES: BlockNumber = 60_000 / (MILLISECS_PER_BLOCK as BlockNumber);
 pub const HOURS: BlockNumber = MINUTES * 60;
 pub const DAYS: BlockNumber = HOURS * 24;
 
+// 1 in 4 blocks (on average, not counting collisions) will be primary babe blocks.
+pub const PRIMARY_PROBABILITY: (u64, u64) = (1, 4);
+
+#[derive(codec::Encode, codec::Decode)]
+pub enum XCMPMessage<XAccountId, XBalance> {
+	/// Transfer tokens to the given account from the Parachain account.
+	TransferToken(XAccountId, XBalance),
+}
+
 /// The version information used to identify this runtime when compiled natively.
 #[cfg(feature = "std")]
 pub fn native_version() -> NativeVersion {
@@ -126,16 +141,38 @@ pub fn native_version() -> NativeVersion {
 	}
 }
 
+/// We assume that ~10% of the block weight is consumed by `on_initalize` handlers.
+/// This is used to limit the maximal weight of a single extrinsic.
+const AVERAGE_ON_INITIALIZE_RATIO: Perbill = Perbill::from_percent(10);
+/// We allow `Normal` extrinsics to fill up the block up to 75%, the rest can be used
+/// by  Operational  extrinsics.
 const NORMAL_DISPATCH_RATIO: Perbill = Perbill::from_percent(75);
+/// We allow for 2 seconds of compute with a 6 second average block time.
+const MAXIMUM_BLOCK_WEIGHT: Weight = 2 * WEIGHT_PER_SECOND;
 
 parameter_types! {
+	pub const BlockHashCount: BlockNumber = 250;
 	pub const Version: RuntimeVersion = VERSION;
-	pub const BlockHashCount: BlockNumber = 2400;
-	/// We allow for 2 seconds of compute with a 6 second average block time.
-	pub BlockWeights: frame_system::limits::BlockWeights = frame_system::limits::BlockWeights
-		::with_sensible_defaults(2 * WEIGHT_PER_SECOND, NORMAL_DISPATCH_RATIO);
-	pub BlockLength: frame_system::limits::BlockLength = frame_system::limits::BlockLength
-		::max_with_normal_ratio(5 * 1024 * 1024, NORMAL_DISPATCH_RATIO);
+	pub RuntimeBlockLength: BlockLength =
+		BlockLength::max_with_normal_ratio(5 * 1024 * 1024, NORMAL_DISPATCH_RATIO);
+	pub RuntimeBlockWeights: BlockWeights = BlockWeights::builder()
+		.base_block(BlockExecutionWeight::get())
+		.for_class(DispatchClass::all(), |weights| {
+			weights.base_extrinsic = ExtrinsicBaseWeight::get();
+		})
+		.for_class(DispatchClass::Normal, |weights| {
+			weights.max_total = Some(NORMAL_DISPATCH_RATIO * MAXIMUM_BLOCK_WEIGHT);
+		})
+		.for_class(DispatchClass::Operational, |weights| {
+			weights.max_total = Some(MAXIMUM_BLOCK_WEIGHT);
+			// Operational transactions have some extra reserved space, so that they
+			// are included even if block reached `MAXIMUM_BLOCK_WEIGHT`.
+			weights.reserved = Some(
+				MAXIMUM_BLOCK_WEIGHT - NORMAL_DISPATCH_RATIO * MAXIMUM_BLOCK_WEIGHT
+			);
+		})
+		.avg_block_initialization(AVERAGE_ON_INITIALIZE_RATIO)
+		.build_or_panic();
 	pub const SS58Prefix: u8 = 42;
 }
 
@@ -145,9 +182,9 @@ impl frame_system::Config for Runtime {
 	/// The basic call filter to use in dispatchable.
 	type BaseCallFilter = ();
 	/// Block & extrinsics weights: base values and limits.
-	type BlockWeights = BlockWeights;
+	type BlockWeights = RuntimeBlockWeights;
 	/// The maximum length of a block (in bytes).
-	type BlockLength = BlockLength;
+	type BlockLength = RuntimeBlockLength;
 	/// The identifier used to distinguish between accounts.
 	type AccountId = AccountId;
 	/// The aggregated dispatch type that is available for extrinsics.
@@ -190,29 +227,6 @@ impl frame_system::Config for Runtime {
 	type SS58Prefix = SS58Prefix;
 }
 
-impl pallet_aura::Config for Runtime {
-	type AuthorityId = AuraId;
-}
-
-impl pallet_grandpa::Config for Runtime {
-	type Event = Event;
-	type Call = Call;
-
-	type KeyOwnerProofSystem = ();
-
-	type KeyOwnerProof =
-		<Self::KeyOwnerProofSystem as KeyOwnerProofSystem<(KeyTypeId, GrandpaId)>>::Proof;
-
-	type KeyOwnerIdentification = <Self::KeyOwnerProofSystem as KeyOwnerProofSystem<(
-		KeyTypeId,
-		GrandpaId,
-	)>>::IdentificationTuple;
-
-	type HandleEquivocation = ();
-
-	type WeightInfo = ();
-}
-
 parameter_types! {
 	pub const MinimumPeriod: u64 = SLOT_DURATION / 2;
 }
@@ -220,7 +234,7 @@ parameter_types! {
 impl pallet_timestamp::Config for Runtime {
 	/// A timestamp: milliseconds since the unix epoch.
 	type Moment = u64;
-	type OnTimestampSet = Aura;
+	type OnTimestampSet = ();
 	type MinimumPeriod = MinimumPeriod;
 	type WeightInfo = ();
 }
@@ -247,7 +261,7 @@ parameter_types! {
 }
 
 impl pallet_transaction_payment::Config for Runtime {
-	type OnChargeTransaction = CurrencyAdapter<Balances, ()>;
+	type OnChargeTransaction = pallet_transaction_payment::CurrencyAdapter<Balances, ()>;
 	type TransactionByteFee = TransactionByteFee;
 	type WeightToFee = IdentityFee<Balance>;
 	type FeeMultiplierUpdate = ();
@@ -258,12 +272,78 @@ impl pallet_sudo::Config for Runtime {
 	type Call = Call;
 }
 
-/// Configure the template pallet in pallets/template.
-impl pallet_template::Config for Runtime {
+impl cumulus_parachain_upgrade::Config for Runtime {
+	type Event = Event;
+	type OnValidationData = ();
+	type SelfParaId = parachain_info::Module<Runtime>;
+}
+
+impl cumulus_message_broker::Config for Runtime {
+	type DownwardMessageHandlers = ();
+	type HrmpMessageHandlers = ();
+}
+
+impl parachain_info::Config for Runtime {}
+
+parameter_types! {
+	pub const RococoLocation: MultiLocation = MultiLocation::X1(Junction::Parent);
+	pub const RococoNetwork: NetworkId = NetworkId::Polkadot;
+	pub RelayChainOrigin: Origin = xcm_handler::Origin::Relay.into();
+	pub Ancestry: MultiLocation = Junction::Parachain {
+		id: ParachainInfo::parachain_id().into()
+	}.into();
+}
+
+type LocationConverter = (
+	ParentIsDefault<AccountId>,
+	SiblingParachainConvertsVia<Sibling, AccountId>,
+	AccountId32Aliases<RococoNetwork, AccountId>,
+);
+
+type LocalAssetTransactor = CurrencyAdapter<
+	// Use this currency:
+	Balances,
+	// Use this currency when it is a fungible asset matching the given location or name:
+	IsConcrete<RococoLocation>,
+	// Do a simple punn to convert an AccountId32 MultiLocation into a native chain account ID:
+	LocationConverter,
+	// Our chain's account ID type (we can't get away without mentioning it explicitly):
+	AccountId,
+>;
+
+type LocalOriginConverter = (
+	SovereignSignedViaLocation<LocationConverter, Origin>,
+	RelayChainAsNative<RelayChainOrigin, Origin>,
+	SiblingParachainAsNative<xcm_handler::Origin, Origin>,
+	SignedAccountId32AsNative<RococoNetwork, Origin>,
+);
+
+pub struct XcmConfig;
+impl Config for XcmConfig {
+	type Call = Call;
+	type XcmSender = XcmHandler;
+	// How to withdraw and deposit an asset.
+	type AssetTransactor = LocalAssetTransactor;
+	type OriginConverter = LocalOriginConverter;
+	type IsReserve = NativeAsset;
+	type IsTeleporter = ();
+	type LocationInverter = LocationInverter<Ancestry>;
+}
+
+impl xcm_handler::Config for Runtime {
+	type Event = Event;
+	type XcmExecutor = XcmExecutor<XcmConfig>;
+	type UpwardMessageSender = MessageBroker;
+	type HrmpMessageSender = MessageBroker;
+}
+
+/// Configure the pallet template in pallets/template.
+impl template::Config for Runtime {
 	type Event = Event;
 }
 
-impl pallet_tokens::Trait for Runtime {
+
+impl tokens::Trait for Runtime {
 	type Event = Event;
 	type Balance = u128;
 	type AssetId = u64;
@@ -273,40 +353,39 @@ parameter_types! {
 	pub const ExchangeModuleId: ModuleId = ModuleId(*b"exchange");
 }
 
-impl pallet_exchange::Trait for Runtime {
+impl exchange::Trait for Runtime {
 	type Event = Event;
 	type Currency = Balances;
 	type PoolId = u32;
 	type Balance = u128;
 	type PoolConfigId = u32;
-	type Token = Tokens;
+	type Token = Tokens; 
 	type ModuleId = ExchangeModuleId;
 	type TokenFunctions = Tokens;
-
+	
 }
-
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub enum Runtime where
 		Block = Block,
 		NodeBlock = opaque::Block,
-		UncheckedExtrinsic = UncheckedExtrinsic
+		UncheckedExtrinsic = UncheckedExtrinsic,
 	{
-		System: frame_system::{Module, Call, Config, Storage, Event<T>},
-		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Module, Call, Storage},
+		System: frame_system::{Module, Call, Storage, Config, Event<T>},
 		Timestamp: pallet_timestamp::{Module, Call, Storage, Inherent},
-		Aura: pallet_aura::{Module, Config<T>, Inherent},
-		Grandpa: pallet_grandpa::{Module, Call, Storage, Config, Event},
 		Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
+		Sudo: pallet_sudo::{Module, Call, Storage, Config<T>, Event<T>},
+		RandomnessCollectiveFlip: pallet_randomness_collective_flip::{Module, Call, Storage},
+		ParachainUpgrade: cumulus_parachain_upgrade::{Module, Call, Storage, Inherent, Event},
+		MessageBroker: cumulus_message_broker::{Module, Storage, Call, Inherent},
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
-		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
-		// Include the custom logic from the template pallet in the runtime.
-		TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
-                Tokens: pallet_tokens::{Module, Storage, Call, Event<T>},
-		Exchange: pallet_exchange::{Module, Storage, Call, Event<T>},
+		ParachainInfo: parachain_info::{Module, Storage, Config},
+		XcmHandler: xcm_handler::{Module, Event<T>, Origin},
+		TemplateModule: template::{Module, Call, Storage, Event<T>},
+		Tokens: tokens::{Module, Storage, Call, Event<T>},
+		Exchange: exchange::{Module, Storage, Call, Event<T>},
 	}
 );
-
 
 /// The address format for describing accounts.
 pub type Address = sp_runtime::MultiAddress<AccountId, ()>;
@@ -402,16 +481,6 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl sp_consensus_aura::AuraApi<Block, AuraId> for Runtime {
-		fn slot_duration() -> u64 {
-			Aura::slot_duration()
-		}
-
-		fn authorities() -> Vec<AuraId> {
-			Aura::authorities()
-		}
-	}
-
 	impl sp_session::SessionKeys<Block> for Runtime {
 		fn generate_session_keys(seed: Option<Vec<u8>>) -> Vec<u8> {
 			opaque::SessionKeys::generate(seed)
@@ -421,32 +490,6 @@ impl_runtime_apis! {
 			encoded: Vec<u8>,
 		) -> Option<Vec<(Vec<u8>, KeyTypeId)>> {
 			opaque::SessionKeys::decode_into_raw_public_keys(&encoded)
-		}
-	}
-
-	impl fg_primitives::GrandpaApi<Block> for Runtime {
-		fn grandpa_authorities() -> GrandpaAuthorityList {
-			Grandpa::grandpa_authorities()
-		}
-
-		fn submit_report_equivocation_unsigned_extrinsic(
-			_equivocation_proof: fg_primitives::EquivocationProof<
-				<Block as BlockT>::Hash,
-				NumberFor<Block>,
-			>,
-			_key_owner_proof: fg_primitives::OpaqueKeyOwnershipProof,
-		) -> Option<()> {
-			None
-		}
-
-		fn generate_key_ownership_proof(
-			_set_id: fg_primitives::SetId,
-			_authority_id: GrandpaId,
-		) -> Option<fg_primitives::OpaqueKeyOwnershipProof> {
-			// NOTE: this is the only implementation possible since we've
-			// defined our key owner proof type as a bottom type (i.e. a type
-			// with no values).
-			None
 		}
 	}
 
@@ -506,3 +549,5 @@ impl_runtime_apis! {
 		}
 	}
 }
+
+cumulus_runtime::register_validate_block!(Block, Executive);

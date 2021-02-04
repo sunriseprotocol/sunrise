@@ -21,9 +21,9 @@ mod tests;
 //Debug string -> debug::info!("test value: {:?}", temp);			
 //use orml_traits::{MultiReservableCurrency, MultiCurrency};
 //use orml_utilities::with_transaction_result;
-use tokens::{TokenInfo, Token, CreateTokenInfo};
+use pallet_tokens::{TokenInfo, Token, CreateTokenInfo};
 
-	pub trait Trait: frame_system::Config + tokens::Trait {
+	pub trait Trait: frame_system::Config + pallet_tokens::Trait {
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Config>::Event>;
 	type Currency: Currency<Self::AccountId>; 
 	type PoolId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
@@ -96,8 +96,8 @@ impl<A, B> PoolConfig<A, B>{
 }
 
 type BalanceOf<T> = <<T as Trait>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
-type AssetIdOf<T> = <T as tokens::Trait>::AssetId;
-type TokenBalanceOf<T> = <T as tokens::Trait>::Balance;
+type AssetIdOf<T> = <T as pallet_tokens::Trait>::AssetId;
+type TokenBalanceOf<T> = <T as pallet_tokens::Trait>::Balance;
 
 type LiquidityPool_<T> = LiquidityPool<BalanceOf<T>, <T as Trait>::PoolConfigId, AssetIdOf<T> >;
 type LiquidityPoolConfig_<T> = PoolConfig<BalanceOf<T>, AssetIdOf<T> >; 

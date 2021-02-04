@@ -1,5 +1,5 @@
 [package]
-name = "tokens"
+name = "pallet-tokens"
 version = "0.1.0"
 authors = ["Sunrise"]
 edition = "2018"
