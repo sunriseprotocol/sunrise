@@ -8,7 +8,7 @@ use sp_runtime::{
 };
 use frame_system::ensure_signed;
 use codec::{Encode, Decode};
-use frame_support::traits::{Get, Vec, Currency};
+use frame_support::traits::{Get, Vec};
 #[macro_use]
 extern crate alloc;
 
@@ -19,20 +19,19 @@ mod mock;
 mod tests;
 
 //Debug string -> debug::info!("test value: {:?}", temp);			
-//use orml_traits::{MultiReservableCurrency, MultiCurrency};
+use orml_traits::{MultiReservableCurrency, MultiCurrency};
 //use orml_utilities::with_transaction_result;
 use pallet_tokens::{TokenInfo, Token, CreateTokenInfo};
 
 	pub trait Trait: frame_system::Config + pallet_tokens::Trait {
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Config>::Event>;
-	type Currency: Currency<Self::AccountId>; 
+	type Currency: MultiReservableCurrency<Self::AccountId>;
 	type PoolId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
 	type PoolConfigId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
 	type Balance: Member + Parameter + AtLeast32BitUnsigned + Default + Copy;
 	type Token: Token<Self::AssetId, Self::AccountId>;
 	type ModuleId: Get<ModuleId>;
 	type TokenFunctions: CreateTokenInfo<Self::AssetId, Self::AccountId>;
-
 }
 
 enum _CurveType {
@@ -95,7 +94,7 @@ impl<A, B> PoolConfig<A, B>{
 	}
 }
 
-type BalanceOf<T> = <<T as Trait>::Currency as Currency<<T as frame_system::Config>::AccountId>>::Balance;
+type BalanceOf<T> = <<T as Trait>::Currency as MultiCurrency<<T as frame_system::Config>::AccountId>>::Balance;
 type AssetIdOf<T> = <T as pallet_tokens::Trait>::AssetId;
 type TokenBalanceOf<T> = <T as pallet_tokens::Trait>::Balance;
 
@@ -292,7 +291,7 @@ impl<T: Trait> Module<T> {
 		
 	}
 
-	fn account_id() -> T::AccountId  {
+	pub fn account_id() -> T::AccountId  {
 		T::ModuleId::get().into_account()
 	}
 

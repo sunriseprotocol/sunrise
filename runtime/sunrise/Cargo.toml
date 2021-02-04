@@ -55,6 +55,11 @@ sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"
 sp-transaction-pool = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 sp-version = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 
+orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
+orml-tokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
+orml-currencies = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
+
+
 [features]
 default = ['std']
 runtime-benchmarks = [

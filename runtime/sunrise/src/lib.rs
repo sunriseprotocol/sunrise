@@ -13,7 +13,7 @@ use sp_runtime::{
 	transaction_validity::{TransactionValidity, TransactionSource},
 };
 use sp_runtime::traits::{
-	BlakeTwo256, Block as BlockT, AccountIdLookup, Verify, IdentifyAccount, NumberFor,
+	BlakeTwo256, Block as BlockT, AccountIdLookup, Verify, IdentifyAccount, NumberFor, Zero, AccountIdConversion
 };
 use sp_api::impl_runtime_apis;
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
@@ -37,7 +37,12 @@ pub use frame_support::{
 		constants::{BlockExecutionWeight, ExtrinsicBaseWeight, RocksDbWeight, WEIGHT_PER_SECOND},
 	},
 };
+
+use orml_traits::{parameter_type_with_key};
+pub use primitives::{CurrencyId, TokenSymbol};
 use pallet_transaction_payment::CurrencyAdapter;
+
+use orml_currencies::{BasicCurrencyAdapter};
 
 /// Import the template pallet.
 pub use pallet_template;
@@ -129,6 +134,7 @@ pub fn native_version() -> NativeVersion {
 const NORMAL_DISPATCH_RATIO: Perbill = Perbill::from_percent(75);
 
 parameter_types! {
+
 	pub const Version: RuntimeVersion = VERSION;
 	pub const BlockHashCount: BlockNumber = 2400;
 	/// We allow for 2 seconds of compute with a 6 second average block time.
@@ -225,6 +231,12 @@ impl pallet_timestamp::Config for Runtime {
 	type WeightInfo = ();
 }
 
+parameter_type_with_key! {
+	pub ExistentialDeposits: |currency_id: CurrencyId| -> Balance {
+		Zero::zero()
+	};
+}
+
 parameter_types! {
 	pub const ExistentialDeposit: u128 = 500;
 	pub const MaxLocks: u32 = 50;
@@ -269,13 +281,16 @@ impl pallet_tokens::Trait for Runtime {
 	type AssetId = u64;
 }
 
+pub type Amount = i128;
+
 parameter_types! {
 	pub const ExchangeModuleId: ModuleId = ModuleId(*b"exchange");
+	
 }
 
 impl pallet_exchange::Trait for Runtime {
 	type Event = Event;
-	type Currency = Balances;
+	type Currency = Currencies;
 	type PoolId = u32;
 	type Balance = u128;
 	type PoolConfigId = u32;
@@ -284,6 +299,33 @@ impl pallet_exchange::Trait for Runtime {
 	type TokenFunctions = Tokens;
 
 }
+
+parameter_types! {
+	pub TreasuryModuleAccount: AccountId = ExchangeModuleId::get().into_account();
+}
+
+impl orml_tokens::Config for Runtime {
+	type Event = Event;
+	type Balance = Balance;
+	type Amount = Amount;
+	type CurrencyId = CurrencyId;
+	type WeightInfo = ();
+	type ExistentialDeposits = ExistentialDeposits;
+	type OnDust = orml_tokens::TransferDust<Runtime, TreasuryModuleAccount>;
+}
+
+parameter_types! {
+	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Native(TokenSymbol::SRS);
+}
+
+impl orml_currencies::Config for Runtime {
+	type Event = Event;
+	type MultiCurrency = OrmlTokens;
+	type NativeCurrency = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
+	type GetNativeCurrencyId = GetNativeCurrencyId;
+	type WeightInfo = ();
+}
+
 
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
@@ -302,8 +344,10 @@ construct_runtime!(
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
 		// Include the custom logic from the template pallet in the runtime.
 		TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
-                Tokens: pallet_tokens::{Module, Storage, Call, Event<T>},
+        Tokens: pallet_tokens::{Module, Storage, Call, Event<T>},
 		Exchange: pallet_exchange::{Module, Storage, Call, Event<T>},
+		OrmlTokens: orml_tokens::{Module, Storage, Event<T>},
+		Currencies: orml_currencies::{Module, Call, Event<T>},
 	}
 );
 

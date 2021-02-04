@@ -13,8 +13,8 @@ frame-support = { git = "https://github.com/paritytech/substrate.git", branch = 
 frame-system = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", default-features = false, version = '2.0.0' }
 sp-runtime = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false, version = '2.0.0' }
 
-orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false, version = '0.3.3-dev' }
-orml-utilities = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false, version = '0.3.3-dev' }
+orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
+orml-utilities = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
 pallet-tokens = {   default-features = false, path = "../tokens" }
 
 [dev-dependencies]
