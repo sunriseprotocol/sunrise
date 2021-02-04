@@ -1,5 +1,5 @@
 [package]
-name = "srs-primitives"
+name = "primitives"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"

@@ -29,6 +29,12 @@ cargo build --release
 
 ### Local Testnet
 
+Sunrise Standalone
+```
+./target/release/sunrise purge-chain --dev
+./target/release/sunrise --dev
+```
+
 Polkadot (rococo-v1 branch):
 ```
 ./target/release/polkadot build-spec --chain rococo-local --raw --disable-default-bootnode > rococo_local.json
