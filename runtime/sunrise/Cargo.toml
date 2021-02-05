@@ -103,5 +103,8 @@ std = [
 	"pallet-exchange/std",
 	"pallet-tokens/std",
 	"primitives/std",
+	"orml-tokens/std",
+	"orml-currencies/std",
+	"orml-traits/std",
 ]
 
