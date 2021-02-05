@@ -27,7 +27,7 @@ use sp_api::impl_runtime_apis;
 use sp_core::OpaqueMetadata;
 use sp_runtime::{
 	create_runtime_str, generic, impl_opaque_keys, ModuleId,
-	traits::{BlakeTwo256, Block as BlockT, IdentityLookup},
+	traits::{BlakeTwo256, Block as BlockT, IdentityLookup, Zero,  AccountIdConversion},
 	transaction_validity::{TransactionSource, TransactionValidity},
 	ApplyExtrinsicResult,
 };
@@ -66,6 +66,10 @@ use xcm_executor::{
 	traits::{IsConcrete, NativeAsset},
 	Config, XcmExecutor,
 };
+
+use orml_currencies::{BasicCurrencyAdapter};
+use orml_traits::{parameter_type_with_key};
+pub use primitives::{CurrencyId, TokenSymbol};
 
 pub type SessionHandlers = ();
 
@@ -198,6 +202,12 @@ impl pallet_timestamp::Config for Runtime {
 	type WeightInfo = ();
 }
 
+parameter_type_with_key! {
+	pub ExistentialDeposits: |currency_id: CurrencyId| -> Balance {
+		Zero::zero()
+	};
+}
+
 parameter_types! {
 	pub const ExistentialDeposit: u128 = 500;
 	pub const TransferFee: u128 = 0;
@@ -303,22 +313,51 @@ impl pallet_tokens::Trait for Runtime {
 	type AssetId = u64;
 }
 
+
+pub type Amount = i128;
+
 parameter_types! {
 	pub const ExchangeModuleId: ModuleId = ModuleId(*b"exchange");
+	
 }
 
 impl pallet_exchange::Trait for Runtime {
 	type Event = Event;
-	type Currency = Balances;
+	type Currency = Currencies;
 	type PoolId = u32;
 	type Balance = u128;
 	type PoolConfigId = u32;
-	type Token = Tokens; 
+	type Token = Tokens;
 	type ModuleId = ExchangeModuleId;
 	type TokenFunctions = Tokens;
-	
+
 }
 
+parameter_types! {
+	pub TreasuryModuleAccount: AccountId = ExchangeModuleId::get().into_account();
+}
+
+impl orml_tokens::Config for Runtime {
+	type Event = Event;
+	type Balance = Balance;
+	type Amount = Amount;
+	type CurrencyId = CurrencyId;
+	type WeightInfo = ();
+	type ExistentialDeposits = ExistentialDeposits;
+	type OnDust = orml_tokens::TransferDust<Runtime, TreasuryModuleAccount>;
+}
+
+parameter_types! {
+	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Native(TokenSymbol::SRS);
+}
+
+impl orml_currencies::Config for Runtime {
+	type Event = Event;
+	type MultiCurrency = OrmlTokens;
+	type NativeCurrency = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
+	type GetNativeCurrencyId = GetNativeCurrencyId;
+	type WeightInfo = ();
+}
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime! {
 	pub enum Runtime where
@@ -338,6 +377,8 @@ construct_runtime! {
                 TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
 		Tokens: pallet_tokens::{Module, Storage, Call, Event<T>},
 		Exchange: pallet_exchange::{Module, Storage, Call, Event<T>},
+		OrmlTokens: orml_tokens::{Module, Storage, Event<T>},
+		Currencies: orml_currencies::{Module, Call, Event<T>},
 	}
 }
 

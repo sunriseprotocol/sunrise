@@ -1317,6 +1317,9 @@ dependencies = [
  "frame-executive",
  "frame-support",
  "frame-system",
+ "orml-currencies",
+ "orml-tokens",
+ "orml-traits",
  "pallet-balances",
  "pallet-exchange",
  "pallet-randomness-collective-flip",
@@ -4112,6 +4115,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "77af24da69f9d9341038eba93a073b1fdaaa1b788221b00a69bce9e762cb32de"
 
 [[package]]
+name = "ordered-float"
+version = "1.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3305af35278dd29f46fcdd139e0b1fbfae2153f0e5928b39b035542dd31e37b7"
+dependencies = [
+ "num-traits 0.2.14",
+]
+
+[[package]]
 name = "orml-currencies"
 version = "0.4.0-dev"
 source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1#702f35423c5aca3e511bfd1f7cd7851c2c0f9552"
@@ -4121,6 +4133,7 @@ dependencies = [
  "orml-traits",
  "orml-utilities",
  "parity-scale-codec",
+ "serde",
  "sp-io",
  "sp-runtime",
  "sp-std",
@@ -4135,18 +4148,10 @@ dependencies = [
  "frame-system",
  "orml-traits",
  "parity-scale-codec",
+ "serde",
  "sp-io",
  "sp-runtime",
  "sp-std",
-]
-
-[[package]]
-name = "ordered-float"
-version = "1.1.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3305af35278dd29f46fcdd139e0b1fbfae2153f0e5928b39b035542dd31e37b7"
-dependencies = [
- "num-traits 0.2.14",
 ]
 
 [[package]]
@@ -9453,10 +9458,10 @@ dependencies = [
  "frame-system",
  "frame-system-benchmarking",
  "frame-system-rpc-runtime-api",
+ "hex-literal 0.3.1",
  "orml-currencies",
  "orml-tokens",
  "orml-traits",
- "hex-literal 0.3.1",
  "pallet-aura",
  "pallet-balances",
  "pallet-exchange",
