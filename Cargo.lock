@@ -4112,6 +4112,35 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "77af24da69f9d9341038eba93a073b1fdaaa1b788221b00a69bce9e762cb32de"
 
 [[package]]
+name = "orml-currencies"
+version = "0.4.0-dev"
+source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1#702f35423c5aca3e511bfd1f7cd7851c2c0f9552"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-traits",
+ "orml-utilities",
+ "parity-scale-codec",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "orml-tokens"
+version = "0.4.0-dev"
+source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1#702f35423c5aca3e511bfd1f7cd7851c2c0f9552"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-traits",
+ "parity-scale-codec",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
 name = "ordered-float"
 version = "1.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4122,8 +4151,8 @@ dependencies = [
 
 [[package]]
 name = "orml-traits"
-version = "0.3.3-dev"
-source = "git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1#ba1e541caa7aaeab5ee5e751a4c271f39075a62d"
+version = "0.4.0-dev"
+source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1#702f35423c5aca3e511bfd1f7cd7851c2c0f9552"
 dependencies = [
  "frame-support",
  "impl-trait-for-tuples 0.1.3",
@@ -4138,8 +4167,8 @@ dependencies = [
 
 [[package]]
 name = "orml-utilities"
-version = "0.3.3-dev"
-source = "git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1#ba1e541caa7aaeab5ee5e751a4c271f39075a62d"
+version = "0.4.0-dev"
+source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1#702f35423c5aca3e511bfd1f7cd7851c2c0f9552"
 dependencies = [
  "frame-support",
  "parity-scale-codec",
@@ -9424,6 +9453,9 @@ dependencies = [
  "frame-system",
  "frame-system-benchmarking",
  "frame-system-rpc-runtime-api",
+ "orml-currencies",
+ "orml-tokens",
+ "orml-traits",
  "hex-literal 0.3.1",
  "pallet-aura",
  "pallet-balances",
@@ -10072,7 +10104,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "04f8ab788026715fa63b31960869617cba39117e520eb415b0139543e325ab59"
 dependencies = [
  "cfg-if 0.1.10",
- "rand 0.7.3",
+ "rand 0.3.23",
  "static_assertions",
 ]
 

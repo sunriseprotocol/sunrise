@@ -24,6 +24,6 @@ pub enum TokenSymbol {
 	SRS = 0,
 	DOT = 1,
 	KSM = 2,
-	BTC = 3,
-
+    ACA = 3,
+    AUSD = 4,
 }
