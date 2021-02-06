@@ -7,7 +7,7 @@ use serde::{Deserialize, Serialize};
 use sp_runtime::{RuntimeDebug};
 
 pub type Balance = u128;
-
+pub type AssetId = u64;
 pub type EvmAddress = sp_core::H160;
 
 

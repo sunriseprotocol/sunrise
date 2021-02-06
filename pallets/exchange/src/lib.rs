@@ -6,9 +6,14 @@ use sp_runtime::{
 	DispatchResult, RuntimeDebug, ModuleId,
 	traits::{AtLeast32BitUnsigned, MaybeSerializeDeserialize, Bounded, Member,  AccountIdConversion, SaturatedConversion},
 };
+
+use orml_traits::{MultiCurrency, MultiCurrencyExtended};
+
 use frame_system::ensure_signed;
 use codec::{Encode, Decode};
 use frame_support::traits::{Get, Vec};
+
+use primitives::{Balance, AssetId, CurrencyId, TokenSymbol};
 #[macro_use]
 extern crate alloc;
 
@@ -18,17 +23,14 @@ mod mock;
 #[cfg(test)]
 mod tests;
 
-//Debug string -> debug::info!("test value: {:?}", temp);			
-use orml_traits::{MultiReservableCurrency, MultiCurrency};
 //use orml_utilities::with_transaction_result;
 use pallet_tokens::{TokenInfo, Token, CreateTokenInfo};
 
-	pub trait Trait: frame_system::Config + pallet_tokens::Trait {
+	pub trait Config: frame_system::Config + pallet_tokens::Config {
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Config>::Event>;
-	type Currency: MultiReservableCurrency<Self::AccountId>;
+	type Currency: MultiCurrencyExtended<Self::AccountId, CurrencyId = CurrencyId, Balance = Balance>;
 	type PoolId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
 	type PoolConfigId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
-	type Balance: Member + Parameter + AtLeast32BitUnsigned + Default + Copy;
 	type Token: Token<Self::AssetId, Self::AccountId>;
 	type ModuleId: Get<ModuleId>;
 	type TokenFunctions: CreateTokenInfo<Self::AssetId, Self::AccountId>;
@@ -94,15 +96,15 @@ impl<A, B> PoolConfig<A, B>{
 	}
 }
 
-type BalanceOf<T> = <<T as Trait>::Currency as MultiCurrency<<T as frame_system::Config>::AccountId>>::Balance;
-type AssetIdOf<T> = <T as pallet_tokens::Trait>::AssetId;
-type TokenBalanceOf<T> = <T as pallet_tokens::Trait>::Balance;
+type BalanceOf<T> = <<T as Config>::Currency as MultiCurrency<<T as frame_system::Config>::AccountId>>::Balance;
+type AssetIdOf<T> = <T as pallet_tokens::Config>::AssetId;
+type TokenBalanceOf<T> = <T as pallet_tokens::Config>::Balance;
 
-type LiquidityPool_<T> = LiquidityPool<BalanceOf<T>, <T as Trait>::PoolConfigId, AssetIdOf<T> >;
+type LiquidityPool_<T> = LiquidityPool<BalanceOf<T>, <T as Config>::PoolConfigId, AssetIdOf<T> >;
 type LiquidityPoolConfig_<T> = PoolConfig<BalanceOf<T>, AssetIdOf<T> >; 
 
 decl_storage! {
-	trait Store for Module<T: Trait> as pool {
+	trait Store for Module<T: Config> as pool {
 		LiquidityPools get(fn pools): map hasher(twox_64_concat) T::PoolId => Option<LiquidityPool_<T>>;
 		//tuple poolconfigs into pool
 		LiquidityPoolConfigs get(fn poolconfigs): map hasher(twox_64_concat) T::PoolConfigId => Option<LiquidityPoolConfig_<T>>;
@@ -113,7 +115,7 @@ decl_event!{
 	pub enum Event<T> where
 		TokenBalance = TokenBalanceOf<T>,
 		<T as frame_system::Config>::AccountId,
-		<T as Trait>::PoolId,
+		<T as Config>::PoolId,
 		Pair = ( AssetIdOf<T>,TokenBalanceOf<T>),
 	{
 		CreateLiquidityPool(PoolId),
@@ -124,7 +126,7 @@ decl_event!{
 }
 
 decl_error! {
-	pub enum Error for Module<T: Trait> {
+	pub enum Error for Module<T: Config> {
 		IdOverflow,
 		InvalidId,
 		InsufficientBalance,
@@ -138,7 +140,7 @@ decl_error! {
 }
 
 decl_module! {
-	pub struct Module<T: Trait> for enum Call where origin: T::Origin {
+	pub struct Module<T: Config> for enum Call where origin: T::Origin {
 		type Error = Error<T>;
 		fn deposit_event() = default;
 
@@ -219,7 +221,7 @@ decl_module! {
 	}
 }
 
-impl<T: Trait> Module<T> {
+impl<T: Config> Module<T> {
 
 	pub fn fixed_bal(input: TokenBalanceOf<T>) ->  BalanceOf<T> {
 		let temp = input.saturated_into::<u128>();
