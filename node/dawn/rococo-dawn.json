@@ -3,7 +3,7 @@
   "id": "dawm",
   "chainType": "Live",
   "bootNodes": [
-    "/ip4/44.227.13.25/tcp/30333/p2p/12D3KooWSpYd3JBgEA2M1r8J58tKXvpgWUzSiNsgAcUo26jjvTKK"
+    "/ip4/44.227.13.25/tcp/30333/p2p/12D3KooWJ5dm2eS5aqdv4hE5fEusKG9bMkU2T7LkK9Yf2P6GHbn2"
   ],
   "telemetryEndpoints": null,
   "protocolId": null,
