@@ -4,13 +4,17 @@ use frame_support::{
 };
 use sp_runtime::{
 	DispatchResult, RuntimeDebug, ModuleId,
-	traits::{AtLeast32BitUnsigned, MaybeSerializeDeserialize, Bounded, Member,  AccountIdConversion, SaturatedConversion},
+	traits::{AtLeast32BitUnsigned, MaybeSerializeDeserialize, Bounded, AccountIdConversion, SaturatedConversion},
 };
+
+use orml_traits::{MultiCurrencyExtended};
+
 use frame_system::ensure_signed;
 use codec::{Encode, Decode};
 use frame_support::traits::{Get, Vec};
-#[macro_use]
-extern crate alloc;
+
+use primitives::{Balance, CurrencyId};
+
 
 #[cfg(test)]
 mod mock;
@@ -18,17 +22,14 @@ mod mock;
 #[cfg(test)]
 mod tests;
 
-//Debug string -> debug::info!("test value: {:?}", temp);			
-use orml_traits::{MultiReservableCurrency, MultiCurrency};
 //use orml_utilities::with_transaction_result;
 use pallet_tokens::{TokenInfo, Token, CreateTokenInfo};
 
-	pub trait Trait: frame_system::Config + pallet_tokens::Trait {
+	pub trait Config: frame_system::Config + pallet_tokens::Config {
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Config>::Event>;
-	type Currency: MultiReservableCurrency<Self::AccountId>;
+	type Currency: MultiCurrencyExtended<Self::AccountId, CurrencyId = CurrencyId, Balance = Balance>;
 	type PoolId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
 	type PoolConfigId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
-	type Balance: Member + Parameter + AtLeast32BitUnsigned + Default + Copy;
 	type Token: Token<Self::AssetId, Self::AccountId>;
 	type ModuleId: Get<ModuleId>;
 	type TokenFunctions: CreateTokenInfo<Self::AssetId, Self::AccountId>;
@@ -94,15 +95,13 @@ impl<A, B> PoolConfig<A, B>{
 	}
 }
 
-type BalanceOf<T> = <<T as Trait>::Currency as MultiCurrency<<T as frame_system::Config>::AccountId>>::Balance;
-type AssetIdOf<T> = <T as pallet_tokens::Trait>::AssetId;
-type TokenBalanceOf<T> = <T as pallet_tokens::Trait>::Balance;
+type AssetIdOf<T> = <T as pallet_tokens::Config>::AssetId;
 
-type LiquidityPool_<T> = LiquidityPool<BalanceOf<T>, <T as Trait>::PoolConfigId, AssetIdOf<T> >;
-type LiquidityPoolConfig_<T> = PoolConfig<BalanceOf<T>, AssetIdOf<T> >; 
+type LiquidityPool_<T> = LiquidityPool<Balance, <T as Config>::PoolConfigId, AssetIdOf<T> >;
+type LiquidityPoolConfig_<T> = PoolConfig<Balance, AssetIdOf<T> >; 
 
 decl_storage! {
-	trait Store for Module<T: Trait> as pool {
+	trait Store for Module<T: Config> as pool {
 		LiquidityPools get(fn pools): map hasher(twox_64_concat) T::PoolId => Option<LiquidityPool_<T>>;
 		//tuple poolconfigs into pool
 		LiquidityPoolConfigs get(fn poolconfigs): map hasher(twox_64_concat) T::PoolConfigId => Option<LiquidityPoolConfig_<T>>;
@@ -111,20 +110,20 @@ decl_storage! {
 
 decl_event!{
 	pub enum Event<T> where
-		TokenBalance = TokenBalanceOf<T>,
+		Balance = Balance,
 		<T as frame_system::Config>::AccountId,
-		<T as Trait>::PoolId,
-		Pair = ( AssetIdOf<T>,TokenBalanceOf<T>),
+		<T as Config>::PoolId,
+		Pair = ( AssetIdOf<T>,Balance),
 	{
 		CreateLiquidityPool(PoolId),
-		AddLiquidity(AccountId, TokenBalance, PoolId),
-		RemoveLiquidity(AccountId, TokenBalance, PoolId),
+		AddLiquidity(AccountId, Balance, PoolId),
+		RemoveLiquidity(AccountId, Balance, PoolId),
 		Swap(AccountId, Option<Pair>, Option<Pair>, PoolId),
 	}
 }
 
 decl_error! {
-	pub enum Error for Module<T: Trait> {
+	pub enum Error for Module<T: Config> {
 		IdOverflow,
 		InvalidId,
 		InsufficientBalance,
@@ -138,17 +137,17 @@ decl_error! {
 }
 
 decl_module! {
-	pub struct Module<T: Trait> for enum Call where origin: T::Origin {
+	pub struct Module<T: Config> for enum Call where origin: T::Origin {
 		type Error = Error<T>;
 		fn deposit_event() = default;
 
 		#[weight = 100]
 		fn liquidity_config_creation(origin, id: u32, currency_ids: Vec<AssetIdOf<T>>, token_weights: Vec<u64>, depth: u32,
-			fees: BalanceOf<T>, slippage: BalanceOf<T>, alpha: BalanceOf<T>, kmpa: u32, curve_type: u8)
+			fees: Balance, slippage: Balance, alpha: Balance, kmpa: u32, curve_type: u8)
 		 {			
 			ensure_signed(origin)?;
 			let pool_config_id = Self::pool_config_id(id);		
-			ensure!(Self::poolconfigs(pool_config_id).is_some(), Error::<T>::BadNumGen);
+			ensure!(!Self::poolconfigs(pool_config_id).is_some(), Error::<T>::BadNumGen);
 
 			let liq_config = PoolConfig::new(
 				id, currency_ids, token_weights, fees, depth, slippage, alpha, kmpa, curve_type ); 
@@ -157,35 +156,34 @@ decl_module! {
 		}
 
 		#[weight = 100]
-		fn liquidity_pool_create(origin, id: u32 , currency_ids: Vec<AssetIdOf<T>>, pool_config_id: T::PoolConfigId, pool_reserves: Vec<BalanceOf<T>>, owner: T::AccountId, asset_id: AssetIdOf<T> ){
+		fn liquidity_pool_create(origin, id: u32 , currency_ids: Vec<AssetIdOf<T>>, pool_config_id: T::PoolConfigId, pool_reserves: Vec<Balance>, owner: T::AccountId, asset_id: AssetIdOf<T> ){
 			ensure_signed(origin)?;
 			let who = owner;
 
-			let numb: u8 = 4;
-			let temp: Vec<u8> = vec![numb];
+			let default_decimals: u8 = 12;
 
 			let pool_id = Self::pool_id(id);
 			ensure!(!Self::pools(pool_id).is_some(), Error::<T>::BadNumGen);
 
 			let _pool_config = &pool_config_id;
 			ensure!(Self::poolconfigs(&pool_config_id).is_some(), Error::<T>::ConfigDoesntExist);
+			let lp_token_name: Vec<u8> = (*b"SRSLPTOKEN").to_vec();
+			let lp_token_sym: Vec<u8> = (*b"SRSLP").to_vec();
 
-			let lp_token = TokenInfo::new(temp.clone(), temp, numb, who);
+			let lp_token = TokenInfo::new(lp_token_name.clone(), lp_token_sym, default_decimals, who);
 			//check asset_id / fix to be auto gen'd
 			let asset_id = T::TokenFunctions::create_new_asset(lp_token, asset_id);
 
 			let liq_pool = LiquidityPool::new(
 				currency_ids, asset_id, pool_config_id, pool_reserves); 
-
 			let initial_bal = T::TokenFunctions::initial_amount(&asset_id, &Self::account_id());			
 			T::TokenFunctions::mint(&asset_id, &Self::account_id(), initial_bal)?;
-
 			LiquidityPools::<T>::insert(pool_id, liq_pool);
 
 		}
 
 		#[weight = 100]
-		fn liquidity_add(origin, pool_id: T::PoolId, deadline: T::BlockNumber, currencies: Vec<AssetIdOf<T>>, balances: Vec<TokenBalanceOf<T>> , temp_bal: TokenBalanceOf<T>){
+		fn liquidity_add(origin, pool_id: T::PoolId, deadline: T::BlockNumber, currencies: Vec<AssetIdOf<T>>, balances: Vec<Balance> , temp_bal: Balance){
 			
 			let who = ensure_signed(origin)?;
 			ensure!(deadline > <frame_system::Module<T>>::block_number(), Error::<T>::PastDeadline);
@@ -196,7 +194,7 @@ decl_module! {
 		}
 
 		#[weight = 100]
-		fn liquidity_remove(origin, pool_id: T::PoolId, deadline: T::BlockNumber, currencies: Vec<AssetIdOf<T>>, balances: Vec<TokenBalanceOf<T>> , lp_amount: TokenBalanceOf<T>){
+		fn liquidity_remove(origin, pool_id: T::PoolId, deadline: T::BlockNumber, currencies: Vec<AssetIdOf<T>>, balances: Vec<Balance> , lp_amount: Balance){
 
 			let who = ensure_signed(origin)?;
 			ensure!(deadline > <frame_system::Module<T>>::block_number(), Error::<T>::PastDeadline);
@@ -207,8 +205,8 @@ decl_module! {
 		}
 		
 		#[weight = 100]
-		fn exchange(origin, pool_id: T::PoolId, deadline: T::BlockNumber,  currencies_in: Vec<AssetIdOf<T>>, balances_in: Vec<TokenBalanceOf<T>>,
-			currencies_out: Vec<AssetIdOf<T>>, balances_out: Vec<TokenBalanceOf<T>>){
+		fn exchange(origin, pool_id: T::PoolId, deadline: T::BlockNumber,  currencies_in: Vec<AssetIdOf<T>>, balances_in: Vec<Balance>,
+			currencies_out: Vec<AssetIdOf<T>>, balances_out: Vec<Balance>){
 				let who = ensure_signed(origin)?;
 				ensure!(deadline > <frame_system::Module<T>>::block_number(), Error::<T>::PastDeadline);
 				//ensure weights match
@@ -219,18 +217,18 @@ decl_module! {
 	}
 }
 
-impl<T: Trait> Module<T> {
+impl<T: Config> Module<T> {
 
-	pub fn fixed_bal(input: TokenBalanceOf<T>) ->  BalanceOf<T> {
+	pub fn fixed_bal(input: Balance) ->  Balance {
 		let temp = input.saturated_into::<u128>();
-		temp.saturated_into::<BalanceOf<T>>()
+		temp.saturated_into::<Balance>()
 	}
 
-	pub fn fixed_token_bal(input: TokenBalanceOf<T>) -> u128 {
+	pub fn fixed_token_bal(input: Balance) -> u128 {
 		input.saturated_into::<u128>()
 	}
 
-	fn add_liquidity(who: &T::AccountId, currencies: Vec<AssetIdOf<T>>, balances: Vec<TokenBalanceOf<T>>, pool_id: T::PoolId, temp_bal: TokenBalanceOf<T>) -> DispatchResult {
+	fn add_liquidity(who: &T::AccountId, currencies: Vec<AssetIdOf<T>>, balances: Vec<Balance>, pool_id: T::PoolId, temp_bal: Balance) -> DispatchResult {
 		
 		// need to tuple currencyid and reserve @_@
 		let mut mutant_pool = Self::pools(&pool_id).unwrap();
@@ -249,7 +247,7 @@ impl<T: Trait> Module<T> {
 		Ok(())
 	}
 
-	fn remove_liquidity(who: &T::AccountId, currencies: Vec<AssetIdOf<T>>, balances: Vec<TokenBalanceOf<T>>, pool_id: T::PoolId, lp_amount: TokenBalanceOf<T>) -> DispatchResult {
+	fn remove_liquidity(who: &T::AccountId, currencies: Vec<AssetIdOf<T>>, balances: Vec<Balance>, pool_id: T::PoolId, lp_amount: Balance) -> DispatchResult {
 		
 		let mut mutant_pool = Self::pools(&pool_id).unwrap();
 		
@@ -265,8 +263,8 @@ impl<T: Trait> Module<T> {
 		Ok(())
 	}
 
-	fn swap(who: &T::AccountId, pool_id: T::PoolId, currencies_in: Vec<AssetIdOf<T>>, balances_in: Vec<TokenBalanceOf<T>>,
-		currencies_out: Vec<AssetIdOf<T>>, balances_out: Vec<TokenBalanceOf<T>>) -> DispatchResult {
+	fn swap(who: &T::AccountId, pool_id: T::PoolId, currencies_in: Vec<AssetIdOf<T>>, balances_in: Vec<Balance>,
+		currencies_out: Vec<AssetIdOf<T>>, balances_out: Vec<Balance>) -> DispatchResult {
 			let mut _in_pair;
 			let mut _out_pair;
 			let mut mutant_pool = Self::pools(&pool_id).unwrap();
@@ -305,4 +303,3 @@ impl<T: Trait> Module<T> {
 
 
 }
-

@@ -35,7 +35,7 @@ impl<A> TokenInfo<A> {
 	}
 }
 
-pub trait Trait: frame_system::Config {
+pub trait Config: frame_system::Config {
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Config>::Event>;
 	type Balance: Member + Parameter + AtLeast32BitUnsigned + Default + Copy;
 	type AssetId: Parameter + AtLeast32Bit + Default + Copy;
@@ -44,8 +44,8 @@ pub trait Trait: frame_system::Config {
 decl_event! {
 	pub enum Event<T> where
 		<T as frame_system::Config>::AccountId,
-		<T as Trait>::Balance,
-		<T as Trait>::AssetId,
+		<T as Config>::Balance,
+		<T as Config>::AssetId,
 	{
 		Mint(AssetId, AccountId, Balance),
 		Swap(AssetId, AccountId, AccountId, Balance),
@@ -55,7 +55,7 @@ decl_event! {
 }
 
 decl_error! {
-	pub enum Error for Module<T: Trait> {
+	pub enum Error for Module<T: Config> {
 		InsufficientBalance,
 		InsufficientAllowance,
 		InvalidAsset,
@@ -65,7 +65,7 @@ decl_error! {
 
 type AccountIdOf<T> = <T as frame_system::Config>::AccountId;
 decl_storage! {
-	trait Store for Module<T: Trait> as SRSTokens {
+	trait Store for Module<T: Config> as SRSTokens {
 
 		TokenInfos get(fn token_infos): map hasher(twox_64_concat) T::AssetId => Option<TokenInfo<AccountIdOf<T>>>;
 		Balances get(fn balances):
@@ -77,7 +77,7 @@ decl_storage! {
 }
 
 decl_module! {
-	pub struct Module<T: Trait> for enum Call where origin: T::Origin {
+	pub struct Module<T: Config> for enum Call where origin: T::Origin {
 		type Error = Error<T>;
 		fn deposit_event() = default;
 
@@ -106,7 +106,7 @@ decl_module! {
 	}	
 }
 
-impl<T: Trait> Module<T> {
+impl<T: Config> Module<T> {
 
 	pub fn impl_transfer(asset_id: &T::AssetId, from: &T::AccountId, to: &T::AccountId, value: T::Balance) -> DispatchResult {
 		let _new_balance = Self::balances(asset_id, from)
@@ -147,7 +147,7 @@ pub trait CreateTokenInfo<AssetId, AccountId>: Token<AssetId, AccountId> {
 }
 
 
-impl<T: Trait> Token<T::AssetId, T::AccountId> for Module<T> {
+impl<T: Config> Token<T::AssetId, T::AccountId> for Module<T> {
 	type Balance = T::Balance;
 	type AssetId = T::AssetId;
 
@@ -167,11 +167,11 @@ impl<T: Trait> Token<T::AssetId, T::AccountId> for Module<T> {
 		Self::allowances(asset_id, (owner, spender))
 	}
 
-	fn transfer(asset_id: &T::AssetId, from: &T::AccountId, to: &T::AccountId, value: Self::Balance) -> DispatchResult {
+	fn transfer(asset_id: &T::AssetId, from: &T::AccountId, to: &T::AccountId, value: T::Balance) -> DispatchResult {
 		Self::impl_transfer(asset_id, from, to, value)
 	}
 
-	fn transfer_from(asset_id: &T::AssetId, from: &T::AccountId, operator: &T::AccountId, to: &T::AccountId, value: Self::Balance) -> DispatchResult {
+	fn transfer_from(asset_id: &T::AssetId, from: &T::AccountId, operator: &T::AccountId, to: &T::AccountId, value: T::Balance) -> DispatchResult {
 
 		let new_allowance = Self::allowances(asset_id, (from, operator))
 			.checked_sub(&value)
@@ -188,7 +188,7 @@ impl<T: Trait> Token<T::AssetId, T::AccountId> for Module<T> {
 	}
 }
 
-impl<T: Trait> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
+impl<T: Config> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
 
 	fn initial_amount(asset_id: &T::AssetId, account_id: &T::AccountId ) -> Self::Balance {
 		Self::balances(&asset_id, account_id)
@@ -234,3 +234,50 @@ impl<T: Trait> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
 		Ok(())
 	} 
 }
+/*
+
+pub struct GenesisConfig<T: Config> {
+	pub endowed_accounts: Vec<(T::AccountId, T::AssetId, T::Balance)>,
+}
+
+#[cfg(feature = "std")]
+impl<T: Config> Default for GenesisConfig<T> {
+	fn default() -> Self {
+		GenesisConfig {
+			endowed_accounts: vec![],
+		}
+	}
+}
+
+impl<T: Config> GenesisBuild<T> for GenesisConfig<T> {
+	fn build(&self) {
+		// ensure no duplicates exist.
+		let unique_endowed_accounts = self
+			.endowed_accounts
+			.iter()
+			.map(|(account_id, currency_id, _)| (account_id, currency_id))
+			.collect::<std::collections::BTreeSet<_>>();
+		assert!(
+			unique_endowed_accounts.len() == self.endowed_accounts.len(),
+			"duplicate endowed accounts in genesis."
+		);
+
+		self.endowed_accounts
+			.iter()
+			.for_each(|(account_id, currency_id, initial_balance)| {
+				assert!(
+					*initial_balance >= T::ExistentialDeposits::get(&currency_id),
+					"the balance of any account should always be more than existential deposit.",
+				);
+				CreateTokenInfo::<T>::mutate_account(account_id, *currency_id, |account_data, _| {
+					account_data.free = *initial_balance
+				});
+				TotalIssuance::<T>::mutate(*currency_id, |total_issuance| {
+					*total_issuance = total_issuance
+						.checked_add(initial_balance)
+						.expect("total issuance cannot overflow when building genesis")
+				});
+			});
+	}
+}
+*/

@@ -1,13 +1,26 @@
-use crate::{Module, Trait};
+use crate::{Module, Config};
 use sp_core::H256;
-use frame_support::{impl_outer_origin, parameter_types, weights::Weight};
+use frame_support::{impl_outer_event, impl_outer_origin, parameter_types, weights::Weight};
 use sp_runtime::{
-	traits::{BlakeTwo256, IdentityLookup}, testing::Header, Perbill,
+	traits::{ IdentityLookup}, testing::Header, Perbill,
 };
 use frame_system as system;
 
+use primitives::{Balance};
+
+mod tokens {
+	pub use super::super::*;
+}
+
 impl_outer_origin! {
 	pub enum Origin for Runtime {}
+}
+
+impl_outer_event! {
+	pub enum TestEvent for Runtime {
+		frame_system<T>,
+		tokens<T>,
+	}
 }
 
 #[derive(Clone, Eq, PartialEq)]
@@ -21,31 +34,33 @@ parameter_types! {
 }
 
 impl system::Config for Runtime {
-	type BaseCallFilter = ();
 	type Origin = Origin;
-	type Call = ();
 	type Index = u64;
 	type BlockNumber = u64;
+	type Call = ();
 	type Hash = H256;
-	type Hashing = BlakeTwo256;
-	type AccountId = u64;
+	type Hashing = ::sp_runtime::traits::BlakeTwo256;
+	type AccountId = AccountId;
 	type Lookup = IdentityLookup<Self::AccountId>;
 	type Header = Header;
-	type Event = ();
+	type Event = TestEvent;
 	type BlockHashCount = BlockHashCount;
-	type DbWeight = ();
-
+	type BlockWeights = ();
+	type BlockLength = ();
 	type Version = ();
 	type PalletInfo = ();
 	type AccountData = ();
 	type OnNewAccount = ();
 	type OnKilledAccount = ();
+	type DbWeight = ();
+	type BaseCallFilter = ();
 	type SystemWeightInfo = ();
+	type SS58Prefix = ();
 }
 
-impl Trait for Runtime {
-	type Event = ();
-	type Balance = u128;
+impl Config for Runtime {
+	type Event = TestEvent;
+	type Balance = Balance;
 	type AssetId = u128;
 }
 

@@ -1,15 +1,28 @@
-use crate::{Module, Trait};
+use crate::{Module, Config};
 use sp_core::H256;
-use frame_support::{impl_outer_origin, parameter_types, weights::Weight};
+use frame_support::{impl_outer_event, impl_outer_origin, parameter_types, weights::Weight};
 use sp_runtime::{  
-	traits::{BlakeTwo256, IdentityLookup },testing::Header, Perbill, ModuleId 
+	traits::{ IdentityLookup },testing::Header, Perbill, ModuleId 
 };
 use frame_system as system;
-use pallet_srstokens::{Token, CreateTokenInfo};
-use orml_traits::{MultiReservableCurrency, MultiCurrency};
+use orml_traits::{parameter_type_with_key};
 
+use primitives::{Balance, CurrencyId};
+
+mod exchange {
+	pub use super::super::*;
+}
 impl_outer_origin! {
 	pub enum Origin for Runtime {}
+}
+
+impl_outer_event! {
+	pub enum TestEvent for Runtime {
+		frame_system<T>,
+		exchange<T>,
+		orml_tokens<T>,
+		pallet_tokens<T>,
+	}
 }
 
 #[derive(Clone, Eq, PartialEq)]
@@ -22,65 +35,86 @@ parameter_types! {
 	pub const AvailableBlockRatio: Perbill = Perbill::from_percent(75);
 }
 
-impl system::Trait for Runtime {
-	type BaseCallFilter = ();
+impl system::Config for Runtime {
 	type Origin = Origin;
-	type Call = ();
 	type Index = u64;
 	type BlockNumber = u64;
+	type Call = ();
 	type Hash = H256;
-	type Hashing = BlakeTwo256;
-	type AccountId = u64;
+	type Hashing = ::sp_runtime::traits::BlakeTwo256;
+	type AccountId = AccountId;
 	type Lookup = IdentityLookup<Self::AccountId>;
 	type Header = Header;
-	type Event = ();
+	type Event = TestEvent;
 	type BlockHashCount = BlockHashCount;
-	type MaximumBlockWeight = MaximumBlockWeight;
-	type DbWeight = ();
-	type BlockExecutionWeight = ();
-	type ExtrinsicBaseWeight = ();
-	type MaximumExtrinsicWeight = MaximumBlockWeight;
-	type MaximumBlockLength = MaximumBlockLength;
-	type AvailableBlockRatio = AvailableBlockRatio;
+	type BlockWeights = ();
+	type BlockLength = ();
 	type Version = ();
 	type PalletInfo = ();
 	type AccountData = ();
 	type OnNewAccount = ();
 	type OnKilledAccount = ();
+	type DbWeight = ();
+	type BaseCallFilter = ();
 	type SystemWeightInfo = ();
+	type SS58Prefix = ();
+}
+
+parameter_type_with_key! {
+	pub ExistentialDeposits: |currency_id: CurrencyId| -> Balance {
+		Default::default()
+	};
+}
+
+impl orml_tokens::Config for Runtime {
+	type Event = TestEvent;
+	type Balance = Balance;
+	type Amount = Amount;
+	type CurrencyId = CurrencyId;
+	type WeightInfo = ();
+	type ExistentialDeposits = ExistentialDeposits;
+	type OnDust = ();
 }
 
 
-pub type SRSTokens = pallet_srstokens::Module<Runtime>;
-pub type Balance = u128;
-pub type CurrencyId = u64;
+pub type OrmlTokens = orml_tokens::Module<Runtime>;
+
+
+
+impl pallet_tokens::Config for Runtime {
+	type Event = TestEvent;
+	type Balance = u128;
+	type AssetId = u128;
+}
+
+pub type Tokens = pallet_tokens::Module<Runtime>;
+
 
 parameter_types! {
     pub const ModId: ModuleId = ModuleId(*b"exchange");
 
 }
 
-impl Trait for Runtime {
-    type Event = ();
-    type Currency = MultiReservableCurrency<AccountId>: MultiCurrency<AccountId>;
+impl Config for Runtime {
+	type Event = TestEvent;
+    type Currency = OrmlTokens;
     type PoolId = u64;
     type PoolConfigId = u64;
-	type Balance = Balance;
-    type Token = SRSTokens::Token<AssetId, AccountId>;
 	type ModuleId = ModId;
-	type TokenFunctions = SRSTokens::CreateTokenInfo<AssetId, AccountId>;
-    
+	type Token = Tokens;
+	type TokenFunctions = Tokens;
 }
 
+pub type Amount = i128;
 
 
 pub type AccountId = u64;
-pub type AssetId = u64;
+pub type AssetId = u128;
 
 pub const ALICE: AccountId = 1;
-    pub const BOB: AccountId = 2;
+pub const BOB: AccountId = 2;
 
-    pub type System = frame_system::Module<Runtime>;
+pub type System = frame_system::Module<Runtime>;
 pub type Exchange = Module<Runtime>;
 
 pub fn test_environment() -> sp_io::TestExternalities {

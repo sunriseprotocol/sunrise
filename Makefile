@@ -12,7 +12,7 @@ test:
 
 .PHONY: run
 run:
-	WASM_BUILD_TOOLCHAIN=nightly-2020-10-06 cargo run --release 
+	WASM_BUILD_TOOLCHAIN=nightly-2020-10-06 cargo build --release; ./target/release/sunrise --dev 
 
 .PHONY: build
 build:
