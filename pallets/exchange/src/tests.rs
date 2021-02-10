@@ -1,22 +1,22 @@
 use crate::{Error, mock::*};
 use frame_support::{assert_ok, assert_noop};
-use orml_traits::{MultiReservableCurrency};
 use sp_runtime::{ModuleId};
 
 type AssetId = u128;
 type Balance = u128;
-type PoolConfigId = u32;
-type PoolId = u32;
+type PoolConfigId = u64;
+type PoolId = u64;
 
 #[test]
 fn create_asset() {
 	test_environment().execute_with(|| {
         System::set_block_number(1);
-        let pool_id: u32 = 1_000_u32;
+        let pool_id: u64 = 1_000_u64;
         let asset_id_one: AssetId = 1_000_u128;
 		let asset_id_one: AssetId = 2_000_u128;
-        let pool_config_id: PoolConfigId = 120_u32;
-        assert_ok!(Exchange::liquidity_config_creation(Origin::signed(1), 120_u32, vec![1_000_u128, 2_000_u128], pool_config_id, vec![1_u64, 2_u64], 0_32, 1_u128, 1_u128, 1_u128, 1_u128, 2_u8  ));
+        let pool_config_id: PoolConfigId = 120_u64;
+        assert_ok!(Exchange::liquidity_config_creation(Origin::signed(1), 130_u32, vec![1_000_u128, 2_000_u128], vec![1_u64, 2_u64], 0_32, 1_u128, 1_u128, 1_u128, 1_u32, 2_u8  ));
+        assert_ok!(Exchange::liquidity_pool_create(Origin::signed(1), 120_u32, vec![1_000_u128, 2_000_u128], pool_config_id, vec![1_000_u128, 2_000_u128], ALICE, 1_u128  ));
         
     });
 }

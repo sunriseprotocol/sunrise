@@ -20,6 +20,7 @@
     "Amount": "i128",
     "AmountOf": "Amount",
     "AssetId": "u64",
+    "AssetIdOf": "AssetId",
     "PoolId": "u32",
     "AccountIdOf": "AccountId",
     "TokenBalanceOf":"Balance",
@@ -29,24 +30,21 @@
       "decimals": "u8",
       "owner": "AccountId"
     },
-    "PoolReserves": "[u64; 4]",
-    "CurrencyIds": "[u64; 4]",
-    "TokenWeights": "[u64; 4]",
     "LiquidityPool": {
-      "base_cur_id": "CurrencyId",
+      "currency_ids": "Vec<AssetIdOf>",
       "lp_token_id": "AssetId",
       "pool_config_id": "u32",
-      "pool_reserves": "PoolReserves"
+      "pool_reserves": "Vec<Balance>"
     },
     "LiquidityPool_": "LiquidityPool",
-    "LiquidityPoolConfig_": "LiquidityPoolConfig",
+    "LiquidityPoolConfig_": "PoolConfig",
     "PoolConfigId": "u32",
     "PoolConfig": {
       "num_in_set": "u32",
-      "currency_ids": "[CurrencyId; 4]",
-      "token_weights": "[f32; 4]",
+      "currency_ids": "Vec<AssetIdOf>",
+      "token_weights": "Vec<u64>",
       "fees": "Compact<Balance>",
-      "depth": "f32",
+      "depth": "u32",
       "slippage": "Compact<Balance>",
       "alpha": "Compact<Balance>",
       "kmpa": "u32",

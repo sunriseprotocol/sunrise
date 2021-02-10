@@ -4350,6 +4350,7 @@ version = "0.1.0"
 dependencies = [
  "frame-support",
  "frame-system",
+ "orml-tokens",
  "orml-traits",
  "orml-utilities",
  "pallet-tokens",
@@ -4357,6 +4358,7 @@ dependencies = [
  "primitives",
  "serde",
  "sp-core",
+ "sp-io",
  "sp-runtime",
 ]
 
@@ -4678,7 +4680,9 @@ dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
+ "primitives",
  "sp-core",
+ "sp-io",
  "sp-runtime",
  "sp-std",
 ]

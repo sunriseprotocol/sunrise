@@ -234,3 +234,50 @@ impl<T: Config> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
 		Ok(())
 	} 
 }
+/*
+
+pub struct GenesisConfig<T: Config> {
+	pub endowed_accounts: Vec<(T::AccountId, T::AssetId, T::Balance)>,
+}
+
+#[cfg(feature = "std")]
+impl<T: Config> Default for GenesisConfig<T> {
+	fn default() -> Self {
+		GenesisConfig {
+			endowed_accounts: vec![],
+		}
+	}
+}
+
+impl<T: Config> GenesisBuild<T> for GenesisConfig<T> {
+	fn build(&self) {
+		// ensure no duplicates exist.
+		let unique_endowed_accounts = self
+			.endowed_accounts
+			.iter()
+			.map(|(account_id, currency_id, _)| (account_id, currency_id))
+			.collect::<std::collections::BTreeSet<_>>();
+		assert!(
+			unique_endowed_accounts.len() == self.endowed_accounts.len(),
+			"duplicate endowed accounts in genesis."
+		);
+
+		self.endowed_accounts
+			.iter()
+			.for_each(|(account_id, currency_id, initial_balance)| {
+				assert!(
+					*initial_balance >= T::ExistentialDeposits::get(&currency_id),
+					"the balance of any account should always be more than existential deposit.",
+				);
+				CreateTokenInfo::<T>::mutate_account(account_id, *currency_id, |account_data, _| {
+					account_data.free = *initial_balance
+				});
+				TotalIssuance::<T>::mutate(*currency_id, |total_issuance| {
+					*total_issuance = total_issuance
+						.checked_add(initial_balance)
+						.expect("total issuance cannot overflow when building genesis")
+				});
+			});
+	}
+}
+*/
