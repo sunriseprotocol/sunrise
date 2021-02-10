@@ -348,7 +348,7 @@ impl pallet_template::Config for Runtime {
 	type Event = Event;
 }
 
-impl pallet_tokens::Trait for Runtime {
+impl pallet_tokens::Config for Runtime {
 	type Event = Event;
 	type Balance = u128;
 	type AssetId = u64;
@@ -362,11 +362,10 @@ parameter_types! {
 
 }
 
-impl pallet_exchange::Trait for Runtime {
+impl pallet_exchange::Config for Runtime {
 	type Event = Event;
 	type Currency = Currencies;
 	type PoolId = u32;
-	type Balance = u128;
 	type PoolConfigId = u32;
 	type Token = Tokens;
 	type ModuleId = ExchangeModuleId;
