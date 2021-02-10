@@ -26,10 +26,11 @@ cargo build --release
 ### Local Testnet
 
 Sunrise Standalone
-```
-./target/release/sunrise purge-chain --dev
-./target/release/sunrise --dev
-```
+
+- `make build` - builds release version
+- `make buildrun` - builds and runs a local development version
+- `make run` - purges the develoopment chain and runs development version
+
 
 Polkadot Local (rococo-v1 branch):
 ```
