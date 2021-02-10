@@ -1,11 +1,7 @@
-# Substrate Cumulus Parachain Template
+# Sunrise Node and Parachain Runtimes
 
-A new Cumulus-based Substrate node, ready for hacking :cloud:
+This repository holds the codebase for Sunrise Standalone network daybreak as well as it's Rococo Parachain Dawn.
 
-## Upstream
-
-This project is a fork of the
-[Substrate Developer Hub Node Template](https://github.com/substrate-developer-hub/substrate-node-template).
 
 ## Build & Run
 
@@ -35,25 +31,40 @@ Sunrise Standalone
 ./target/release/sunrise --dev
 ```
 
-Polkadot (rococo-v1 branch):
+Polkadot Local (rococo-v1 branch):
 ```
+# Build up Polkadot relay chain specification
+cds
+cd polkadot
+cargo build --release --features=real-overseer
 ./target/release/polkadot build-spec --chain rococo-local --raw --disable-default-bootnode > rococo_local.json
 
+# Start up Polkadot relay chain
+cds
+cd polkadot
+./target/release/polkadot purge-chain --chain ./rococo_local.json -d cumulus_relay1
 ./target/release/polkadot --chain ./rococo_local.json -d cumulus_relay1 --validator --bob --port 50555
+
+# Start the second relay chain node - in another session
+cds
+cd polkadot
+./target/release/polkadot purge-chain --chain ./rococo_local.json -d cumulus_relay0
 ./target/release/polkadot --chain ./rococo_local.json -d cumulus_relay0 --validator --alice --port 50556
-```
 
-Substrate Parachain Template:
-```
-# this command assumes the chain spec is in a directory named polkadot that is a sibling of the working directory
-./target/release/parachain-collator -d local-test --collator --alice --ws-port 9945 --parachain-id 200 -- --chain ../polkadot/rococo_local.json
-```
+# Create the dawn paracahain
+cdss
+cargo build --release --bin dawn-collator
+./target/release/dawn-collator export-genesis-state --parachain-id 888 > ./node/dawn/para-888-genesis
+./target/release/dawn-collator export-genesis-wasm > ./node/dawn/para-888-wasm
 
-## Learn More
+# Start the collator node for the dawn parachain Alioth
+rm -rf local-alioth/
+./target/release/dawn-collator purge-chain --chain ./node/dawn/chain_spec/local.json -d local-alioth
+./target/release/dawn-collator -d local-alioth --collator --name Alioth --ws-port 9946 --chain ./node/dawn/chain_spec/local.json --parachain-id 888 -- --chain ../polkadot/rococo_local.json
 
-Refer to the upstream
-[Substrate Developer Hub Node Template](https://github.com/substrate-developer-hub/substrate-node-template)
-to learn more about the structure of this project, the capabilities it encapsulates and the way in
-which those capabilities are implemented. You can learn more about
-[The Path of Parachain Block](https://polkadot.network/the-path-of-a-parachain-block/) on the
-official Polkadot Blog.
+# Start the collator node for the dawn parachain Bibha
+rm -rf local-bibha/
+./target/release/dawn-collator purge-chain --chain ./node/dawn/chain_spec/local.json -d local-bibha
+./target/release/dawn-collator -d local-bibha --collator --name Bibha --ws-port 9947 --chain ./node/dawn/chain_spec/local.json --parachain-id 888 -- --chain ../polkadot/rococo_local.json
+
+```
