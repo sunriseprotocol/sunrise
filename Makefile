@@ -10,9 +10,13 @@ check:
 test:
 	SKIP_WASM_BUILD=1 cargo test --all
 
+.PHONY: buildrun
+buildrun:
+	WASM_BUILD_TOOLCHAIN=nightly-2020-10-06 cargo build --release; ./target/release/sunrise purge-chain -y --chain node/sunrise/chain_spec/local.json; ./target/release/sunrise --alice --chain node/sunrise/chain_spec/local.json
+
 .PHONY: run
 run:
-	WASM_BUILD_TOOLCHAIN=nightly-2020-10-06 cargo build --release; ./target/release/sunrise --dev 
+	./target/release/sunrise purge-chain -y --chain node/sunrise/chain_spec/local.json; ./target/release/sunrise --alice --chain node/sunrise/chain_spec/local.json
 
 .PHONY: build
 build:
