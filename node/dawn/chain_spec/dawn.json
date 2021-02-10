@@ -3,7 +3,7 @@
   "id": "dawn",
   "chainType": "Live",
   "bootNodes": [
-    "/ip4/44.227.13.25/tcp/30333/p2p/12D3KooWJ5dm2eS5aqdv4hE5fEusKG9bMkU2T7LkK9Yf2P6GHbn2"
+    "/ip4/44.227.13.25/tcp/30333/p2p/12D3KooWGZAhmX6dqKuXWg3mrABCAuWvuvY5D6JMNtm198Ti76nJ"
   ],
   "telemetryEndpoints": null,
   "protocolId": null,
