@@ -148,7 +148,7 @@ decl_module! {
 			ensure_signed(origin)?;
 			let pool_config_id = Self::pool_config_id(id);		
 			ensure!(!Self::poolconfigs(pool_config_id).is_some(), Error::<T>::BadNumGen);
-
+			//ensure currency_ids.is_some()
 			let liq_config = PoolConfig::new(
 				id, currency_ids, token_weights, fees, depth, slippage, alpha, kmpa, curve_type ); 
 
@@ -157,7 +157,7 @@ decl_module! {
 
 		#[weight = 100]
 		fn liquidity_pool_create(origin, id: u32 , currency_ids: Vec<AssetIdOf<T>>, pool_config_id: T::PoolConfigId, pool_reserves: Vec<Balance>, owner: T::AccountId, asset_id: AssetIdOf<T> ){
-			ensure_signed(origin)?;
+			let ori = ensure_signed(origin)?;
 			let who = owner;
 
 			let default_decimals: u8 = 12;
@@ -175,22 +175,23 @@ decl_module! {
 			let asset_id = T::TokenFunctions::create_new_asset(lp_token, asset_id);
 
 			let liq_pool = LiquidityPool::new(
-				currency_ids, asset_id, pool_config_id, pool_reserves); 
-			let initial_bal = T::TokenFunctions::initial_amount(&asset_id, &Self::account_id());			
-			T::TokenFunctions::mint(&asset_id, &Self::account_id(), initial_bal)?;
+				currency_ids.clone(), asset_id, pool_config_id, pool_reserves.clone()); 
 			LiquidityPools::<T>::insert(pool_id, liq_pool);
+
+			Self::add_liquidity(&ori, currency_ids.clone(), pool_reserves.clone(), pool_id)?;
+
 
 		}
 
 		#[weight = 100]
-		fn liquidity_add(origin, pool_id: T::PoolId, deadline: T::BlockNumber, currencies: Vec<AssetIdOf<T>>, balances: Vec<Balance> , temp_bal: Balance){
+		fn liquidity_add(origin, pool_id: T::PoolId, deadline: T::BlockNumber, currencies: Vec<T::AssetId>, balances: Vec<Balance>  ){
 			
 			let who = ensure_signed(origin)?;
 			ensure!(deadline > <frame_system::Module<T>>::block_number(), Error::<T>::PastDeadline);
 			ensure!(Self::pools(pool_id).is_some(), Error::<T>::PoolDoesntExist);
 			ensure!(currencies.len() == balances.len(),  Error::<T>::PoolSizeError);
 
-			Self::add_liquidity(&who, currencies, balances, pool_id, temp_bal)?;
+			Self::add_liquidity(&who, currencies, balances, pool_id)?;
 		}
 
 		#[weight = 100]
@@ -228,12 +229,12 @@ impl<T: Config> Module<T> {
 		input.saturated_into::<u128>()
 	}
 
-	fn add_liquidity(who: &T::AccountId, currencies: Vec<AssetIdOf<T>>, balances: Vec<Balance>, pool_id: T::PoolId, temp_bal: Balance) -> DispatchResult {
+	fn add_liquidity(who: &T::AccountId, currencies: Vec<AssetIdOf<T>>, balances: Vec<Balance>, pool_id: T::PoolId) -> DispatchResult {
 		
 		// need to tuple currencyid and reserve @_@
 		let mut mutant_pool = Self::pools(&pool_id).unwrap();
 		
-		let mut lp_total = temp_bal;
+		let mut lp_total = 0_u128;
 		for (x, _val) in currencies.iter().enumerate() {
 			T::Token::transfer(&currencies[x], who, &Self::account_id(), T::Token::bal_conver(Self::fixed_token_bal(balances[x])))?;
 			lp_total = lp_total + balances[x];
@@ -243,7 +244,7 @@ impl<T: Config> Module<T> {
 		<LiquidityPools<T>>::mutate(&pool_id, |pool| *pool = Some(mutant_pool));
 		T::TokenFunctions::mint(&lp_token, &who, T::TokenFunctions::bal_conv(Self::fixed_token_bal(lp_total)))?;
 
-		Self::deposit_event(RawEvent::AddLiquidity(who.clone(), temp_bal, pool_id));
+		Self::deposit_event(RawEvent::AddLiquidity(who.clone(), lp_total, pool_id));
 		Ok(())
 	}
 

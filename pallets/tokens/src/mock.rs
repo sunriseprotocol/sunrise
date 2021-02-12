@@ -69,6 +69,7 @@ pub type AccountId = u64;
 pub const ALICE: AccountId = 1;
 pub const BOB: AccountId = 2;
 
+
 pub type System = frame_system::Module<Runtime>;
 pub type SRSTokens = Module<Runtime>;
 

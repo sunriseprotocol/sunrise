@@ -1,15 +1,14 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 use frame_support::{
-	decl_event, decl_module, decl_storage, decl_error, ensure, Parameter,  //debug,
+	decl_event, decl_module, decl_storage, decl_error, ensure, Parameter, 
 };
 use sp_runtime::{
-	DispatchResult, RuntimeDebug,
-	traits::{ CheckedSub, Saturating, Member, AtLeast32Bit, AtLeast32BitUnsigned, SaturatedConversion },
+	DispatchResult, RuntimeDebug, 
+	traits::{ CheckedSub, Saturating, Member, AtLeast32Bit, AtLeast32BitUnsigned, SaturatedConversion ,},
 };
 use frame_system::ensure_signed;
 use codec::{Encode, Decode};
-use frame_support::traits::Vec;
-
+use frame_support::traits::{Vec};
 #[cfg(test)]
 mod mock;
 
@@ -65,7 +64,7 @@ decl_error! {
 
 type AccountIdOf<T> = <T as frame_system::Config>::AccountId;
 decl_storage! {
-	trait Store for Module<T: Config> as SRSTokens {
+	trait Store for Module<T: Config> as Tokens {
 
 		TokenInfos get(fn token_infos): map hasher(twox_64_concat) T::AssetId => Option<TokenInfo<AccountIdOf<T>>>;
 		Balances get(fn balances):
@@ -74,7 +73,23 @@ decl_storage! {
 			double_map  hasher(twox_64_concat) T::AssetId, hasher(blake2_128_concat) (T::AccountId, T::AccountId) => T::Balance;
 		TotalSupply get(fn total_supply): map hasher(twox_64_concat) T::AssetId => T::Balance;
 	}
+	
+	add_extra_genesis {
+		config(token_init): Vec<(T::AccountId, T::AssetId, T::Balance, Vec<u8>,  Vec<T::AccountId>, T::Balance)>;
+
+		build(|config: &GenesisConfig<T>| {
+			for &( ref owner, ref asset, ref bal , ref name, ref accounts, ref trans_amount) in &config.token_init {
+				let _create = <Module<T>>::create_new_asset(T::Origin::from(Some(owner.clone()).into()), name.clone(), 12_u8, name.clone(), owner.clone(), *bal, asset.clone() );
+				
+				for (x, _val) in accounts.iter().enumerate() {
+					let _transfer = <Module<T>>::transfer(T::Origin::from(Some(owner.clone()).into()), asset.clone(), accounts[x].clone(), *trans_amount );
+				}
+			}
+
+		})
+	} 
 }
+
 
 decl_module! {
 	pub struct Module<T: Config> for enum Call where origin: T::Origin {
@@ -234,50 +249,4 @@ impl<T: Config> CreateTokenInfo<T::AssetId, T::AccountId> for Module<T> {
 		Ok(())
 	} 
 }
-/*
 
-pub struct GenesisConfig<T: Config> {
-	pub endowed_accounts: Vec<(T::AccountId, T::AssetId, T::Balance)>,
-}
-
-#[cfg(feature = "std")]
-impl<T: Config> Default for GenesisConfig<T> {
-	fn default() -> Self {
-		GenesisConfig {
-			endowed_accounts: vec![],
-		}
-	}
-}
-
-impl<T: Config> GenesisBuild<T> for GenesisConfig<T> {
-	fn build(&self) {
-		// ensure no duplicates exist.
-		let unique_endowed_accounts = self
-			.endowed_accounts
-			.iter()
-			.map(|(account_id, currency_id, _)| (account_id, currency_id))
-			.collect::<std::collections::BTreeSet<_>>();
-		assert!(
-			unique_endowed_accounts.len() == self.endowed_accounts.len(),
-			"duplicate endowed accounts in genesis."
-		);
-
-		self.endowed_accounts
-			.iter()
-			.for_each(|(account_id, currency_id, initial_balance)| {
-				assert!(
-					*initial_balance >= T::ExistentialDeposits::get(&currency_id),
-					"the balance of any account should always be more than existential deposit.",
-				);
-				CreateTokenInfo::<T>::mutate_account(account_id, *currency_id, |account_data, _| {
-					account_data.free = *initial_balance
-				});
-				TotalIssuance::<T>::mutate(*currency_id, |total_issuance| {
-					*total_issuance = total_issuance
-						.checked_add(initial_balance)
-						.expect("total issuance cannot overflow when building genesis")
-				});
-			});
-	}
-}
-*/

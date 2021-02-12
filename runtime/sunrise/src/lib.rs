@@ -343,7 +343,7 @@ construct_runtime!(
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
 		// Include the custom logic from the template pallet in the runtime.
 		TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
-        Tokens: pallet_tokens::{Module, Storage, Call, Event<T>},
+        Tokens: pallet_tokens::{Module, Storage, Call, Config<T>, Event<T>},
 		Exchange: pallet_exchange::{Module, Storage, Call, Event<T>},
 		OrmlTokens: orml_tokens::{Module, Storage, Event<T>},
 		Currencies: orml_currencies::{Module, Call, Event<T>},

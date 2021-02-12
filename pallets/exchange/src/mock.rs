@@ -84,7 +84,7 @@ pub type OrmlTokens = orml_tokens::Module<Runtime>;
 impl pallet_tokens::Config for Runtime {
 	type Event = TestEvent;
 	type Balance = u128;
-	type AssetId = u128;
+	type AssetId = u64;
 }
 
 pub type Tokens = pallet_tokens::Module<Runtime>;
@@ -109,14 +109,47 @@ pub type Amount = i128;
 
 
 pub type AccountId = u64;
-pub type AssetId = u128;
+pub type AssetId = u64;
 
 pub const ALICE: AccountId = 1;
 pub const BOB: AccountId = 2;
+pub const ACCOUNTS: [AccountId; 2] = [ALICE, BOB];
 
 pub type System = frame_system::Module<Runtime>;
 pub type Exchange = Module<Runtime>;
 
 pub fn test_environment() -> sp_io::TestExternalities {
 	system::GenesisConfig::default().build_storage::<Runtime>().unwrap().into()
+}
+
+pub struct ExtBuilder {
+	token_init:  Vec<(AccountId, AssetId, Balance, Vec<u8>,  Vec<AccountId>, Balance)>,
+}
+
+impl Default for ExtBuilder {
+
+	fn default() -> Self {
+		Self {
+			token_init: vec![
+				(ALICE, 3_u64, 1_000_000_000_u128, (*b"ACA").to_vec(), ACCOUNTS.to_vec().clone(), 1_000_000_u128  ),
+				(ALICE, 4_u64, 2_000_000_000_u128, (*b"XBTC").to_vec(), ACCOUNTS.to_vec().clone(), 1_000_000_u128   ),
+			],
+		}
+	}
+}
+
+impl ExtBuilder {
+	pub fn build(self) -> sp_io::TestExternalities {
+		let mut t = frame_system::GenesisConfig::default()
+			.build_storage::<Runtime>()
+			.unwrap();
+
+			pallet_tokens::GenesisConfig::<Runtime> {
+			token_init: self.token_init,
+		}
+		.assimilate_storage(&mut t)
+		.unwrap();
+
+		t.into()
+	}
 }

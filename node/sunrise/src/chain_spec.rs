@@ -1,7 +1,7 @@
 use sp_core::{Pair, Public, sr25519};
 use sunrise_runtime::{
 	AccountId, AuraConfig, BalancesConfig, GenesisConfig, GrandpaConfig,
-	SudoConfig, SystemConfig, WASM_BINARY, Signature,
+	SudoConfig, SystemConfig, WASM_BINARY, Signature, TokensConfig, 
 };
 use sp_consensus_aura::sr25519::AuthorityId as AuraId;
 use sp_finality_grandpa::AuthorityId as GrandpaId;
@@ -151,13 +151,13 @@ fn testnet_genesis(
 		}),
 		pallet_sudo: Some(SudoConfig {
 			// Assign network admin rights.
-			key: root_key,
+			key: root_key.clone(),
 		}),
-	/*	pallet_tokens: Some(TokensConfig {
-			endowed_accounts: vec![
-				(root_key.clone(), CurrencyId::Token(TokenSymbol::DOT), INITIAL_BALANCE),
-				(root_key, CurrencyId::Token(TokenSymbol::XBTC), INITIAL_BALANCE),
+		pallet_tokens: Some(TokensConfig {
+			token_init: vec![
+				(root_key.clone(), 1_u64, 1_000_000_000_u128, (*b"DOT").to_vec(), endowed_accounts.clone(), 1_000_000_u128  ),
+				(root_key, 2_u64, 2_000_000_000_u128, (*b"KSM").to_vec(), endowed_accounts.clone(), 1_000_000_u128   ),
 			],
 		}),
-  */}
+  }
 }

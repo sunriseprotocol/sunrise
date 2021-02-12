@@ -21,3 +21,8 @@ run:
 .PHONY: build
 build:
 	WASM_BUILD_TOOLCHAIN=nightly-2020-10-06 cargo build --release
+
+
+.PHONY: rundev
+rundev:
+	./target/release/sunrise purge-chain -y --dev; ./target/release/sunrise --alice --dev
