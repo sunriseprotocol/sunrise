@@ -25,6 +25,7 @@ structopt = '0.3.21'
 # local dependencies
 sunrise-runtime = { path = '../../runtime/sunrise', version = '0.1.0' }
 primitives = { package = 'primitives', path = '../../primitives', version = '0.1.0'}
+exchange-rpc = {path = '../../pallets/exchange/rpc', version = '0.1.0'}
 
 
 # Substrate dependencies

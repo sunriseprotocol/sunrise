@@ -39,11 +39,11 @@ pub use frame_support::{
 };
 
 use orml_traits::{parameter_type_with_key};
-pub use primitives::{CurrencyId, TokenSymbol};
+pub use primitives::{CurrencyId, TokenSymbol, AssetId, PoolId};
 use pallet_transaction_payment::CurrencyAdapter;
+use exchange_rpc_runtime_api as exchange_rpc;
 
 use orml_currencies::{BasicCurrencyAdapter};
-
 /// Import the template pallet.
 pub use pallet_template;
 
@@ -512,6 +512,120 @@ impl_runtime_apis! {
 		) -> pallet_transaction_payment::FeeDetails<Balance> {
 			TransactionPayment::query_fee_details(uxt, len)
 		}
+	}
+
+
+	impl exchange_rpc::ExchangeApi<
+		Block,
+		AccountId,
+		AssetId,
+		Balance,
+		PoolId,
+	> for Runtime {
+		fn price(
+			pool_id: PoolId,
+			balance_in: Balance,
+			token_in:  Vec<u8>,
+			balance_out: Balance,
+			token_out:  Vec<u8>
+			) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
+			exchange_rpc::BalanceInfo{
+				asset_id: None,
+				amount: Exchange::price(pool_id, balance_in, token_in, balance_out, token_out)
+			}
+		}
+
+		fn calc_swap_exact_in(
+			pool_id: PoolId,
+			balance_in: Balance,
+			token_in: Vec<u8>,
+			balance_out: Balance,
+			token_out: Vec<u8>,
+			token_amount_in: Balance,
+		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
+			exchange_rpc::BalanceInfo{
+				asset_id: None,
+				amount: Exchange::calc_swap_exact_in(pool_id, balance_in, token_in, balance_out, token_out, token_amount_in)
+			}
+		}
+
+		fn calc_swap_exact_out(
+			pool_id: PoolId,
+			balance_in: Balance,
+			token_in: Vec<u8>,
+			balance_out: Balance,
+			token_out: Vec<u8>,
+			token_amount_out: Balance,
+		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
+			exchange_rpc::BalanceInfo{
+				asset_id: None,
+				amount: Exchange::calc_swap_exact_out(pool_id, balance_in, token_in, balance_out, token_out, token_amount_out)
+			}
+		}
+
+		fn calc_join_pool_with_min_lptokens_given(
+			asset_a: AssetId,
+			asset_b: AssetId,
+			amount: Balance,
+		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
+			exchange_rpc::BalanceInfo{
+				asset_id: None,
+				amount: Exchange::calc_join_pool_with_min_lptokens_given(asset_a,asset_b, amount)
+			}
+		}
+
+		fn calc_join_pool_with_max_collateral_taken(
+			asset_a: AssetId,
+			asset_b: AssetId,
+			amount: Balance,
+		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
+			exchange_rpc::BalanceInfo{
+				asset_id: None,
+				amount: Exchange::calc_join_pool_with_max_collateral_taken(asset_a,asset_b, amount)
+			}
+		}
+
+		fn calc_exit_pool_with_min_collateral_received(
+			asset_a: AssetId,
+			asset_b: AssetId,
+			amount: Balance,
+		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
+			exchange_rpc::BalanceInfo{
+				asset_id: None,
+				amount: Exchange::calc_exit_pool_with_min_collateral_received(asset_a,asset_b, amount)
+			}
+		}
+
+		fn calc_exit_pool_with_max_lp_given(
+			asset_a: AssetId,
+			asset_b: AssetId,
+			amount: Balance,
+		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
+			exchange_rpc::BalanceInfo{
+				asset_id: None,
+				amount: Exchange::calc_exit_pool_with_max_lp_given(asset_a,asset_b, amount)
+			}
+		}
+
+		fn pool_reserves(
+			pool_address: AccountId,
+		) -> Vec<exchange_rpc::BalanceInfo<AssetId, Balance>> {
+			let mut vec = Vec::new();
+
+			let pool_reserves = Exchange::pool_reserves(pool_address);
+
+			for b in pool_reserves {
+				let item  = exchange_rpc::BalanceInfo{
+				 asset_id: Some(b.0),
+					amount: b.1
+				};
+
+				vec.push(item);
+			}
+
+			vec
+		}
+
 	}
 
 	#[cfg(feature = "runtime-benchmarks")]

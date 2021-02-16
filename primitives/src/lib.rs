@@ -40,6 +40,8 @@ impl TryFrom<u8> for TokenSymbol {
 		}
 	}
 }
+pub type EvmAddress = sp_core::H160;
+pub type PoolId = u32;
 
 #[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]

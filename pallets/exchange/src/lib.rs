@@ -14,6 +14,7 @@ use codec::{Encode, Decode};
 use frame_support::traits::{Get, Vec};
 
 use primitives::{Balance, CurrencyId};
+use sp_std::convert::{TryFrom};
 
 
 #[cfg(test)]
@@ -302,5 +303,111 @@ impl<T: Config> Module<T> {
 		num.into()
 	}
 
+	fn geometric_mean(nums: Vec<Balance>) -> Balance {
+		let mut sum: u128 = 1_u128;
+		let len = nums.len().clone();
+		for val in nums {
+			sum = sum.checked_mul(val).unwrap();
+		}
+		//replace with nth root
+  		let size: u128  = u128::try_from( len).unwrap();
+		sum.checked_div(size).unwrap()
+	}
 
+	pub fn pool_reserves(pool_address: T::AccountId ) -> Vec<(T::AssetId, Balance)> {
+		let bal: u128 = 1_001_u128;
+		let conv_bal = bal.into();
+		let asset_id: T::AssetId = 3_u64.saturated_into();
+		let vecs: [(T::AssetId, Balance); 1] = [(asset_id, conv_bal)];
+		vecs.to_vec()
+	}
+
+	pub fn price(pool_id: T::PoolId, balance_in: Balance, token_in: Vec<u8>, balance_out: Balance, token_out: Vec<u8> ) -> Balance {
+		
+		let pool = Self::pools(&pool_id).unwrap();
+		let pool_config = Self::poolconfigs(&pool.pool_config_id).unwrap();
+		
+		let weight_in = pool_config.token_weights[0];
+		let weight_out = pool_config.token_weights[1];
+
+		Self::math_price(balance_in, weight_in.into(), balance_out, weight_out.into(), pool_config.fees)
+	}
+
+
+	fn math_price(balance_in: Balance, weight_in: u128, balance_out: Balance, weight_out: u128, fees: Balance ) -> Balance {
+
+		let numer = balance_in.checked_div(weight_in);
+        let denom = balance_out.checked_div(weight_out);
+		let ratio = numer.unwrap().checked_div(denom.unwrap());
+		//10_u128.pow(12)
+        let scale = 1_u128.checked_div(1_u128.checked_sub(1_u128).unwrap());
+        ratio.unwrap().checked_mul(scale.unwrap()).unwrap()
+	}
+
+	pub fn calc_swap_exact_in( pool_id: T::PoolId, balance_in: Balance, token_in: Vec<u8>, balance_out: Balance, token_out: Vec<u8>, token_amount_in: Balance) -> Balance {    
+		let pool = Self::pools(&pool_id).unwrap();
+		let pool_config = Self::poolconfigs(&pool.pool_config_id).unwrap();
+		
+		let weight_in = pool_config.token_weights[0];
+		let weight_out = pool_config.token_weights[1];
+
+		Self::math_calc_swap_exact_in(balance_in, weight_in.into(), balance_out, weight_out.into(), token_amount_in, pool_config.fees)
+	}
+
+	fn math_calc_swap_exact_in(balance_in: Balance, weight_in: u128, balance_out: Balance, weight_out: u128, token_amount_in: Balance,  fees: Balance) -> Balance {
+		
+
+		let weightRatio: u32 = u32::try_from(weight_in.checked_div(weight_out).unwrap()).unwrap();
+		//10_u128.pow(12)
+        let mut adjusted_in = 1_u128.checked_sub( fees);
+        adjusted_in = token_amount_in.checked_mul(adjusted_in.unwrap());
+        let y = balance_in.checked_div(balance_in.checked_add(adjusted_in.unwrap()).unwrap());
+		let foo = y.unwrap().checked_pow(weightRatio);
+		//10_u128.pow(12)
+        let bar = 1_u128.checked_sub( foo.unwrap());
+        balance_out.checked_mul(bar.unwrap()).unwrap()
+    
+	}
+
+	pub fn calc_swap_exact_out( pool_id: T::PoolId, balance_in: Balance, token_in: Vec<u8>, balance_out: Balance, token_out: Vec<u8>, token_amount_out: Balance) -> Balance {    
+		let pool = Self::pools(&pool_id).unwrap();
+		let pool_config = Self::poolconfigs(&pool.pool_config_id).unwrap();
+		
+		let weight_in = pool_config.token_weights[0];
+		let weight_out = pool_config.token_weights[1];
+
+		Self::math_calc_swap_exact_out(balance_in, weight_in.into(), balance_out, weight_out.into(), token_amount_out, pool_config.fees)
+	}
+
+	fn math_calc_swap_exact_out(balance_in: Balance, weight_in: u128, balance_out: Balance, weight_out: u128, token_amount_out: Balance, fees: Balance  ) -> Balance {
+		let weightRatio: u32 = u32::try_from(weight_in.checked_div(weight_out).unwrap()).unwrap();
+		//10_u128.pow(12)
+        let mut adjusted_in = 1_u128.checked_sub( fees);
+        adjusted_in = token_amount_out.checked_mul(adjusted_in.unwrap());
+        let y = balance_in.checked_div(balance_in.checked_add(adjusted_in.unwrap()).unwrap());
+		let foo = y.unwrap().checked_pow(weightRatio);
+		//10_u128.pow(12)
+        let bar = 1_u128.checked_sub( foo.unwrap());
+        balance_out.checked_mul(bar.unwrap()).unwrap()
+	}
+
+	pub fn calc_join_pool_with_min_lptokens_given(asset_a: T::AssetId, asset_b: T::AssetId, amount: Balance) -> Balance {    //calcPoolOutGivenSingleIn 
+		let bal: u128 = 1_001_u128;
+		bal.into()
+	}
+
+	pub fn calc_join_pool_with_max_collateral_taken(asset_a: T::AssetId, asset_b: T::AssetId, amount: Balance) -> Balance {      //calcSingleInGivenPoolOut
+		let bal: u128 = 1_001_u128;
+		bal.into()
+	}
+
+	pub fn calc_exit_pool_with_min_collateral_received(asset_a: T::AssetId, asset_b: T::AssetId, amount: Balance) -> Balance {        //calcSingleOutGivenPoolIn
+		let bal: u128 = 1_001_u128;
+		bal.into()
+	}
+
+	pub fn calc_exit_pool_with_max_lp_given(asset_a: T::AssetId, asset_b: T::AssetId, amount: Balance ) -> Balance	{	     //calcPoolInGivenSingleOut
+		let bal: u128 = 1_001_u128;
+		bal.into()
+	}
 }
