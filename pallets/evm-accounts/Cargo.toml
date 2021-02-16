@@ -1,0 +1,42 @@
+[package]
+name = "pallet-evm-accounts"
+version = "0.1.0"
+authors = ["Sunrise Protocol"]
+edition = "2018"
+
+[dependencies]
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
+libsecp256k1 = { version = "0.3.4", default-features = false, features = ["hmac"] }
+
+frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+
+orml-traits = { path = "../../orml/traits", default-features = false }
+
+primitives = { package = "primitives", path = "../../primitives", default-features = false }
+pallet-support = { path = "../support", default-features = false }
+
+[dev-dependencies]
+pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+orml-currencies = { path = "../../orml/currencies" }
+orml-tokens = { path = "../../orml/tokens" }
+
+[features]
+default = ["std"]
+std = [
+	"codec/std",
+	"libsecp256k1/std",
+	"sp-core/std",
+	"sp-runtime/std",
+	"sp-io/std",
+	"sp-std/std",
+	"frame-support/std",
+	"frame-system/std",
+	"primitives/std",
+	"orml-traits/std",
+	"pallet-support/std",
+]

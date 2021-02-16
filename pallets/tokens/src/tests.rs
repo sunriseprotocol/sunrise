@@ -1,5 +1,6 @@
 use crate::{Error, mock::*};
 use frame_support::{assert_ok, assert_noop};
+use primitives::{Decimals};
 
 type AssetId = u128;
 type Balance = u128;
@@ -13,9 +14,10 @@ fn create_asset() {
 		let asset_id: AssetId = 1_000_u128;
 		let initial_bal: Balance = 1_000_000_u128;
 		let empty_bal: Balance = 0_u128;
+		let num_decimals: Decimals = 18_u8;
 
 		//create token and mint
-		assert_ok!(SRSTokens::create_new_asset(Origin::signed(1), wrapped_srs, 18, wrapped_sym, ALICE, initial_bal,asset_id));
+		assert_ok!(SRSTokens::create_new_asset(Origin::signed(1), wrapped_srs, num_decimals, wrapped_sym, ALICE, initial_bal,asset_id));
 		//ensure token meta data is good
 		assert_eq!(
 			(*b"Wrapped_SRS").to_vec(), SRSTokens::token_infos(asset_id).unwrap().name);

@@ -4,9 +4,8 @@
     "CurrencyId": {
       "_enum": [
         "SRS",
-        "DOT",
-        "KSM",
-        "BTC"
+        "SUSD",
+        "SBTC",
       ]
     },
     "CurveType": {

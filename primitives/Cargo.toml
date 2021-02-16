@@ -6,11 +6,13 @@ edition = "2018"
 
 [dependencies]
 serde = { features = ['derive'], optional = true, version = '1.0.101' }
-codec = { package = "parity-scale-codec", version = "1.3.4", default-features = false }
-sp-core = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", version = "2.0.0", default-features = false }
-sp-runtime = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",version = "2.0.0", default-features = false }
-sp-std = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",version = "2.0.0", default-features = false }
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
+sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-core = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", version = "3.0.0", default-features = false }
+sp-runtime = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",version = "3.0.0", default-features = false }
+sp-std = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",version = "3.0.0", default-features = false }
 primitive-types = { version = "0.8.0", default-features = false}
+evm = { version = "0.23.0", default-features = false, features = ["with-codec"] }
 
 
 
@@ -21,6 +23,9 @@ std = [
 	"codec/std",
 	"sp-runtime/std",
 	"sp-core/std",
+	"sp-io/std",
 	"sp-std/std",
 	"primitive-types/std",
+	"evm/std",
+	"evm/with-serde",
 ]

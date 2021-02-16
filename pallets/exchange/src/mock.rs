@@ -131,8 +131,8 @@ impl Default for ExtBuilder {
 	fn default() -> Self {
 		Self {
 			token_init: vec![
-				(ALICE, 3_u64, 1_000_000_000_u128, (*b"ACA").to_vec(), ACCOUNTS.to_vec().clone(), 1_000_000_u128  ),
-				(ALICE, 4_u64, 2_000_000_000_u128, (*b"XBTC").to_vec(), ACCOUNTS.to_vec().clone(), 1_000_000_u128   ),
+				(ALICE, 3_u64, 1_000_000_000_u128, (*b"SRS").to_vec(), ACCOUNTS.to_vec().clone(), 1_000_000_u128  ),
+				(ALICE, 4_u64, 2_000_000_000_u128, (*b"XSBTC").to_vec(), ACCOUNTS.to_vec().clone(), 1_000_000_u128   ),
 			],
 		}
 	}
