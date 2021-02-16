@@ -59,7 +59,7 @@ pub trait WeightInfo {
 }
 
 // Initially based on Istanbul hard fork configuration.
-static SUNRISE_CONFIG: EvmConfig = EvmConfig {
+static ACALA_CONFIG: EvmConfig = EvmConfig {
 	gas_ext_code: 700,
 	gas_ext_code_hash: 700,
 	gas_balance: 700,
@@ -143,7 +143,7 @@ pub mod module {
 
 		/// EVM config used in the module.
 		fn config() -> &'static EvmConfig {
-			&SUNRISE_CONFIG
+			&ACALA_CONFIG
 		}
 
 		/// Required origin for creating system contract.

@@ -110,7 +110,7 @@ impl orml_tokens::Config for Test {
 pub type Tokens = orml_tokens::Module<Test>;
 
 parameter_types! {
-	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::SRS);
+	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::ACA);
 }
 
 impl orml_currencies::Config for Test {
