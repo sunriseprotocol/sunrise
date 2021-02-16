@@ -19,13 +19,11 @@ version = '1.0.101'
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 branch = "rococo-v1"
-version = '3.0.0'
 
 [dependencies.frame-system]
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 branch = "rococo-v1"
-version = '3.0.0'
 
 [dependencies.cumulus-primitives-core]
 git = 'https://github.com/paritytech/cumulus.git'

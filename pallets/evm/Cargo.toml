@@ -9,7 +9,7 @@ targets = ["x86_64-unknown-linux-gnu"]
 
 [dependencies]
 codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
-impl-trait-for-tuples = "0.1"
+impl-trait-for-tuples = "0.2.1"
 primitive-types = { version = "0.8.0", default-features = false, features = ["rlp", "byteorder"] }
 ripemd160 = { version = "0.9", default-features = false }
 rlp = { version = "0.5", default-features = false }
