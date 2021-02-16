@@ -15,16 +15,16 @@ targets = ['x86_64-unknown-linux-gnu']
 name = 'dawn-collator'
 
 [dependencies]
-derive_more = '0.15.0'
-exit-future = '0.1.4'
+derive_more = '0.99.11'
+exit-future = '0.2.0'
 futures = { version = "0.3.1", features = ["compat"] }
 log = "0.4.13"
-parking_lot = '0.9.0'
-trie-root = '0.15.2'
+parking_lot = '0.11.1'
+trie-root = '0.16.0'
 codec = { package = 'parity-scale-codec', version = '2.0.0' }
 structopt = "0.3.3"
 serde = { version = "1.0.119", features = ["derive"] }
-hex-literal = "0.2.1"
+hex-literal = "0.3.1"
 
 # Parachain dependencies
 dawn-runtime = { path = "../../runtime/dawn", version = '0.1.0'}
@@ -58,7 +58,7 @@ sc-tracing = { git = "https://github.com/paritytech/substrate", branch = "rococo
 sp-offchain = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 
 # RPC related dependencies
-jsonrpc-core = "15.1.0"
+jsonrpc-core = "17.0.0"
 
 # Cumulus dependencies
 cumulus-client-consensus = { git = "https://github.com/paritytech/cumulus", branch = "rococo-v1" } 
@@ -78,10 +78,10 @@ polkadot-parachain = { git = "https://github.com/paritytech/polkadot", branch = 
 substrate-build-script-utils = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 
 [dev-dependencies]
-assert_cmd = "0.12"
-nix = "0.17"
-rand = "0.7.3"
-tokio = { version = "0.2.13", features = ["macros"] }
+assert_cmd = "1.0.3"
+nix = "0.19.1"
+rand = "0.8.3"
+tokio = { version = "1.2.0", features = ["macros"] }
 
 # Polkadot dependencies
 polkadot-runtime-common = { git = "https://github.com/paritytech/polkadot", branch = "rococo-v1" }
