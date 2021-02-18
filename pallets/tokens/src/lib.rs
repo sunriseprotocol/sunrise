@@ -71,7 +71,7 @@ decl_storage! {
 			double_map hasher(twox_64_concat) T::AssetId, hasher(blake2_128_concat) T::AccountId => T::Balance;
 		Allowances get(fn allowances):
 			double_map  hasher(twox_64_concat) T::AssetId, hasher(blake2_128_concat) (T::AccountId, T::AccountId) => T::Balance;
-		TotalSupply get(fn total_supply): map hasher(twox_64_concat) T::AssetId => T::Balance;
+		pub TotalSupply get(fn total_supply): map hasher(twox_64_concat) T::AssetId => T::Balance;
 	}
 	
 	add_extra_genesis {

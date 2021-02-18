@@ -98,27 +98,27 @@ sp_api::decl_runtime_apis! {
 		) -> BalanceInfo<AssetId, Balance>;
 	
 		fn calc_join_pool_with_min_lptokens_given(
-			asset_a: AssetId,
-			asset_b: AssetId,
-			amount: Balance,
+			pool_id: PoolId,
+			balance_in: Balance,
+			token_amount_in: Balance,
 		) -> BalanceInfo<AssetId, Balance>;
 
 		fn calc_join_pool_with_max_collateral_taken(
-			asset_a: AssetId,
-			asset_b: AssetId,
-			amount: Balance,
+			pool_id: PoolId,
+			balance_in: Balance,
+			pool_amount_out: Balance,
 		) -> BalanceInfo<AssetId, Balance>;
 
 		fn calc_exit_pool_with_min_collateral_received(
-			asset_a: AssetId,
-			asset_b: AssetId,
-			amount: Balance,
+			pool_id: PoolId,
+			balance_out: Balance,
+			pool_amount_in: Balance,
 		) -> BalanceInfo<AssetId, Balance>;
 	
 		fn calc_exit_pool_with_max_lp_given(
-			asset_a: AssetId,
-			asset_b: AssetId,
-			amount: Balance,
+			pool_id: PoolId,
+			balance_out: Balance,
+			token_amount_out: Balance,
 		) -> BalanceInfo<AssetId, Balance>;
 
 	}

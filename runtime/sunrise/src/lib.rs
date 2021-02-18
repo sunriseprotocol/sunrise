@@ -564,46 +564,47 @@ impl_runtime_apis! {
 		}
 
 		fn calc_join_pool_with_min_lptokens_given(
-			asset_a: AssetId,
-			asset_b: AssetId,
-			amount: Balance,
+			pool_id: PoolId,
+			balance_in: Balance,
+			token_amount_in: Balance,
+
 		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
 			exchange_rpc::BalanceInfo{
 				asset_id: None,
-				amount: Exchange::calc_join_pool_with_min_lptokens_given(asset_a,asset_b, amount)
+				amount: Exchange::calc_join_pool_with_min_lptokens_given(pool_id, balance_in, token_amount_in)
 			}
 		}
 
 		fn calc_join_pool_with_max_collateral_taken(
-			asset_a: AssetId,
-			asset_b: AssetId,
-			amount: Balance,
+			pool_id: PoolId,
+			balance_in: Balance,
+			pool_amount_out: Balance,
 		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
 			exchange_rpc::BalanceInfo{
 				asset_id: None,
-				amount: Exchange::calc_join_pool_with_max_collateral_taken(asset_a,asset_b, amount)
+				amount: Exchange::calc_join_pool_with_max_collateral_taken(pool_id, balance_in, pool_amount_out)
 			}
 		}
 
 		fn calc_exit_pool_with_min_collateral_received(
-			asset_a: AssetId,
-			asset_b: AssetId,
-			amount: Balance,
+			pool_id: PoolId,
+			balance_out: Balance,
+			pool_amount_in: Balance,
 		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
 			exchange_rpc::BalanceInfo{
 				asset_id: None,
-				amount: Exchange::calc_exit_pool_with_min_collateral_received(asset_a,asset_b, amount)
+				amount: Exchange::calc_exit_pool_with_min_collateral_received(pool_id, balance_out, pool_amount_in)
 			}
 		}
 
 		fn calc_exit_pool_with_max_lp_given(
-			asset_a: AssetId,
-			asset_b: AssetId,
-			amount: Balance,
+			pool_id: PoolId,
+			balance_out: Balance,
+			token_amount_out: Balance,
 		) -> exchange_rpc::BalanceInfo<AssetId, Balance> {
 			exchange_rpc::BalanceInfo{
 				asset_id: None,
-				amount: Exchange::calc_exit_pool_with_max_lp_given(asset_a,asset_b, amount)
+				amount: Exchange::calc_exit_pool_with_max_lp_given(pool_id, balance_out, token_amount_out)
 			}
 		}
 

@@ -62,9 +62,9 @@ pub trait ExchangeApi<BlockHash, AccountId, AssetId, Balance, PoolId,  ResponseT
     #[rpc(name = "calc_join_pool_with_min_lptokens_given")]
 	fn calc_join_pool_with_min_lptokens_given(
 		&self,
-		asset_a: AssetId,
-		asset_b: AssetId,
-		amount: Balance,
+		pool_id: PoolId,
+		balance_in: Balance,
+		token_amount_in: Balance,
 		at: Option<BlockHash>,
     ) -> Result<ResponseType>;
     
@@ -72,27 +72,27 @@ pub trait ExchangeApi<BlockHash, AccountId, AssetId, Balance, PoolId,  ResponseT
 	#[rpc(name = "calc_join_pool_with_max_collateral_taken")]
 	fn calc_join_pool_with_max_collateral_taken(
 		&self,
-		asset_a: AssetId,
-		asset_b: AssetId,
-		amount: Balance,
+		pool_id: PoolId,
+		balance_in: Balance,
+		pool_amount_out: Balance,
 		at: Option<BlockHash>,
     ) -> Result<ResponseType>;
 	
 	#[rpc(name = "calc_exit_pool_with_min_collateral_received")]
 	fn calc_exit_pool_with_min_collateral_received(
 		&self,
-		asset_a: AssetId,
-		asset_b: AssetId,
-		amount: Balance,
+		pool_id: PoolId,
+		balance_out: Balance,
+		pool_amount_in: Balance,
 		at: Option<BlockHash>,
     ) -> Result<ResponseType>;
 	
 	#[rpc(name = "calc_exit_pool_with_max_lp_given")]
 	fn calc_exit_pool_with_max_lp_given(
 		&self,
-		asset_a: AssetId,
-		asset_b: AssetId,
-		amount: Balance,
+		pool_id: PoolId,
+		balance_out: Balance,
+		token_amount_out: Balance,
 		at: Option<BlockHash>,
     ) -> Result<ResponseType>;
 	
@@ -212,9 +212,9 @@ where
 
 	fn calc_join_pool_with_min_lptokens_given(
 		&self,
-		asset_a: AssetId,
-		asset_b: AssetId,
-		amount: Balance,
+		pool_id: PoolId,
+		balance_in: Balance,
+		token_amount_in: Balance,
 		at: Option<<Block as BlockT>::Hash>,
 	) -> Result<BalanceInfo<AssetId, Balance>> {
 		let api = self.client.runtime_api();
@@ -222,7 +222,7 @@ where
 			// If the block hash is not supplied assume the best block.
 			self.client.info().best_hash));
 
-		api.calc_join_pool_with_min_lptokens_given(&at, asset_a, asset_b, amount).map_err(|e| RpcError {
+		api.calc_join_pool_with_min_lptokens_given(&at, pool_id, balance_in, token_amount_in).map_err(|e| RpcError {
 			code: ErrorCode::ServerError(Error::RuntimeError.into()),
 			message: "Invalid Price Calcutation".into(),
 			data: Some(format!("{:?}", e).into()),
@@ -231,9 +231,9 @@ where
 
 	fn calc_join_pool_with_max_collateral_taken(
 		&self,
-		asset_a: AssetId,
-		asset_b: AssetId,
-		amount: Balance,
+		pool_id: PoolId,
+		balance_in: Balance,
+		pool_amount_out: Balance,
 		at: Option<<Block as BlockT>::Hash>,
 	) -> Result<BalanceInfo<AssetId, Balance>> {
 	let api = self.client.runtime_api();
@@ -241,7 +241,7 @@ where
 			// If the block hash is not supplied assume the best block.
 			self.client.info().best_hash));
 
-		api.calc_join_pool_with_max_collateral_taken(&at, asset_a, asset_b, amount).map_err(|e| RpcError {
+		api.calc_join_pool_with_max_collateral_taken(&at, pool_id, balance_in, pool_amount_out).map_err(|e| RpcError {
 			code: ErrorCode::ServerError(Error::RuntimeError.into()),
 			message: "Invalid Price Calcutation".into(),
 			data: Some(format!("{:?}", e).into()),
@@ -250,9 +250,9 @@ where
 
 	fn calc_exit_pool_with_min_collateral_received(
 		&self,
-		asset_a: AssetId,
-		asset_b: AssetId,
-		amount: Balance,
+		pool_id: PoolId,
+		balance_out: Balance,
+		pool_amount_in: Balance,
 		at: Option<<Block as BlockT>::Hash>,
 	) -> Result<BalanceInfo<AssetId, Balance>> {
 		let api = self.client.runtime_api();
@@ -260,7 +260,7 @@ where
 			// If the block hash is not supplied assume the best block.
 			self.client.info().best_hash));
 
-		api.calc_exit_pool_with_min_collateral_received(&at, asset_a, asset_b, amount).map_err(|e| RpcError {
+		api.calc_exit_pool_with_min_collateral_received(&at,pool_id, balance_out, pool_amount_in).map_err(|e| RpcError {
 			code: ErrorCode::ServerError(Error::RuntimeError.into()),
 			message: "Invalid Price Calcutation".into(),
 			data: Some(format!("{:?}", e).into()),
@@ -269,9 +269,9 @@ where
 
 	fn calc_exit_pool_with_max_lp_given(
 		&self,
-		asset_a: AssetId,
-		asset_b: AssetId,
-		amount: Balance,
+		pool_id: PoolId,
+		balance_out: Balance,
+		token_amount_out: Balance,
 		at: Option<<Block as BlockT>::Hash>,
 	) -> Result<BalanceInfo<AssetId, Balance>> {
 		let api = self.client.runtime_api();
@@ -279,7 +279,7 @@ where
 			// If the block hash is not supplied assume the best block.
 			self.client.info().best_hash));
 
-		api.calc_exit_pool_with_max_lp_given(&at, asset_a, asset_b, amount).map_err(|e| RpcError {
+		api.calc_exit_pool_with_max_lp_given(&at,pool_id, balance_out, token_amount_out).map_err(|e| RpcError {
 			code: ErrorCode::ServerError(Error::RuntimeError.into()),
 			message: "Invalid Price Calcutation".into(),
 			data: Some(format!("{:?}", e).into()),
