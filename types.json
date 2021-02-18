@@ -5,7 +5,7 @@
       "_enum": [
         "SRS",
         "SUSD",
-        "SBTC",
+        "SBTC"
       ]
     },
     "CurveType": {
