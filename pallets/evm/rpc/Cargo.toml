@@ -1,7 +1,7 @@
 [package]
 name = "evm-rpc"
 version = "0.1.0"
-authors = ["Acala Developers"]
+authors = ["Sunrise Protocol"]
 edition = "2018"
 
 [dependencies]
@@ -22,8 +22,8 @@ sc-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"
 sc-network = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 rustc-hex = "2.1.0"
 serde = { version = "1.0", features = ["derive"] }
-module-evm-rpc-runtime-api = { path = "runtime_api" }
-module-evm = { path = ".." }
+pallet-evm-rpc-runtime-api = { path = "runtime_api" }
+pallet-evm = { path = ".." }
 
 [dev-dependencies]
 serde_json = "1.0.41"
