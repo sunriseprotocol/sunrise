@@ -1810,6 +1810,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "exchange-rpc"
+version = "0.1.0"
+dependencies = [
+ "exchange-rpc-runtime-api",
+ "jsonrpc-core 15.1.0",
+ "jsonrpc-core-client",
+ "jsonrpc-derive",
+ "parity-scale-codec 2.0.0",
+ "serde",
+ "sp-api",
+ "sp-blockchain",
+ "sp-runtime",
+]
+
+[[package]]
+name = "exchange-rpc-runtime-api"
+version = "0.1.0"
+dependencies = [
+ "pallet-exchange",
+ "parity-scale-codec 2.0.0",
+ "serde",
+ "sp-api",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
 name = "exit-future"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4651,6 +4678,7 @@ dependencies = [
  "sp-core",
  "sp-io",
  "sp-runtime",
+ "sp-std",
 ]
 
 [[package]]
@@ -9677,6 +9705,7 @@ checksum = "1e81da0851ada1f3e9d4312c704aa4f8806f0f9d69faaf8df2f3464b4a9437c2"
 name = "sunrise"
 version = "0.1.0"
 dependencies = [
+ "exchange-rpc",
  "frame-benchmarking",
  "frame-benchmarking-cli",
  "jsonrpc-core 15.1.0",
@@ -9715,6 +9744,7 @@ dependencies = [
 name = "sunrise-runtime"
 version = "0.1.0"
 dependencies = [
+ "exchange-rpc-runtime-api",
  "frame-benchmarking",
  "frame-executive",
  "frame-support",
