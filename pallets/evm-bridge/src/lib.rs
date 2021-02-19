@@ -7,7 +7,7 @@ use frame_support::{
 	pallet_prelude::*,
 };
 use hex_literal::hex;
-use module_evm::{ExitReason, ExitSucceed};
+use pallet_evm::{ExitReason, ExitSucceed};
 use primitive_types::H256;
 use sp_core::{H160, U256};
 use sp_runtime::SaturatedConversion;

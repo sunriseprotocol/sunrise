@@ -22,16 +22,17 @@ pub struct Vicinity {
 	pub origin: EvmAddress,
 }
 
-//TODO #[derive(Clone, Eq, PartialEq, Encode, Decode, RuntimeDebug)]
+#[derive(Clone, Eq, PartialEq, Encode, Decode, RuntimeDebug)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct CreateInfo {
+	pub exit_reason: ExitReason,
 	pub address: EvmAddress,
 	pub output: Vec<u8>,
 	pub used_gas: U256,
 	pub used_storage: i32,
 }
 
-//TODO #[derive(Clone, Eq, PartialEq, Encode, Decode, RuntimeDebug)]
+#[derive(Clone, Eq, PartialEq, Encode, Decode, RuntimeDebug)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub struct CallInfo {	
 	pub exit_reason: ExitReason,
