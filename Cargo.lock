@@ -2157,6 +2157,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "fs_extra"
+version = "1.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2022715d62ab30faffd124d40b76f4134a550a87792276512b18d63272333394"
+
+[[package]]
 name = "fuchsia-cprng"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2937,6 +2943,27 @@ name = "itoa"
 version = "0.4.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "dd25036021b0de88a0aff6b850051563c6516d0bf53f8638938edbb9de732736"
+
+[[package]]
+name = "jemalloc-sys"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d3b9f3f5c9b31aa0f5ed3260385ac205db665baa41d49bb8338008ae94ede45"
+dependencies = [
+ "cc",
+ "fs_extra",
+ "libc",
+]
+
+[[package]]
+name = "jemallocator"
+version = "0.3.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "43ae63fcfc45e99ab3d1b29a46782ad679e98436c3169d15a167a1108a724b69"
+dependencies = [
+ "jemalloc-sys",
+ "libc",
+]
 
 [[package]]
 name = "jobserver"
@@ -4663,6 +4690,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "pallet-evm-rpc-runtime-api"
+version = "0.1.0"
+dependencies = [
+ "ethereum-types",
+ "primitives",
+ "sp-api",
+ "sp-core",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
 name = "pallet-exchange"
 version = "0.1.0"
 dependencies = [
@@ -5225,6 +5264,7 @@ dependencies = [
  "ethereum-types",
  "hashbrown",
  "impl-trait-for-tuples 0.2.1",
+ "jemallocator",
  "lru",
  "parity-util-mem-derive",
  "parking_lot 0.11.1",
@@ -9708,8 +9748,14 @@ dependencies = [
  "exchange-rpc",
  "frame-benchmarking",
  "frame-benchmarking-cli",
+ "futures 0.3.12",
+ "hex-literal",
  "jsonrpc-core 15.1.0",
+ "pallet-evm",
+ "pallet-evm-rpc-runtime-api",
  "pallet-transaction-payment-rpc",
+ "parity-scale-codec 2.0.0",
+ "parity-util-mem",
  "primitives",
  "sc-basic-authorship",
  "sc-cli",
@@ -9724,6 +9770,8 @@ dependencies = [
  "sc-service",
  "sc-telemetry",
  "sc-transaction-pool",
+ "serde",
+ "serde_json",
  "sp-api",
  "sp-block-builder",
  "sp-blockchain",
