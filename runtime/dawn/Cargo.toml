@@ -65,6 +65,7 @@ xcm-builder = { git = "https://github.com/paritytech/polkadot", default-features
 xcm-executor = { git = "https://github.com/paritytech/polkadot", default-features = false, branch = "rococo-v1" }
 
 
+exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
 
 [build-dependencies]
 substrate-wasm-builder = "3.0.0"
@@ -110,12 +111,12 @@ std = [
 	"xcm/std",
 	"xcm-builder/std",
 	"xcm-executor/std",
-	"cumulus-pallet-xcm-handler/std",
-	"pallet-template/std",
-	"pallet-tokens/std",
-	"pallet-exchange/std",
+##	"pallet-template/std",
+##	"pallet-tokens/std",
+##	"pallet-exchange/std",
 	"primitives/std",
-	"orml-tokens/std",
-	"orml-currencies/std",
-	"orml-traits/std",
+##	"orml-tokens/std",
+##	"orml-currencies/std",
+##	"orml-traits/std",
+	"exchange-rpc-runtime-api/std"
 ]

@@ -33,7 +33,6 @@ sunrise-runtime = { path = '../../runtime/sunrise', version = '0.1.0' }
 primitives = { package = 'primitives', path = '../../primitives', version = '0.1.0'}
 exchange-rpc = {path = '../../pallets/exchange/rpc', version = '0.1.0'}
 pallet-evm = { path = "../../pallets/evm" }
-pallet-evm-bridge = { path = "../../pallets/evm-bridge" }
 pallet-evm-rpc-runtime-api = { path = "../../pallets/evm/rpc/runtime_api" }
 
 
