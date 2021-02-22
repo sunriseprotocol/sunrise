@@ -12,8 +12,6 @@ version = '0.1.0'
 [[bin]]
 name = 'sunrise'
 
-[package.metadata.docs.rs]
-targets = ['x86_64-unknown-linux-gnu']
 
 [build-dependencies]
 substrate-build-script-utils = '3.0.0'

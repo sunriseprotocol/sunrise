@@ -1382,6 +1382,7 @@ dependencies = [
  "pallet-evm-rpc-runtime-api",
  "pallet-sudo",
  "parity-scale-codec",
+ "parity-util-mem",
  "parking_lot 0.11.1",
  "polkadot-cli",
  "polkadot-parachain",
@@ -1441,13 +1442,15 @@ dependencies = [
  "frame-executive",
  "frame-support",
  "frame-system",
- "frame-system-benchmarking",
  "frame-system-rpc-runtime-api",
+ "hex",
  "hex-literal",
+ "libsecp256k1",
  "orml-currencies 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1)",
  "orml-tokens 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1)",
  "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1)",
  "pallet-balances",
+ "pallet-currencies",
  "pallet-evm",
  "pallet-evm-accounts",
  "pallet-evm-bridge",
@@ -1455,16 +1458,15 @@ dependencies = [
  "pallet-exchange",
  "pallet-randomness-collective-flip",
  "pallet-sudo",
+ "pallet-support",
  "pallet-template",
  "pallet-timestamp",
  "pallet-tokens",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
- "parachain-info",
  "parity-scale-codec",
  "polkadot-parachain",
  "runtime-common",
- "sc-client-api",
  "serde",
  "serde_json",
  "smallvec 1.6.1",
@@ -1477,7 +1479,6 @@ dependencies = [
  "sp-offchain",
  "sp-runtime",
  "sp-session",
- "sp-state-machine",
  "sp-std",
  "sp-transaction-pool",
  "sp-version",
@@ -5154,17 +5155,6 @@ dependencies = [
  "serde",
  "sp-runtime",
  "sp-std",
-]
-
-[[package]]
-name = "parachain-info"
-version = "0.1.0"
-dependencies = [
- "cumulus-primitives-core",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
 ]
 
 [[package]]

@@ -8,16 +8,25 @@ license = 'Apache 2.0'
 name = 'dawn-collator'
 repository = 'https://github.com/sunriseprotocol/sunrise'
 version = '0.1.0'
-[package.metadata.docs.rs]
-targets = ['x86_64-unknown-linux-gnu']
 
 [[bin]]
 name = 'dawn-collator'
 
 [dependencies]
+futures = { version = "0.3.4"}
+parity-util-mem = { version = "0.9.0", default-features = false, features = ["jemalloc-global"] }
+
+structopt = "0.3.8"
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
+sc-cli = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
+sc-service = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
+frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
+
+
+
+
 derive_more = '0.99.11'
 exit-future = '0.2.0'
-futures = { version = "0.3.1", features = ["compat"] }
 log = "0.4.13"
 parking_lot = '0.11.1'
 trie-root = '0.16.0'
@@ -100,11 +109,17 @@ substrate-test-client = { git = "https://github.com/paritytech/substrate", branc
 substrate-test-runtime-client = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 
 [features]
-default = ["std", "with-dawn-runtime"]
-std = []
-with-dawn-runtime = [
-	"dawn-runtime",
-]
+with-dawn-runtime = []
 with-ethereum-compatibility = [
 	"dawn-runtime/with-ethereum-compatibility"
+]
+
+default = [ "wasmtime", "cli", "with-dawn-runtime" ]
+wasmtime = [ "sc-cli/wasmtime" ]
+cli = [
+	"service",
+	"sp-core",
+	"sc-cli",
+	"sc-service",
+	"frame-benchmarking-cli",
 ]
