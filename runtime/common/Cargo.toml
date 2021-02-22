@@ -16,7 +16,6 @@ frame-system = { git = "https://github.com/paritytech/substrate", branch = "roco
 pallet-scheduler  = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-evm = { path = "../../pallets/evm", default-features = false }
 
-orml-oracle = { path = "../../orml/oracle", default-features = false }
 orml-traits = { path = "../../orml/traits", default-features = false }
 
 pallet-support = { path = "../../pallets/support", default-features = false }
@@ -34,7 +33,6 @@ orml-tokens = { path = "../../orml/tokens" }
 pallet-currencies = { path = "../../pallets/currencies" }
 pallet-evm-bridge = { path = "../../pallets/evm-bridge" }
 pallet-exchange = { path = '../../pallets/exchange', default-features = false }
-exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
 pallet-tokens = { path = '../../pallets/tokens', default-features = false }
 
 [features]
@@ -48,7 +46,6 @@ std = [
 	"frame-system/std",
 	"pallet-scheduler/std",
 	"pallet-evm/std",
-	"orml-oracle/std",
 	"orml-traits/std",
 	"pallet-support/std",
 	"primitives/std",

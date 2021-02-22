@@ -1,40 +1,132 @@
-use crate::{
-	chain_spec,
-	cli::{Cli, RelayChainCli, Subcommand},
-};
+// Disable the following lints
+#![allow(clippy::borrowed_box)]
+
+use crate::cli::{Cli, RelayChainCli, Subcommand};
 use codec::Encode;
-use cumulus_primitives::{genesis::generate_genesis_block, ParaId};
+use cumulus_client_service::genesis::generate_genesis_block;
+use cumulus_primitives_core::ParaId;
+use service::{chain_spec, IdentifyVariant};
+
+pub use service::dawn_runtime::Block;
+
 use log::info;
-use dawn_runtime::Block;
 use polkadot_parachain::primitives::AccountIdConversion;
 use sc_cli::{
-	ChainSpec, CliConfiguration, DefaultConfigurationValues, ImportParams,
-	KeystoreParams, NetworkParams, Result, RuntimeVersion, SharedParams, SubstrateCli,
+	ChainSpec, CliConfiguration, DefaultConfigurationValues, ImportParams, KeystoreParams, NetworkParams, Result,
+	RuntimeVersion, SharedParams, SubstrateCli,
 };
-use sc_service::{
-	config::{BasePath, PrometheusConfig},
-	PartialComponents,
-};
+use sc_service::config::{BasePath, PrometheusConfig};
 use sp_core::hexdisplay::HexDisplay;
 use sp_runtime::traits::Block as BlockT;
 use std::{io::Write, net::SocketAddr};
 
-fn load_spec(
-	id: &str,
-	para_id: ParaId,
-) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
-	Ok(match id {
-		"dev" => Box::new(chain_spec::development_config(para_id)),
-		"" | "local" => Box::new(chain_spec::local_testnet_config(para_id)),
-		path => Box::new(chain_spec::ChainSpec::from_json_file(
-			std::path::PathBuf::from(path),
-		)?),
-	})
+fn get_exec_name() -> Option<String> {
+	std::env::current_exe()
+		.ok()
+		.and_then(|pb| pb.file_name().map(|s| s.to_os_string()))
+		.and_then(|s| s.into_string().ok())
 }
+
+#[cfg(feature = "with-dawn-runtime")]
+const CHAIN_NAME: &'static str = "Dawn";
 
 impl SubstrateCli for Cli {
 	fn impl_name() -> String {
-		"Parachain Collator Template".into()
+		format!("{} Node", CHAIN_NAME).into()
+	}
+
+	fn impl_version() -> String {
+		env!("SUBSTRATE_CLI_IMPL_VERSION").into()
+	}
+
+	fn description() -> String {
+		env!("CARGO_PKG_DESCRIPTION").into()
+	}
+
+	fn author() -> String {
+		env!("CARGO_PKG_AUTHORS").into()
+	}
+
+	fn support_url() -> String {
+		"https://github.com/sunriseprotocol/sunrise/issues".into()
+	}
+
+	fn copyright_start_year() -> i32 {
+		2021
+	}
+
+	fn load_spec(&self, id: &str) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
+		let id = if id.is_empty() {
+			let n = get_exec_name().unwrap_or_default();
+			["dawn"]
+				.iter()
+				.cloned()
+				.find(|&chain| n.starts_with(chain))
+				.unwrap_or("sunrise")
+		} else {
+			id
+		};
+
+		Ok(match id {
+			#[cfg(feature = "with-dawn-runtime")]
+			"dev" => Box::new(chain_spec::dawn::development_testnet_config()?),
+			#[cfg(feature = "with-dawn-runtime")]
+			"local" => Box::new(chain_spec::dawn::local_testnet_config()?),
+			#[cfg(feature = "with-dawn-runtime")]
+			"dawn" => Box::new(chain_spec::dawn::dawn_testnet_config()?),
+			#[cfg(feature = "with-dawn-runtime")]
+			"dawn-latest" => Box::new(chain_spec::dawn::latest_dawn_testnet_config()?),
+			"sunrise" => Box::new(chain_spec::sunrise::sunrise_config()?),
+			#[cfg(feature = "with-sunrise-runtime")]
+			"sunrise-latest" => Box::new(chain_spec::sunrise::latest_sunrise_config()?),
+			path => {
+				let path = std::path::PathBuf::from(path);
+
+				let starts_with = |prefix: &str| {
+					path.file_name()
+						.map(|f| f.to_str().map(|s| s.starts_with(&prefix)))
+						.flatten()
+						.unwrap_or(false)
+				};
+
+				if starts_with("sunrise") {
+					#[cfg(feature = "with-sunrise-runtime")]
+					{
+						Box::new(chain_spec::sunrise::ChainSpec::from_json_file(path)?)
+					}
+
+					#[cfg(not(feature = "with-sunrise-runtime"))]
+					return Err("Sunrise runtime is not available. Please compile the node with `--features with-sunrise-runtime` to enable it.".into());
+				} else {
+					#[cfg(feature = "with-dawn-runtime")]
+					{
+						Box::new(chain_spec::dawn::ChainSpec::from_json_file(path)?)
+					}
+					#[cfg(not(feature = "with-dawn-runtime"))]
+					return Err("Dawn runtime is not available. Please compile the node with `--features with-dawn-runtime` to enable it.".into());
+				}
+			}
+		})
+	}
+
+	fn native_runtime_version(spec: &Box<dyn sc_service::ChainSpec>) -> &'static RuntimeVersion {
+		if spec.is_sunrise() {
+			#[cfg(feature = "with-sunrise-runtime")]
+			return &service::sunrise_runtime::VERSION;
+			#[cfg(not(feature = "with-sunrise-runtime"))]
+			panic!("Sunrise runtime is not available. Please compile the node with `--features with-sunrise-runtime` to enable it.");
+		} else {
+			#[cfg(feature = "with-dawn-runtime")]
+			return &service::dawn_runtime::VERSION;
+			#[cfg(not(feature = "with-dawn-runtime"))]
+			panic!("Dawn runtime is not available. Please compile the node with `--features with-dawn-runtime` to enable it.");
+		}
+	}
+}
+
+impl SubstrateCli for RelayChainCli {
+	fn impl_name() -> String {
+		format!("{} Parachain Collator", CHAIN_NAME).into()
 	}
 
 	fn impl_version() -> String {
@@ -43,12 +135,13 @@ impl SubstrateCli for Cli {
 
 	fn description() -> String {
 		format!(
-			"Parachain Collator Template\n\nThe command-line arguments provided first will be \
+			"{} parachain collator\n\nThe command-line arguments provided first will be \
 		passed to the parachain node, while the arguments provided after -- will be passed \
 		to the relaychain node.\n\n\
-		{} [parachain-args] -- [relaychain-args]",
-			Self::executable_name()
+		rococo-collator [parachain-args] -- [relaychain-args]",
+			CHAIN_NAME
 		)
+		.into()
 	}
 
 	fn author() -> String {
@@ -56,54 +149,15 @@ impl SubstrateCli for Cli {
 	}
 
 	fn support_url() -> String {
-		"https://github.com/substrate-developer-hub/substrate-parachain-template/issues/new".into()
+		"https://github.com/sunriseprotocol/sunrise/issues".into()
 	}
 
 	fn copyright_start_year() -> i32 {
-		2017
+		2021
 	}
 
 	fn load_spec(&self, id: &str) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
-		load_spec(id, self.run.parachain_id.unwrap_or(888).into())
-	}
-
-	fn native_runtime_version(_: &Box<dyn ChainSpec>) -> &'static RuntimeVersion {
-		&dawn_runtime::VERSION
-	}
-}
-
-impl SubstrateCli for RelayChainCli {
-	fn impl_name() -> String {
-		"Parachain Collator Template".into()
-	}
-
-	fn impl_version() -> String {
-		env!("SUBSTRATE_CLI_IMPL_VERSION").into()
-	}
-
-	fn description() -> String {
-		"Parachain Collator Template\n\nThe command-line arguments provided first will be \
-		passed to the parachain node, while the arguments provided after -- will be passed \
-		to the relaychain node.\n\n\
-		rococo-collator [parachain-args] -- [relaychain-args]"
-			.into()
-	}
-
-	fn author() -> String {
-		env!("CARGO_PKG_AUTHORS").into()
-	}
-
-	fn support_url() -> String {
-		"https://github.com/substrate-developer-hub/substrate-parachain-template/issues/new".into()
-	}
-
-	fn copyright_start_year() -> i32 {
-		2017
-	}
-
-	fn load_spec(&self, id: &str) -> std::result::Result<Box<dyn sc_service::ChainSpec>, String> {
-		polkadot_cli::Cli::from_iter([RelayChainCli::executable_name().to_string()].iter())
-			.load_spec(id)
+		polkadot_cli::Cli::from_iter([RelayChainCli::executable_name().to_string()].iter()).load_spec(id)
 	}
 
 	fn native_runtime_version(chain_spec: &Box<dyn ChainSpec>) -> &'static RuntimeVersion {
@@ -111,7 +165,19 @@ impl SubstrateCli for RelayChainCli {
 	}
 }
 
-fn extract_genesis_wasm(chain_spec: &Box<dyn sc_service::ChainSpec>) -> Result<Vec<u8>> {
+fn set_default_ss58_version(spec: &Box<dyn service::ChainSpec>) {
+	use sp_core::crypto::Ss58AddressFormat;
+
+	let ss58_version = if spec.is_sunrise() {
+		Ss58AddressFormat::SunriseAccount
+	} else {
+		Ss58AddressFormat::SubstrateAccount
+	};
+
+	sp_core::crypto::set_default_ss58_version(ss58_version);
+}
+
+fn extract_genesis_wasm(chain_spec: &Box<dyn service::ChainSpec>) -> Result<Vec<u8>> {
 	let mut storage = chain_spec.build_storage()?;
 
 	storage
@@ -120,86 +186,114 @@ fn extract_genesis_wasm(chain_spec: &Box<dyn sc_service::ChainSpec>) -> Result<V
 		.ok_or_else(|| "Could not find wasm file in genesis state!".into())
 }
 
-/// Parse command line arguments into service configuration.
-pub fn run() -> Result<()> {
+/// Parses sunrise specific CLI arguments and run the service.
+pub fn run() -> sc_cli::Result<()> {
 	let cli = Cli::from_args();
 
 	match &cli.subcommand {
+		Some(Subcommand::Inspect(cmd)) => {
+			let runner = cli.create_runner(cmd)?;
+			let chain_spec = &runner.config().chain_spec;
+
+			set_default_ss58_version(chain_spec);
+
+			runner.sync_run(|mut config| {
+				let (client, _, _, _) = service::new_chain_ops(&mut config)?;
+				cmd.run(client)
+			})
+		}
+
+		Some(Subcommand::Benchmark(cmd)) => {
+			let runner = cli.create_runner(cmd)?;
+			let chain_spec = &runner.config().chain_spec;
+
+			set_default_ss58_version(chain_spec);
+
+			// TODO: support Kusama & Sunrise
+			runner.sync_run(|config| cmd.run::<service::dawn_runtime::Block, service::DawnExecutor>(config))
+		}
+
+		Some(Subcommand::Key(cmd)) => cmd.run(&cli),
+		Some(Subcommand::Sign(cmd)) => cmd.run(),
+		Some(Subcommand::Verify(cmd)) => cmd.run(),
+		Some(Subcommand::Vanity(cmd)) => cmd.run(),
+
 		Some(Subcommand::BuildSpec(cmd)) => {
 			let runner = cli.create_runner(cmd)?;
 			runner.sync_run(|config| cmd.run(config.chain_spec, config.network))
 		}
+
 		Some(Subcommand::CheckBlock(cmd)) => {
 			let runner = cli.create_runner(cmd)?;
-			runner.async_run(|config| {
-				let PartialComponents {
-					client,
-					task_manager,
-					import_queue,
-					..
-				} = crate::service::new_partial(&config)?;
+			let chain_spec = &runner.config().chain_spec;
+
+			set_default_ss58_version(chain_spec);
+
+			runner.async_run(|mut config| {
+				let (client, _, import_queue, task_manager) = service::new_chain_ops(&mut config)?;
 				Ok((cmd.run(client, import_queue), task_manager))
 			})
 		}
+
 		Some(Subcommand::ExportBlocks(cmd)) => {
 			let runner = cli.create_runner(cmd)?;
-			runner.async_run(|config| {
-				let PartialComponents {
-					client,
-					task_manager,
-					..
-				} = crate::service::new_partial(&config)?;
+			let chain_spec = &runner.config().chain_spec;
+
+			set_default_ss58_version(chain_spec);
+
+			runner.async_run(|mut config| {
+				let (client, _, _, task_manager) = service::new_chain_ops(&mut config)?;
 				Ok((cmd.run(client, config.database), task_manager))
 			})
 		}
+
 		Some(Subcommand::ExportState(cmd)) => {
 			let runner = cli.create_runner(cmd)?;
-			runner.async_run(|config| {
-				let PartialComponents {
-					client,
-					task_manager,
-					..
-				} = crate::service::new_partial(&config)?;
+			let chain_spec = &runner.config().chain_spec;
+
+			set_default_ss58_version(chain_spec);
+
+			runner.async_run(|mut config| {
+				let (client, _, _, task_manager) = service::new_chain_ops(&mut config)?;
 				Ok((cmd.run(client, config.chain_spec), task_manager))
 			})
 		}
+
 		Some(Subcommand::ImportBlocks(cmd)) => {
 			let runner = cli.create_runner(cmd)?;
-			runner.async_run(|config| {
-				let PartialComponents {
-					client,
-					task_manager,
-					import_queue,
-					..
-				} = crate::service::new_partial(&config)?;
+			let chain_spec = &runner.config().chain_spec;
+
+			set_default_ss58_version(chain_spec);
+
+			runner.async_run(|mut config| {
+				let (client, _, import_queue, task_manager) = service::new_chain_ops(&mut config)?;
 				Ok((cmd.run(client, import_queue), task_manager))
 			})
 		}
+
 		Some(Subcommand::PurgeChain(cmd)) => {
 			let runner = cli.create_runner(cmd)?;
 			runner.sync_run(|config| cmd.run(config.database))
 		}
+
 		Some(Subcommand::Revert(cmd)) => {
 			let runner = cli.create_runner(cmd)?;
-			runner.async_run(|config| {
-				let PartialComponents {
-					client,
-					task_manager,
-					backend,
-					..
-				} = crate::service::new_partial(&config)?;
+			let chain_spec = &runner.config().chain_spec;
+
+			set_default_ss58_version(chain_spec);
+
+			runner.async_run(|mut config| {
+				let (client, backend, _, task_manager) = service::new_chain_ops(&mut config)?;
 				Ok((cmd.run(client, backend), task_manager))
 			})
 		}
+
 		Some(Subcommand::ExportGenesisState(params)) => {
-			let mut builder = sc_cli::GlobalLoggerBuilder::new("");
+			let mut builder = sc_cli::LoggerBuilder::new("");
 			builder.with_profiling(sc_tracing::TracingReceiver::Log, "");
 			let _ = builder.init();
 
-			let block: Block = generate_genesis_block(&load_spec(
-				&params.chain.clone().unwrap_or_default(),
-				params.parachain_id.into(),
-			)?)?;
+			let block: Block = generate_genesis_block(&cli.load_spec(&params.chain.clone().unwrap_or_default())?)?;
 			let raw_header = block.header().encode();
 			let output_buf = if params.raw {
 				raw_header
@@ -215,13 +309,13 @@ pub fn run() -> Result<()> {
 
 			Ok(())
 		}
+
 		Some(Subcommand::ExportGenesisWasm(params)) => {
-			let mut builder = sc_cli::GlobalLoggerBuilder::new("");
+			let mut builder = sc_cli::LoggerBuilder::new("");
 			builder.with_profiling(sc_tracing::TracingReceiver::Log, "");
 			let _ = builder.init();
 
-			let raw_wasm_blob =
-				extract_genesis_wasm(&cli.load_spec(&params.chain.clone().unwrap_or_default())?)?;
+			let raw_wasm_blob = extract_genesis_wasm(&cli.load_spec(&params.chain.clone().unwrap_or_default())?)?;
 			let output_buf = if params.raw {
 				raw_wasm_blob
 			} else {
@@ -236,14 +330,19 @@ pub fn run() -> Result<()> {
 
 			Ok(())
 		}
+
 		None => {
 			let runner = cli.create_runner(&*cli.run)?;
+
+			let chain_spec = &runner.config().chain_spec;
+
+			set_default_ss58_version(chain_spec);
 
 			runner.run_node_until_exit(|config| async move {
 				// TODO
 				let key = sp_core::Pair::generate().0;
 
-				let extension = chain_spec::Extensions::try_get(&*config.chain_spec);
+				let extension = chain_spec::Extensions::try_get(&config.chain_spec);
 				let relay_chain_id = extension.map(|e| e.relay_chain.clone());
 				let para_id = extension.map(|e| e.para_id);
 
@@ -255,22 +354,17 @@ pub fn run() -> Result<()> {
 						.chain(cli.relaychain_args.iter()),
 				);
 
-				let id = ParaId::from(cli.run.parachain_id.or(para_id).unwrap_or(888));
+				let id = ParaId::from(cli.run.parachain_id.or(para_id).unwrap_or(666));
 
-				let parachain_account =
-					AccountIdConversion::<polkadot_primitives::v0::AccountId>::into_account(&id);
+				let parachain_account = AccountIdConversion::<polkadot_primitives::v0::AccountId>::into_account(&id);
 
-				let block: Block =
-					generate_genesis_block(&config.chain_spec).map_err(|e| format!("{:?}", e))?;
+				let block: Block = generate_genesis_block(&config.chain_spec).map_err(|e| format!("{:?}", e))?;
 				let genesis_state = format!("0x{:?}", HexDisplay::from(&block.header().encode()));
 
 				let task_executor = config.task_executor.clone();
-				let polkadot_config = SubstrateCli::create_configuration(
-						&polkadot_cli,
-						&polkadot_cli,
-						task_executor,
-						None,
-					).map_err(|err| format!("Relay chain argument error: {}", err))?;
+				let polkadot_config =
+					SubstrateCli::create_configuration(&polkadot_cli, &polkadot_cli, task_executor, None)
+						.map_err(|err| format!("Relay chain argument error: {}", err))?;
 				let collator = cli.run.base.validator || cli.collator;
 
 				info!("Parachain id: {:?}", id);
@@ -278,10 +372,17 @@ pub fn run() -> Result<()> {
 				info!("Parachain genesis state: {}", genesis_state);
 				info!("Is collating: {}", if collator { "yes" } else { "no" });
 
-				crate::service::start_node(config, key, polkadot_config, id, collator)
-					.await
-					.map(|r| r.0)
-					.map_err(Into::into)
+				// TODO: support Kusama and Sunrise
+				service::start_node::<service::dawn_runtime::RuntimeApi, service::DawnExecutor>(
+					config,
+					key,
+					polkadot_config,
+					id,
+					collator,
+				)
+				.await
+				.map(|r| r.0)
+				.map_err(Into::into)
 			})
 		}
 	}

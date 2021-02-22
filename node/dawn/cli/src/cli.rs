@@ -1,9 +1,11 @@
+//! Sunrise CLI library.
+
 use std::path::PathBuf;
 
-use sc_cli;
+use sc_cli::{KeySubcommand, SignCmd, VanityCmd, VerifyCmd};
 use structopt::StructOpt;
 
-/// Sub-commands supported by the collator.
+/// Possible subcommands of the main binary.
 #[derive(Debug, StructOpt)]
 pub enum Subcommand {
 	/// Export the genesis state of the parachain.
@@ -13,6 +15,30 @@ pub enum Subcommand {
 	/// Export the genesis wasm of the parachain.
 	#[structopt(name = "export-genesis-wasm")]
 	ExportGenesisWasm(ExportGenesisWasmCommand),
+
+	/// Key management cli utilities
+	Key(KeySubcommand),
+
+	/// The custom inspect subcommmand for decoding blocks and extrinsics.
+	#[structopt(
+		name = "inspect",
+		about = "Decode given block or extrinsic using current native runtime."
+	)]
+	Inspect(inspect::cli::InspectCmd),
+
+	/// The custom benchmark subcommmand benchmarking runtime modules.
+	#[structopt(name = "benchmark", about = "Benchmark runtime modules.")]
+	Benchmark(frame_benchmarking_cli::BenchmarkCmd),
+
+	/// Verify a signature for a message, provided on STDIN, with a given
+	/// (public or secret) key.
+	Verify(VerifyCmd),
+
+	/// Generate a seed that provides a vanity address.
+	Vanity(VanityCmd),
+
+	/// Sign a message, with a given (secret) key.
+	Sign(SignCmd),
 
 	/// Build a chain specification.
 	BuildSpec(sc_cli::BuildSpecCmd),
@@ -44,7 +70,7 @@ pub struct ExportGenesisStateCommand {
 	pub output: Option<PathBuf>,
 
 	/// Id of the parachain this state is for.
-	#[structopt(long, default_value = "888")]
+	#[structopt(long, default_value = "100")]
 	pub parachain_id: u32,
 
 	/// Write output in binary. Default is to write in hex.
@@ -72,8 +98,10 @@ pub struct ExportGenesisWasmCommand {
 	pub chain: Option<String>,
 }
 
+/// Run command.
 #[derive(Debug, StructOpt)]
 pub struct RunCmd {
+	/// The base run command.
 	#[structopt(flatten)]
 	pub base: sc_cli::RunCmd,
 
@@ -90,6 +118,7 @@ impl std::ops::Deref for RunCmd {
 	}
 }
 
+/// An overarching CLI command definition.
 #[derive(Debug, StructOpt)]
 #[structopt(settings = &[
 	structopt::clap::AppSettings::GlobalVersion,
@@ -97,9 +126,11 @@ impl std::ops::Deref for RunCmd {
 	structopt::clap::AppSettings::SubcommandsNegateReqs,
 ])]
 pub struct Cli {
+	/// Possible subcommand with parameters.
 	#[structopt(subcommand)]
 	pub subcommand: Option<Subcommand>,
 
+	#[allow(missing_docs)]
 	#[structopt(flatten)]
 	pub run: RunCmd,
 
@@ -114,6 +145,7 @@ pub struct Cli {
 	pub relaychain_args: Vec<String>,
 }
 
+/// Relay chain CLI.
 #[derive(Debug)]
 pub struct RelayChainCli {
 	/// The actual relay chain cli object.

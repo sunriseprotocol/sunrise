@@ -9,30 +9,41 @@ edition = '2018'
 [dependencies]
 serde = { version = "1.0.101", optional = true }
 codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
+
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-std = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false }
+
+frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false, optional = true }
 frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false}
 frame-system = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", default-features = false}
-sp-runtime = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false}
 
-orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
-orml-utilities = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
+orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false }
+orml-utilities = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false }
 pallet-tokens = {   default-features = false, path = "../tokens" }
 primitives = { package = "sunrise-primitives", path = "../../primitives", version = "0.1.0", default-features=false }
-sp-std = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false }
+support = { package = "pallet-support", path = "../support", default-features = false }
+
 
 [dev-dependencies]
 sp-core = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false}
 sp-io = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false }
-orml-tokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
+orml-tokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false}
 
 [features]
 default = ['std']
 std = [
 	'serde',
     'codec/std',
+    'sp-runtime/std',
     'frame-support/std',
     'frame-system/std',
-    'sp-runtime/std',
     'orml-traits/std',
     'orml-utilities/std',
     'pallet-tokens/std',
+]
+runtime-benchmarks = [
+	"frame-benchmarking",
+	"frame-support/runtime-benchmarks",
+	"frame-system/runtime-benchmarks",
 ]
