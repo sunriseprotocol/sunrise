@@ -20,7 +20,7 @@ primitive-types = { version = "0.9.0", default-features = false, features = ["rl
 sha3 = { version = "0.8", default-features = false }
 impl-trait-for-tuples = "0.1"
 ethereum-types = { version = "0.11.0", default-features = false }
-primitives = { package = "primitives", path = "../../primitives", default-features = false }
+primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
 support = { package = "pallet-support", path = "../support", default-features = false }
 pallet-evm = { path = "../evm", default-features = false }
 hex-literal = { version = "0.3.1" }

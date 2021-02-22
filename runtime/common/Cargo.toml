@@ -1,0 +1,56 @@
+[package]
+name = "runtime-common"
+version = "0.1.0"
+authors = ["Sunrise Protocol"]
+edition = "2018"
+
+[dependencies]
+static_assertions = "1.1.0"
+
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
+sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-scheduler  = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-evm = { path = "../../pallets/evm", default-features = false }
+
+orml-oracle = { path = "../../orml/oracle", default-features = false }
+orml-traits = { path = "../../orml/traits", default-features = false }
+
+pallet-support = { path = "../../pallets/support", default-features = false }
+primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
+
+[dev-dependencies]
+serde_json = "1.0.41"
+hex-literal = { version = "0.3.1" }
+sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-timestamp = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-proxy = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-utility = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+orml-tokens = { path = "../../orml/tokens" }
+pallet-currencies = { path = "../../pallets/currencies" }
+pallet-evm-bridge = { path = "../../pallets/evm-bridge" }
+pallet-exchange = { path = '../../pallets/exchange', default-features = false }
+exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
+pallet-tokens = { path = '../../pallets/tokens', default-features = false }
+
+[features]
+default = ["std"]
+std = [
+	"codec/std",
+	"sp-core/std",
+	"sp-std/std",
+	"sp-runtime/std",
+	"frame-support/std",
+	"frame-system/std",
+	"pallet-scheduler/std",
+	"pallet-evm/std",
+	"orml-oracle/std",
+	"orml-traits/std",
+	"pallet-support/std",
+	"primitives/std",
+]
+with-ethereum-compatibility = []

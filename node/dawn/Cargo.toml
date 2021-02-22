@@ -28,11 +28,11 @@ serde_json = "1.0.41"
 hex-literal = "0.3.1"
 
 # Local dependencies
-dawn-runtime = { path = "../../runtime/dawn", version = '0.1.0'}
+runtime-common = { path = "../../runtime/common" }
+dawn-runtime = { path = "../../runtime/dawn", version = '0.1.0', optional = true}
 rococo-parachain-primitives = { git = "https://github.com/paritytech/cumulus", default-features = false, branch="rococo-v1" }
 exchange-rpc = {path = '../../pallets/exchange/rpc', version = '0.1.0'}
 pallet-evm = { path = "../../pallets/evm" }
-pallet-evm-bridge = { path = "../../pallets/evm-bridge" }
 pallet-evm-rpc-runtime-api = { path = "../../pallets/evm/rpc/runtime_api" }
 
 # Substrate dependencies
@@ -85,7 +85,7 @@ substrate-build-script-utils = { git = "https://github.com/paritytech/substrate"
 [dev-dependencies]
 assert_cmd = "1.0.3"
 nix = "0.19.1"
-rand = "0.8.3"
+##rand = "0.8.3"
 tokio = { version = "1.2.0", features = ["macros"] }
 
 # Polkadot dependencies
@@ -99,3 +99,12 @@ pallet-sudo = { git = "https://github.com/paritytech/substrate", branch = "rococ
 substrate-test-client = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 substrate-test-runtime-client = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 
+[features]
+default = ["std", "with-dawn-runtime"]
+std = []
+with-dawn-runtime = [
+	"dawn-runtime",
+]
+with-ethereum-compatibility = [
+	"dawn-runtime/with-ethereum-compatibility"
+]

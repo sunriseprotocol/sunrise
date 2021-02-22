@@ -21,7 +21,7 @@ pallet-evm-bridge = { path = "../evm-bridge", default-features = false }
 orml-traits = { path = "../../orml/traits", default-features = false }
 orml-utilities = { path = "../../orml/utilities", default-features = false }
 
-primitives = { package = "primitives", path = "../../primitives", default-features = false }
+primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
 support = { package = "pallet-support", path = "../support", default-features = false }
 
 [dev-dependencies]

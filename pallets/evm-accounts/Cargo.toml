@@ -18,7 +18,7 @@ sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"
 
 orml-traits = { path = "../../orml/traits", default-features = false }
 
-primitives = { package = "primitives", path = "../../primitives", default-features = false }
+primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
 pallet-support = { path = "../support", default-features = false }
 
 [dev-dependencies]

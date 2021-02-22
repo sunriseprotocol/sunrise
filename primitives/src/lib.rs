@@ -9,7 +9,11 @@ use codec::{Decode, Encode};
 
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
-use sp_runtime::{RuntimeDebug};
+use sp_runtime::{
+	generic,
+	traits::{BlakeTwo256, IdentifyAccount, Verify},
+	MultiSignature, RuntimeDebug,
+};
 
 use sp_std::{
 	convert::{Into, TryFrom, TryInto},
@@ -17,9 +21,64 @@ use sp_std::{
 };
 
 pub type Decimals = u8;
-pub type Balance = u128;
 pub type AssetId = u64;
+
+/// An index to a block.
+pub type BlockNumber = u32;
+
+/// Alias to 512-bit hash when used in the context of a transaction signature on
+/// the chain.
+pub type Signature = MultiSignature;
+
+/// Alias to the public key used for this chain, actually a `MultiSigner`. Like
+/// the signature, this also isn't a fixed size when encoded, as different
+/// cryptos have different size public keys.
+pub type AccountPublic = <Signature as Verify>::Signer;
+
+/// Alias to the opaque account ID type for this chain, actually a
+/// `AccountId32`. This is always 32 bytes.
+pub type AccountId = <AccountPublic as IdentifyAccount>::AccountId;
+
+/// The type for looking up accounts. We don't expect more than 4 billion of
+/// them.
 pub type AccountIndex = u32;
+
+/// Index of a transaction in the chain. 32-bit should be plenty.
+pub type Nonce = u32;
+
+/// A hash of some data used by the chain.
+pub type Hash = sp_core::H256;
+
+/// An instant or duration in time.
+pub type Moment = u64;
+
+/// Counter for the number of eras that have passed.
+pub type EraIndex = u32;
+
+/// Balance of an account.
+pub type Balance = u128;
+
+/// Signed version of Balance
+pub type Amount = i128;
+
+/// Auction ID
+pub type AuctionId = u32;
+
+/// Share type
+pub type Share = u128;
+
+/// Header type.
+pub type Header = generic::Header<BlockNumber, BlakeTwo256>;
+
+/// Block type.
+pub type Block = generic::Block<Header, UncheckedExtrinsic>;
+
+/// Block ID.
+pub type BlockId = generic::BlockId<Block>;
+
+/// Opaque, encoded, unchecked extrinsic.
+pub use sp_runtime::OpaqueExtrinsic as UncheckedExtrinsic;
+
 
 #[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
@@ -89,3 +148,55 @@ impl TryFrom<Vec<u8>> for CurrencyId {
 		}
 	}
 }
+
+/// Note the pre-deployed ERC20 contracts depend on `CurrencyId` implementation,
+/// and need to be updated if any change.
+impl TryFrom<[u8; 32]> for CurrencyId {
+	type Error = ();
+
+	fn try_from(v: [u8; 32]) -> Result<Self, Self::Error> {
+		if !v.starts_with(&[0u8; 29][..]) {
+			return Err(());
+		}
+
+		// token
+		if v[29] == 0 && v[31] == 0 {
+			return v[30].try_into().map(CurrencyId::Token);
+		}
+
+		// DEX share
+		if v[29] == 1 {
+			let left = v[30].try_into()?;
+			let right = v[31].try_into()?;
+			return Ok(CurrencyId::DEXShare(left, right));
+		}
+
+		Err(())
+	}
+}
+
+/// Note the pre-deployed ERC20 contracts depend on `CurrencyId` implementation,
+/// and need to be updated if any change.
+impl From<CurrencyId> for [u8; 32] {
+	fn from(val: CurrencyId) -> Self {
+		let mut bytes = [0u8; 32];
+		match val {
+			CurrencyId::Token(token) => {
+				bytes[30] = token as u8;
+			}
+			CurrencyId::DEXShare(left, right) => {
+				bytes[29] = 1;
+				bytes[30] = left as u8;
+				bytes[31] = right as u8;
+			}
+			_ => {}
+		}
+		bytes
+	}
+}
+
+/// The start address for pre-compiles.
+pub const PRECOMPILE_ADDRESS_START: u64 = 1024;
+
+/// The start address for pre-deployed smart contracts.
+pub const PREDEPLOY_ADDRESS_START: u64 = 2048;
