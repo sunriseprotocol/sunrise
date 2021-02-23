@@ -93,3 +93,6 @@ with-all-runtime = [
 	"dawn-runtime",
 	"sunrise-runtime",
 ]
+with-ethereum-compatibility = [
+	"dawn-runtime/with-ethereum-compatibility"
+]

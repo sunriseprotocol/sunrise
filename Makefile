@@ -22,7 +22,20 @@ run:
 build:
 	WASM_BUILD_TOOLCHAIN=nightly-2020-10-06 cargo build --release
 
-
 .PHONY: rundev
 rundev:
 	./target/release/sunrise purge-chain -y --dev; ./target/release/sunrise --alice --dev
+
+.PHONY: build-eth
+build-eth:
+	cargo build --release --manifest-path node/dawn/Cargo.toml --features with-ethereum-compatibility
+
+PHONY: run-eth
+run-eth: 
+	cargo run --manifest-path node/dawn/Cargo.toml --features with-ethereum-compatibility -- --dev -lruntime=debug -levm=debug --instant-sealing
+
+.PHONY: test-eth
+test-eth: 
+	SKIP_WASM_BUILD= cargo test --manifest-path node/dawn/Cargo.toml test_evm_module --features with-ethereum-compatibility -p dawn-runtime
+
+

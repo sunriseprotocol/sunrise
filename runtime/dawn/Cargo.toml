@@ -33,9 +33,9 @@ pallet-tokens = { path = '../../pallets/tokens', default-features = false }
 pallet-template = { path = '../../pallets/template', default-features = false }
 
 #orml
-orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
-orml-tokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
-orml-currencies = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
+orml-traits = { path = "../../orml/traits", default-features = false  }
+orml-tokens = { path = "../../orml/tokens", default-features = false  }
+orml-currencies = { path = "../../orml/currencies", default-features = false  }
 
 # Substrate dependencises
 frame-benchmarking = { git = "https://github.com/paritytech/substrate", default-features = false, branch = "rococo-v1", optional = true }

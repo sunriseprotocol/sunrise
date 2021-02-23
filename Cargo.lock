@@ -1346,7 +1346,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "dawn-collator"
+name = "dawn"
 version = "0.1.0"
 dependencies = [
  "dawn-runtime",
@@ -1374,9 +1374,9 @@ dependencies = [
  "hex",
  "hex-literal",
  "libsecp256k1",
- "orml-currencies 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1)",
- "orml-tokens 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1)",
- "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1)",
+ "orml-currencies 0.4.0-dev",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
  "pallet-balances",
  "pallet-currencies",
  "pallet-evm",

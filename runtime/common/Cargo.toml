@@ -32,8 +32,8 @@ pallet-utility = { git = "https://github.com/paritytech/substrate", branch = "ro
 orml-tokens = { path = "../../orml/tokens" }
 pallet-currencies = { path = "../../pallets/currencies" }
 pallet-evm-bridge = { path = "../../pallets/evm-bridge" }
-pallet-exchange = { path = '../../pallets/exchange', default-features = false }
-pallet-tokens = { path = '../../pallets/tokens', default-features = false }
+pallet-exchange = { path = '../../pallets/exchange'}
+pallet-tokens = { path = '../../pallets/tokens'}
 
 [features]
 default = ["std"]

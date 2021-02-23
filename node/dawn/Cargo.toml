@@ -4,12 +4,12 @@ description = 'Sunrise Dawn Collator'
 edition = '2018'
 homepage = 'https://sunriseprotocol.com'
 license = 'Apache 2.0'
-name = 'dawn-collator'
+name = 'dawn'
 repository = 'https://github.com/sunriseprotocol/sunrise'
 version = '0.1.0'
 
 [[bin]]
-name = 'dawn-collator'
+name = 'dawn'
 
 [dependencies]
 futures = "0.3.4"
@@ -27,6 +27,11 @@ default = [ "with-dawn-runtime" ]
 runtime-benchmarks = [
 	"sunrise-cli/runtime-benchmarks",
 ]
+
+with-ethereum-compatibility = [
+	"sunrise-service/with-ethereum-compatibility"
+]
+
 with-dawn-runtime = [
 	"sunrise-service/with-dawn-runtime",
 	"sunrise-cli/with-dawn-runtime",
