@@ -7,8 +7,8 @@ edition = "2018"
 [dependencies]
 structopt = "0.3.8"
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
-sc-cli = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
-sc-service = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
+sc-cli = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true, features = ['wasmtime']}
+sc-service = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true, features = ['wasmtime'] }
 sc-tracing = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 sc-telemetry = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }

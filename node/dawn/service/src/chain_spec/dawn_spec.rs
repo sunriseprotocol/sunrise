@@ -44,6 +44,9 @@ where
 }
 
 pub fn development_config(id: ParaId) -> ChainSpec {
+
+	let wasm_binary = dawn_runtime::WASM_BINARY.unwrap_or_default();
+
 	ChainSpec::from_genesis(
 		// Name
 		"Development",
@@ -74,6 +77,10 @@ pub fn development_config(id: ParaId) -> ChainSpec {
 }
 
 pub fn local_testnet_config(id: ParaId) -> ChainSpec {
+
+	let wasm_binary = dawn_runtime::WASM_BINARY.unwrap_or_default();
+
+
 	ChainSpec::from_genesis(
 		// Name
 		"Local Testnet",

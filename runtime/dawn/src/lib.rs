@@ -1,24 +1,38 @@
+//! The Dev runtime. This can be compiled with `#[no_std]`, ready for Wasm.
+
 #![cfg_attr(not(feature = "std"), no_std)]
 // `construct_runtime!` does a lot of recursion and requires us to increase the limit to 256.
 #![recursion_limit="256"]
+// The `large_enum_variant` warning originates from `construct_runtime` macro.
+#![allow(clippy::large_enum_variant)]
+#![allow(clippy::unnecessary_mut_passed)]
+#![allow(clippy::or_fun_call)]
+#![allow(clippy::from_over_into)]
+
 
 // Make the WASM binary available.
 #[cfg(feature = "std")]
 include!(concat!(env!("OUT_DIR"), "/wasm_binary.rs"));
 
+use codec::Encode;
+use hex_literal::hex;
+use sp_api::impl_runtime_apis;
+use sp_core::{
+	crypto::KeyTypeId,
+	u32_trait::{_1, _2, _3, _4},
+	OpaqueMetadata, H160,
+};
+use sp_runtime::traits::{BadOrigin, BlakeTwo256, Block as BlockT, Convert, SaturatedConversion, StaticLookup};
+use sp_runtime::{
+	create_runtime_str, generic, impl_opaque_keys,
+	traits::{AccountIdConversion, Zero},
+	transaction_validity::{TransactionSource, TransactionValidity},
+	ApplyExtrinsicResult, DispatchResult, FixedPointNumber, ModuleId,
+};
+use sp_std::{collections::btree_set::BTreeSet, prelude::*};
 #[cfg(feature = "std")]
 use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
-use sp_std::prelude::*;
-use sp_core::{crypto::KeyTypeId, OpaqueMetadata};
-use sp_runtime::{
-	ApplyExtrinsicResult, generic, create_runtime_str, impl_opaque_keys, MultiSignature, ModuleId,
-	transaction_validity::{TransactionValidity, TransactionSource},
-};
-use sp_runtime::traits::{
-	BlakeTwo256, Block as BlockT, AccountIdLookup, Verify, IdentifyAccount, Zero, AccountIdConversion,
-};
-use sp_api::impl_runtime_apis;
 
 // XCM imports
 use polkadot_parachain::primitives::Sibling;
@@ -42,9 +56,10 @@ use frame_system::limits::{BlockLength, BlockWeights};
 // A few exports that help ease life for downstream crates.
 #[cfg(any(feature = "std", test))]
 pub use sp_runtime::BuildStorage;
+pub use sp_runtime::{Permill, Perbill};
+
 pub use pallet_timestamp::Call as TimestampCall;
 pub use pallet_balances::Call as BalancesCall;
-pub use sp_runtime::{Permill, Perbill};
 pub use frame_support::{
 	construct_runtime, parameter_types, StorageValue,
 	traits::{KeyOwnerProofSystem, Randomness},

@@ -7,8 +7,6 @@ use crate::evm::EvmAddress;
 
 use codec::{Decode, Encode};
 
-#[cfg(feature = "std")]
-use serde::{Deserialize, Serialize};
 use sp_runtime::{
 	generic,
 	traits::{BlakeTwo256, IdentifyAccount, Verify},
@@ -19,6 +17,9 @@ use sp_std::{
 	convert::{Into, TryFrom, TryInto},
 	prelude::*,
 };
+
+#[cfg(feature = "std")]
+use serde::{Deserialize, Serialize};
 
 pub type Decimals = u8;
 pub type AssetId = u64;
