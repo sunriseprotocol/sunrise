@@ -6,6 +6,10 @@ use sp_core::{sr25519, Pair, Public};
 use sp_runtime::traits::{IdentifyAccount, Verify};
 use dawn_runtime::{AccountId, Signature};
 
+use crate::chain_spec::{
+	evm_genesis, get_account_id_from_seed, get_authority_keys_from_seed, Extensions, TELEMETRY_URL,
+};
+
 /// Specialized `ChainSpec` for the normal parachain runtime.
 pub type ChainSpec = sc_service::GenericChainSpec<dawn_runtime::GenesisConfig, Extensions>;
 

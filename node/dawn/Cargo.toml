@@ -28,10 +28,6 @@ runtime-benchmarks = [
 	"sunrise-cli/runtime-benchmarks",
 ]
 
-with-ethereum-compatibility = [
-	"sunrise-service/with-ethereum-compatibility"
-]
-
 with-dawn-runtime = [
 	"sunrise-service/with-dawn-runtime",
 	"sunrise-cli/with-dawn-runtime",
