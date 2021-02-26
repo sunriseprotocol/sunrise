@@ -38,4 +38,6 @@ run-eth:
 test-eth: 
 	SKIP_WASM_BUILD= cargo test --manifest-path node/dawn/Cargo.toml test_evm_module --features with-ethereum-compatibility -p dawn-runtime
 
+## Todo add in commands for overrides if needed
+## cargo update && cargo update -p schnorrkel:0.9.2 --precise 0.9.1 && cargo update -p funty --precise 1.1.0
 

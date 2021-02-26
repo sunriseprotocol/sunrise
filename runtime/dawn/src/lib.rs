@@ -1,3 +1,5 @@
+Deliberately break the compilation here to validate the cargo files are correct
+
 //! The Dev runtime. This can be compiled with `#[no_std]`, ready for Wasm.
 
 #![cfg_attr(not(feature = "std"), no_std)]

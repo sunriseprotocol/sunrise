@@ -2,9 +2,9 @@ cargo-features = ["resolver"]
 
 [workspace]
 members = [
-   'pallets/*',
-    'runtime/*',
-    'node/*',
+##   'pallets/*',
+    'runtime/dawn',
+##    'node/*',
 ]
 
 resolver = "2"
@@ -81,4 +81,7 @@ evm-core = { git = "https://github.com/AcalaNetwork/evm.git", branch = "sw/bump-
 evm-gasometer = { git = "https://github.com/AcalaNetwork/evm.git", branch = "sw/bump-dependencies" }
 evm-runtime = { git = "https://github.com/AcalaNetwork/evm.git", branch = "sw/bump-dependencies" }
 ethereum = { git = "https://github.com/rust-blockchain/ethereum.git" }
+
+## TODO - add patches for the following
+## cargo update && cargo update -p schnorrkel:0.9.2 --precise 0.9.1 && cargo update -p funty --precise 1.1.0
 
