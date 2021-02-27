@@ -15,13 +15,11 @@ build = "build.rs"
 smallvec = "1.4.0"
 codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false, features = ["derive"] }
 serde = { version = "1.0.101", optional = true, default-features = false }
-#### serde = { version = "1.0.101", optional = true, features = ["derive"] }
+### serde = { version = "1.0.101", optional = true, features = ["derive"] }
 serde_json = "1.0.60"
 hex = { version = "0.4", default-features = false, optional = true }
 hex-literal = { version = "0.3.1" }
 evm = { version = "0.24.0", optional = true, default-features = false }
-### TODO ensure that the correct version of ethereum is picked up via [patch.crates.io] in main Cargo.toml
-### ethereum = { version = "0.7.1", default-features = false }
 
 #TODO: This is a workaround for issue https://github.com/bitvecto-rs/bitvec/issues/105. Remove it once fixed.
 funty = { version = "=1.1.0" }
@@ -80,10 +78,10 @@ orml-traits = { path = "../../orml/traits", default-features = false }
 primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
 runtime-common = { path = "../common", default-features = false }
 pallet-currencies = { path = '../../pallets/currencies', default-features = false }
-# pallet-evm = { path = "../../pallets/evm", default-features = false }
-# pallet-evm-rpc-runtime-api = { path = "../../pallets/evm/rpc/runtime_api", default-features = false }
-# pallet-evm-accounts = { path = "../../pallets/evm-accounts", default-features = false }
-# pallet-evm-bridge = { path = "../../pallets/evm-bridge", default-features = false }
+pallet-evm = { path = "../../pallets/evm", default-features = false }
+pallet-evm-rpc-runtime-api = { path = "../../pallets/evm/rpc/runtime_api", default-features = false }
+pallet-evm-accounts = { path = "../../pallets/evm-accounts", default-features = false }
+pallet-evm-bridge = { path = "../../pallets/evm-bridge", default-features = false }
 pallet-exchange = { path = '../../pallets/exchange', default-features = false }
 exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false}
 pallet-support = { path = '../../pallets/support', default-features = false }
@@ -131,37 +129,37 @@ std = [
 	"sp-transaction-pool/std",
 	"sp-version/std",
 
-	"cumulus-pallet-parachain-system/std",
-	"cumulus-primitives-core/std",
-	"cumulus-pallet-xcm-handler/std",
+ 	"cumulus-pallet-parachain-system/std",
+ 	"cumulus-primitives-core/std",
+ 	"cumulus-pallet-xcm-handler/std",
 
-	"parachain-info/std",
-	"polkadot-parachain/std",
+ 	"parachain-info/std",
+ 	"polkadot-parachain/std",
 
-	"xcm/std",
-	"xcm-executor/std",
-	"xcm-builder/std",
+ 	"xcm/std",
+ 	"xcm-executor/std",
+ 	"xcm-builder/std",
 
-	"orml-tokens/std",
+ 	"orml-tokens/std",
 	"orml-traits/std",
 
-	"pallet-currencies/std",
-# 	"pallet-evm/std",
-# 	"pallet-evm-accounts/std",
-# 	"pallet-evm-rpc-runtime-api/std",
-# 	"pallet-evm-bridge/std",
-	"pallet-exchange/std",
-	"exchange-rpc-runtime-api/std",
-	"pallet-support/std",
-	"pallet-template/std",
-	"pallet-tokens/std",
+ 	"pallet-currencies/std",
+  	"pallet-evm/std",
+  	"pallet-evm-accounts/std",
+  	"pallet-evm-rpc-runtime-api/std",
+  	"pallet-evm-bridge/std",
+ 	"pallet-exchange/std",
+ 	"exchange-rpc-runtime-api/std",
+ 	"pallet-support/std",
+ 	"pallet-template/std",
+ 	"pallet-tokens/std",
 	
-	"primitives/std",
+ 	"primitives/std",
 ]
 
 runtime-benchmarks = [
 	"frame-benchmarking",
-	"orml-benchmarking",
+ 	"orml-benchmarking",
 
 	"frame-support/runtime-benchmarks",
 	"frame-system/runtime-benchmarks",
@@ -176,7 +174,7 @@ runtime-benchmarks = [
 disable-runtime-api = []
 with-ethereum-compatibility = [
 	"evm",
-#	"pallet-evm/with-ethereum-compatibility",
+ 	"pallet-evm/with-ethereum-compatibility",
  	"runtime-common/with-ethereum-compatibility",
 ]
 standalone = [] 
