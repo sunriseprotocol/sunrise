@@ -223,7 +223,7 @@ dependencies = [
  "memchr",
  "num_cpus",
  "once_cell",
- "pin-project-lite 0.2.4",
+ "pin-project-lite 0.2.5",
  "pin-utils",
  "slab",
  "wasm-bindgen-futures",
@@ -335,7 +335,7 @@ dependencies = [
  "block-padding 0.1.5",
  "byte-tools",
  "byteorder",
- "generic-array 0.12.3",
+ "generic-array 0.12.4",
 ]
 
 [[package]]
@@ -487,15 +487,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "clear_on_drop"
-version = "0.2.4"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c9cc5db465b294c3fa986d5bbb0f3017cd850bff6dd6c52f9ccff8b4d21b7b08"
-dependencies = [
- "cc",
-]
-
-[[package]]
 name = "concurrent-queue"
 version = "1.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -539,7 +530,7 @@ version = "0.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4434400df11d95d556bac068ddfedd482915eb18fe8bea89bc80b6e4b1c179e5"
 dependencies = [
- "generic-array 0.12.3",
+ "generic-array 0.12.4",
  "subtle 1.0.0",
 ]
 
@@ -564,52 +555,11 @@ dependencies = [
 ]
 
 [[package]]
-name = "cumulus-pallet-parachain-system"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
-dependencies = [
- "cumulus-primitives-core",
- "cumulus-primitives-parachain-inherent",
- "frame-executive",
- "frame-support",
- "frame-system",
- "hash-db",
- "memory-db",
- "pallet-balances",
- "parity-scale-codec",
- "polkadot-parachain",
- "serde",
- "sp-core",
- "sp-externalities",
- "sp-inherents",
- "sp-io",
- "sp-runtime",
- "sp-state-machine",
- "sp-std",
- "sp-trie",
- "sp-version",
- "trie-db",
-]
-
-[[package]]
-name = "cumulus-pallet-xcm-handler"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
-dependencies = [
- "cumulus-primitives-core",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "sp-std",
- "xcm",
-]
-
-[[package]]
 name = "cumulus-primitives-core"
 version = "0.1.0"
 source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
 dependencies = [
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "parity-scale-codec",
  "polkadot-core-primitives",
  "polkadot-parachain",
@@ -617,24 +567,6 @@ dependencies = [
  "sp-runtime",
  "sp-std",
  "sp-trie",
-]
-
-[[package]]
-name = "cumulus-primitives-parachain-inherent"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
-dependencies = [
- "cumulus-primitives-core",
- "parity-scale-codec",
- "sc-client-api",
- "sp-api",
- "sp-core",
- "sp-inherents",
- "sp-runtime",
- "sp-state-machine",
- "sp-std",
- "sp-trie",
- "tracing",
 ]
 
 [[package]]
@@ -673,11 +605,8 @@ checksum = "3ee2393c4a91429dffb4bedf19f4d6abf27d8a732c8ce4980305d782e5426d57"
 name = "dawn-runtime"
 version = "0.1.0"
 dependencies = [
- "cumulus-pallet-parachain-system",
- "cumulus-pallet-xcm-handler",
  "cumulus-primitives-core",
  "evm",
- "exchange-rpc-runtime-api",
  "frame-benchmarking",
  "frame-executive",
  "frame-support",
@@ -685,31 +614,17 @@ dependencies = [
  "frame-system-rpc-runtime-api",
  "funty",
  "hex",
- "hex-literal 0.3.1",
+ "hex-literal",
  "libsecp256k1",
- "orml-benchmarking",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
  "pallet-aura",
  "pallet-balances",
- "pallet-currencies",
- "pallet-evm",
- "pallet-evm-accounts",
- "pallet-evm-bridge",
- "pallet-evm-rpc-runtime-api",
- "pallet-exchange",
  "pallet-randomness-collective-flip",
  "pallet-sudo",
- "pallet-support",
- "pallet-template",
  "pallet-timestamp",
- "pallet-tokens",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
- "parachain-info",
  "parity-scale-codec",
  "polkadot-parachain",
- "runtime-common",
  "serde",
  "serde_json",
  "smallvec",
@@ -728,7 +643,6 @@ dependencies = [
  "sp-transaction-pool",
  "sp-version",
  "substrate-wasm-builder",
- "sunrise-primitives",
  "xcm",
  "xcm-builder",
  "xcm-executor",
@@ -751,7 +665,7 @@ version = "0.8.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "f3d0c8c8752312f9713efd397ff63acb9f85585afbf179282e720e7704954dd5"
 dependencies = [
- "generic-array 0.12.3",
+ "generic-array 0.12.4",
 ]
 
 [[package]]
@@ -820,19 +734,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e78d4f1cc4ae33bbfc157ed5d5a5ef3bc29227303d595861deb238fcec4e9457"
 
 [[package]]
-name = "env_logger"
-version = "0.7.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "44533bbbb3bb3c1fa17d9f2e4e38bbbaf8396ba82193c4cb1b6445d711445d36"
-dependencies = [
- "atty",
- "humantime",
- "log",
- "regex",
- "termcolor",
-]
-
-[[package]]
 name = "environmental"
 version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -846,7 +747,6 @@ checksum = "779864b9c7f7ead1f092972c3257496c6a84b46dba2ce131dd8a282cb2cc5972"
 dependencies = [
  "crunchy",
  "fixed-hash",
- "impl-codec",
  "impl-rlp",
  "impl-serde",
  "tiny-keccak",
@@ -860,10 +760,8 @@ dependencies = [
  "ethereum-types",
  "hash-db",
  "hash256-std-hasher",
- "parity-scale-codec",
  "rlp",
  "rlp-derive",
- "serde",
  "sha3 0.9.1",
  "triehash",
 ]
@@ -876,7 +774,6 @@ checksum = "f64b5df66a228d85e4b17e5d6c6aa43b0310898ffe8a85988c4c032357aaabfd"
 dependencies = [
  "ethbloom",
  "fixed-hash",
- "impl-codec",
  "impl-rlp",
  "impl-serde",
  "primitive-types",
@@ -899,10 +796,8 @@ dependencies = [
  "evm-gasometer",
  "evm-runtime",
  "log",
- "parity-scale-codec",
  "primitive-types",
  "rlp",
- "serde",
  "sha3 0.8.2",
 ]
 
@@ -911,9 +806,7 @@ name = "evm-core"
 version = "0.24.0"
 source = "git+https://github.com/AcalaNetwork/evm.git?branch=sw/bump-dependencies#e68b315e991c6fffc68589e21a3a2a6e3732ee52"
 dependencies = [
- "parity-scale-codec",
  "primitive-types",
- "serde",
 ]
 
 [[package]]
@@ -934,18 +827,6 @@ dependencies = [
  "evm-core",
  "primitive-types",
  "sha3 0.8.2",
-]
-
-[[package]]
-name = "exchange-rpc-runtime-api"
-version = "0.1.0"
-dependencies = [
- "pallet-exchange",
- "parity-scale-codec",
- "serde",
- "sp-api",
- "sp-runtime",
- "sp-std",
 ]
 
 [[package]]
@@ -1050,7 +931,7 @@ dependencies = [
  "bitflags",
  "frame-metadata",
  "frame-support-procedural",
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "log",
  "once_cell",
  "parity-scale-codec",
@@ -1108,7 +989,7 @@ version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
 dependencies = [
  "frame-support",
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "parity-scale-codec",
  "serde",
  "sp-core",
@@ -1193,7 +1074,7 @@ dependencies = [
  "futures-io",
  "memchr",
  "parking",
- "pin-project-lite 0.2.4",
+ "pin-project-lite 0.2.5",
  "waker-fn",
 ]
 
@@ -1240,7 +1121,7 @@ dependencies = [
  "futures-sink",
  "futures-task",
  "memchr",
- "pin-project-lite 0.2.4",
+ "pin-project-lite 0.2.5",
  "pin-utils",
  "proc-macro-hack",
  "proc-macro-nested",
@@ -1249,18 +1130,18 @@ dependencies = [
 
 [[package]]
 name = "generic-array"
-version = "0.12.3"
+version = "0.12.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c68f0274ae0e023facc3c97b2e00f076be70e254bc851d972503b328db79b2ec"
+checksum = "ffdf9f34f1447443d37393cc6c2b8313aebddcd96906caf34e54c68d8e57d7bd"
 dependencies = [
  "typenum",
 ]
 
 [[package]]
 name = "generic-array"
-version = "0.13.2"
+version = "0.13.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0ed1e761351b56f54eb9dcd0cfaca9fd0daecf93918e1cfc01c8a3d26ee7adcd"
+checksum = "f797e67af32588215eaaab8327027ee8e71b9dd0b2b26996aedf20c030fce309"
 dependencies = [
  "typenum",
 ]
@@ -1386,28 +1267,9 @@ checksum = "644f9158b2f133fd50f5fb3242878846d9eb792e445c893805ff0e3824006e35"
 
 [[package]]
 name = "hex-literal"
-version = "0.2.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "961de220ec9a91af2e1e5bd80d02109155695e516771762381ef8581317066e0"
-dependencies = [
- "hex-literal-impl",
- "proc-macro-hack",
-]
-
-[[package]]
-name = "hex-literal"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5af1f635ef1bc545d78392b136bfe1c9809e029023c84a3638a864a10b8819c8"
-
-[[package]]
-name = "hex-literal-impl"
-version = "0.2.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "853f769599eb31de176303197b7ba4973299c38c7a7604a6bc88c3eef05b9b46"
-dependencies = [
- "proc-macro-hack",
-]
 
 [[package]]
 name = "hmac"
@@ -1436,7 +1298,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c6e570451493f10f6581b48cdd530413b63ea9e780f544bfd3bdcaa0d89d1a7b"
 dependencies = [
  "digest 0.8.1",
- "generic-array 0.12.3",
+ "generic-array 0.12.4",
  "hmac 0.7.1",
 ]
 
@@ -1472,15 +1334,6 @@ name = "httpdate"
 version = "0.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "494b4d60369511e7dea41cf646832512a94e542f68bb9c49e54518e0f468eb47"
-
-[[package]]
-name = "humantime"
-version = "1.3.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "df004cfca50ef23c36850aaaa59ad52cc70d0e90243c3c7737a4dd32dc7a3c4f"
-dependencies = [
- "quick-error 1.2.3",
-]
 
 [[package]]
 name = "hyper"
@@ -1541,17 +1394,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b47ca4d2b6931707a55fce5cf66aff80e2178c8b63bbb4ecb5695cbc870ddf6f"
 dependencies = [
  "serde",
-]
-
-[[package]]
-name = "impl-trait-for-tuples"
-version = "0.1.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7ef5550a42e3740a0e71f909d4c861056a284060af885ae7aa6242820f920d9d"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -1650,9 +1492,9 @@ checksum = "e2abad23fbc42b3700f2f279844dc832adb2b2eb069b2df918f455c4e18cc646"
 
 [[package]]
 name = "libc"
-version = "0.2.86"
+version = "0.2.87"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b7282d924be3275cec7f6756ff4121987bc6481325397dde6ba3e7802b1a8b1c"
+checksum = "265d751d31d6780a3f956bb5b8022feba2d94eeee5a84ba64f4212eedca42213"
 
 [[package]]
 name = "libm"
@@ -1898,9 +1740,9 @@ checksum = "1255076139a83bb467426e7f8d0134968a8118844faa755985e077cf31850333"
 
 [[package]]
 name = "multistream-select"
-version = "0.10.1"
+version = "0.10.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5df70763c86c98487451f307e1b68b4100da9076f4c12146905fc2054277f4e8"
+checksum = "7d91ec0a2440aaff5f78ec35631a7027d50386c6163aa975f7caa0d5da4b6ff8"
 dependencies = [
  "bytes 1.0.1",
  "futures",
@@ -1917,7 +1759,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d6b6147c3d50b4f3cdabfe2ecc94a0191fd3d6ad58aefd9664cf396285883486"
 dependencies = [
  "approx",
- "generic-array 0.13.2",
+ "generic-array 0.13.3",
  "matrixmultiply",
  "num-complex",
  "num-rational",
@@ -2027,9 +1869,9 @@ checksum = "a9a7ab5d64814df0fe4a4b5ead45ed6c5f181ee3ff04ba344313a6c80446c5d4"
 
 [[package]]
 name = "once_cell"
-version = "1.7.0"
+version = "1.7.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "10acf907b94fc1b1a152d08ef97e7759650268cf986bf127f387e602b02c7e5a"
+checksum = "af8b08b04175473088b46763e51ee54da5f9a164bc162f615b91bc179dbf15a3"
 dependencies = [
  "parking_lot",
 ]
@@ -2045,132 +1887,6 @@ name = "opaque-debug"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "624a8340c38c1b80fd549087862da4ba43e08858af025b236e509b6649fc13d5"
-
-[[package]]
-name = "orml-benchmarking"
-version = "0.4.0-dev"
-dependencies = [
- "frame-benchmarking",
- "frame-support",
- "frame-system",
- "hex-literal 0.2.1",
- "parity-scale-codec",
- "paste 0.1.18",
- "sp-api",
- "sp-io",
- "sp-runtime",
- "sp-runtime-interface",
- "sp-std",
-]
-
-[[package]]
-name = "orml-currencies"
-version = "0.4.0-dev"
-dependencies = [
- "frame-support",
- "frame-system",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "orml-utilities 0.4.0-dev",
- "pallet-balances",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "orml-tokens"
-version = "0.4.0-dev"
-dependencies = [
- "frame-support",
- "frame-system",
- "orml-traits 0.4.0-dev",
- "pallet-bounties",
- "pallet-elections-phragmen",
- "pallet-tips",
- "pallet-treasury",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "orml-tokens"
-version = "0.4.0-dev"
-source = "git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1#727d6ee4e1280994d4ab584c7eb680c55419346f"
-dependencies = [
- "frame-support",
- "frame-system",
- "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "parity-scale-codec",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "orml-traits"
-version = "0.4.0-dev"
-dependencies = [
- "frame-support",
- "impl-trait-for-tuples 0.1.3",
- "num-traits",
- "orml-utilities 0.4.0-dev",
- "parity-scale-codec",
- "serde",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "orml-traits"
-version = "0.4.0-dev"
-source = "git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1#727d6ee4e1280994d4ab584c7eb680c55419346f"
-dependencies = [
- "frame-support",
- "impl-trait-for-tuples 0.1.3",
- "num-traits",
- "orml-utilities 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "parity-scale-codec",
- "serde",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "orml-utilities"
-version = "0.4.0-dev"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
- "serde_json",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "orml-utilities"
-version = "0.4.0-dev"
-source = "git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1#727d6ee4e1280994d4ab584c7eb680c55419346f"
-dependencies = [
- "frame-support",
- "parity-scale-codec",
- "serde",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
 
 [[package]]
 name = "pallet-aura"
@@ -2205,180 +1921,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-bounties"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-support",
- "frame-system",
- "pallet-treasury",
- "parity-scale-codec",
- "serde",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "pallet-currencies"
-version = "0.1.0"
-dependencies = [
- "clear_on_drop",
- "frame-support",
- "frame-system",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "orml-utilities 0.4.0-dev",
- "pallet-balances",
- "pallet-evm",
- "pallet-evm-bridge",
- "pallet-support",
- "pallet-timestamp",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-elections-phragmen"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
- "sp-npos-elections",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "pallet-evm"
-version = "0.1.0"
-dependencies = [
- "env_logger",
- "evm",
- "evm-gasometer",
- "evm-runtime",
- "frame-support",
- "frame-system",
- "impl-trait-for-tuples 0.1.3",
- "orml-currencies",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-support",
- "pallet-timestamp",
- "parity-scale-codec",
- "primitive-types",
- "ripemd160",
- "rlp",
- "serde",
- "sha3 0.8.2",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-evm-accounts"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "libsecp256k1",
- "orml-currencies",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-support",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-evm-bridge"
-version = "0.1.0"
-dependencies = [
- "ethereum-types",
- "frame-support",
- "frame-system",
- "hex-literal 0.3.1",
- "impl-trait-for-tuples 0.1.3",
- "pallet-balances",
- "pallet-evm",
- "pallet-support",
- "pallet-timestamp",
- "parity-scale-codec",
- "primitive-types",
- "serde",
- "sha3 0.8.2",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-evm-rpc-runtime-api"
-version = "0.1.0"
-dependencies = [
- "ethereum-types",
- "sp-api",
- "sp-core",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-exchange"
-version = "0.1.0"
-dependencies = [
- "frame-benchmarking",
- "frame-support",
- "frame-system",
- "orml-tokens 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "orml-utilities 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "pallet-support",
- "pallet-tokens",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-proxy"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
 name = "pallet-randomness-collective-flip"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
@@ -2392,28 +1934,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-scheduler"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-benchmarking",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
 name = "pallet-session"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
 dependencies = [
  "frame-support",
  "frame-system",
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "pallet-timestamp",
  "parity-scale-codec",
  "sp-core",
@@ -2439,32 +1966,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-support"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "impl-trait-for-tuples 0.1.3",
- "orml-traits 0.4.0-dev",
- "parity-scale-codec",
- "sp-core",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-template"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "sp-core",
- "sp-io",
- "sp-runtime",
-]
-
-[[package]]
 name = "pallet-timestamp"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
@@ -2472,42 +1973,13 @@ dependencies = [
  "frame-benchmarking",
  "frame-support",
  "frame-system",
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "parity-scale-codec",
  "serde",
  "sp-inherents",
  "sp-runtime",
  "sp-std",
  "sp-timestamp",
-]
-
-[[package]]
-name = "pallet-tips"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-support",
- "frame-system",
- "pallet-treasury",
- "parity-scale-codec",
- "serde",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "pallet-tokens"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
 ]
 
 [[package]]
@@ -2535,47 +2007,6 @@ dependencies = [
  "parity-scale-codec",
  "sp-api",
  "sp-runtime",
-]
-
-[[package]]
-name = "pallet-treasury"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-support",
- "frame-system",
- "impl-trait-for-tuples 0.2.1",
- "pallet-balances",
- "parity-scale-codec",
- "serde",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "pallet-utility"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "parachain-info"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
-dependencies = [
- "cumulus-primitives-core",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
 ]
 
 [[package]]
@@ -2630,7 +2061,7 @@ dependencies = [
  "cfg-if 1.0.0",
  "ethereum-types",
  "hashbrown",
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "lru",
  "parity-util-mem-derive",
  "parking_lot",
@@ -2807,15 +2238,15 @@ dependencies = [
 
 [[package]]
 name = "pin-project-lite"
-version = "0.1.11"
+version = "0.1.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c917123afa01924fc84bb20c4c03f004d9c38e5127e3c039bbf7f4b9c76a2f6b"
+checksum = "257b64915a082f7811703966789728173279bdebb956b143dbcd23f6f970a777"
 
 [[package]]
 name = "pin-project-lite"
-version = "0.2.4"
+version = "0.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "439697af366c49a6d0a010c56a0d97685bc140ce0d377b13a2ea2aa42d64a827"
+checksum = "0cf491442e4b033ed1c722cb9f0df5fcfcf4de682466c46469c36bc47dc5548a"
 
 [[package]]
 name = "pin-utils"
@@ -2869,7 +2300,7 @@ source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c87
 dependencies = [
  "bitvec",
  "frame-system",
- "hex-literal 0.3.1",
+ "hex-literal",
  "parity-scale-codec",
  "parity-util-mem",
  "polkadot-core-primitives",
@@ -3040,12 +2471,6 @@ dependencies = [
  "bytes 1.0.1",
  "prost",
 ]
-
-[[package]]
-name = "quick-error"
-version = "1.2.3"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a1d01941d82fa2ab50be1e79e6714289dd7cde78eba4c074bc5a4374f650dfe0"
 
 [[package]]
 name = "quick-error"
@@ -3269,17 +2694,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "ripemd160"
-version = "0.9.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2eca4ecc81b7f313189bf73ce724400a07da2a6dac19588b03c8bd76a2dcc251"
-dependencies = [
- "block-buffer 0.9.0",
- "digest 0.9.0",
- "opaque-debug 0.3.0",
-]
-
-[[package]]
 name = "rlp"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3298,36 +2712,6 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "runtime-common"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "hex-literal 0.3.1",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-currencies",
- "pallet-evm",
- "pallet-evm-bridge",
- "pallet-exchange",
- "pallet-proxy",
- "pallet-scheduler",
- "pallet-support",
- "pallet-timestamp",
- "pallet-tokens",
- "pallet-utility",
- "parity-scale-codec",
- "serde_json",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "static_assertions",
- "sunrise-primitives",
 ]
 
 [[package]]
@@ -3390,40 +2774,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "93fc1dc3aaa9bfed95e02e6eadabb4baf7e3078b0bd1b4d7b6b0b68378900502"
 dependencies = [
  "winapi-util",
-]
-
-[[package]]
-name = "sc-client-api"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "derive_more",
- "fnv",
- "futures",
- "hash-db",
- "kvdb",
- "lazy_static",
- "log",
- "parity-scale-codec",
- "parking_lot",
- "sc-executor",
- "sp-api",
- "sp-blockchain",
- "sp-consensus",
- "sp-core",
- "sp-database",
- "sp-externalities",
- "sp-inherents",
- "sp-keystore",
- "sp-runtime",
- "sp-state-machine",
- "sp-std",
- "sp-storage",
- "sp-transaction-pool",
- "sp-trie",
- "sp-utils",
- "sp-version",
- "substrate-prometheus-endpoint",
 ]
 
 [[package]]
@@ -3584,9 +2934,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.63"
+version = "1.0.64"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "43535db9747a4ba938c0ce0a98cc631a46ebf943c9e1d604e091df6007620bf6"
+checksum = "799e97dc9fdae36a5c8b8f2cae9ce2ee9fdce2058c57a93e6099d919fd982f79"
 dependencies = [
  "itoa",
  "ryu",
@@ -3661,7 +3011,7 @@ dependencies = [
  "cfg-if 0.1.10",
  "libc",
  "nix",
- "quick-error 2.0.0",
+ "quick-error",
  "rand 0.8.3",
  "winapi",
 ]
@@ -4012,30 +3362,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sp-npos-elections"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "parity-scale-codec",
- "serde",
- "sp-arithmetic",
- "sp-core",
- "sp-npos-elections-compact",
- "sp-std",
-]
-
-[[package]]
-name = "sp-npos-elections-compact"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "proc-macro-crate",
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
 name = "sp-offchain"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
@@ -4060,7 +3386,7 @@ source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec9169
 dependencies = [
  "either",
  "hash256-std-hasher",
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "log",
  "parity-scale-codec",
  "parity-util-mem",
@@ -4079,7 +3405,7 @@ name = "sp-runtime-interface"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
 dependencies = [
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "parity-scale-codec",
  "primitive-types",
  "sp-externalities",
@@ -4193,7 +3519,7 @@ name = "sp-timestamp"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
 dependencies = [
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "parity-scale-codec",
  "sp-api",
  "sp-inherents",
@@ -4274,7 +3600,7 @@ name = "sp-wasm-interface"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
 dependencies = [
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "parity-scale-codec",
  "sp-std",
  "wasmi",
@@ -4357,19 +3683,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e81da0851ada1f3e9d4312c704aa4f8806f0f9d69faaf8df2f3464b4a9437c2"
 
 [[package]]
-name = "sunrise-primitives"
-version = "0.1.0"
-dependencies = [
- "evm",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
 name = "syn"
 version = "1.0.60"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -4410,15 +3723,6 @@ dependencies = [
  "redox_syscall",
  "remove_dir_all",
  "winapi",
-]
-
-[[package]]
-name = "termcolor"
-version = "1.1.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2dfed899f0eb03f32ee8c6a0aabdb8a7949659e3466561fc0adf54e26d88c5f4"
-dependencies = [
- "winapi-util",
 ]
 
 [[package]]
@@ -4502,7 +3806,7 @@ dependencies = [
  "fnv",
  "futures-core",
  "memchr",
- "pin-project-lite 0.1.11",
+ "pin-project-lite 0.1.12",
 ]
 
 [[package]]
@@ -4515,7 +3819,7 @@ dependencies = [
  "futures-core",
  "futures-sink",
  "log",
- "pin-project-lite 0.1.11",
+ "pin-project-lite 0.1.12",
  "tokio",
 ]
 
@@ -4542,20 +3846,8 @@ checksum = "01ebdc2bb4498ab1ab5f5b73c5803825e60199229ccba0698170e3be0e7f959f"
 dependencies = [
  "cfg-if 1.0.0",
  "log",
- "pin-project-lite 0.2.4",
- "tracing-attributes",
+ "pin-project-lite 0.2.5",
  "tracing-core",
-]
-
-[[package]]
-name = "tracing-attributes"
-version = "0.1.13"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a8a9bd1db7706f2373a190b0d067146caa39350c486f3d455b0e33b431f94c07"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -5030,7 +4322,7 @@ version = "0.8.22"
 source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
 dependencies = [
  "frame-support",
- "impl-trait-for-tuples 0.2.1",
+ "impl-trait-for-tuples",
  "parity-scale-codec",
  "sp-arithmetic",
  "sp-core",
