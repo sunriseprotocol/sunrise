@@ -2,9 +2,9 @@ cargo-features = ["resolver"]
 
 [workspace]
 members = [
-##   'pallets/*',
-    'runtime/dawn',
-##    'node/*',
+   'pallets/*',
+    'runtime/*',
+    'node/*',
 ]
 
 resolver = "2"
