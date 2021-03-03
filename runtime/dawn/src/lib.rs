@@ -79,12 +79,12 @@ pub use sp_runtime::{Perbill, Percent, Permill, Perquintill};
 pub use authority::AuthorityConfigImpl;
 pub use constants::{currency::*, fee::*, time::*};
 pub use primitives::{
-	AccountId, AccountIndex, AirDropCurrencyId, Amount, AuctionId, AuthoritysOriginId, Balance, BlockNumber,
-	CurrencyId, DataProviderId, EraIndex, Hash, Moment, Nonce, Share, Signature, TokenSymbol, TradingPair,
+	AccountId, AccountIndex, Amount, AuctionId, Balance, BlockNumber,
+	CurrencyId, EraIndex, Hash, Moment, Nonce, Share, Signature, TokenSymbol, 
 };
 pub use runtime_common::{
-	BlockLength, BlockWeights, CurveFeeModel, ExchangeRate, GasToWeight, OffchainSolutionWeightLimit, Price, Rate,
-	Ratio, SystemContractsFilter, TimeStampedPrice, AVERAGE_ON_INITIALIZE_RATIO,
+	BlockLength, BlockWeights, ExchangeRate, GasToWeight, OffchainSolutionWeightLimit, Price, Rate,
+	Ratio, SystemContractsFilter, AVERAGE_ON_INITIALIZE_RATIO,
 };
 
 mod authority;

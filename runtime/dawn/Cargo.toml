@@ -70,6 +70,7 @@ xcm-builder = { git = "https://github.com/paritytech/polkadot", branch = "rococo
 orml-benchmarking = { path = "../../orml/benchmarking", default-features = false, optional = true }
 orml-tokens = { path = "../../orml/tokens", default-features = false }
 orml-traits = { path = "../../orml/traits", default-features = false }
+orml-xcm-support = { path = "../../orml/xcm-support", default-features = false }
 
 # local dependencies
 primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
@@ -139,6 +140,7 @@ std = [
 
  	"orml-tokens/std",
 	"orml-traits/std",
+	"orml-xcm-support/std",
 
  	"pallet-currencies/std",
   	"pallet-evm/std",

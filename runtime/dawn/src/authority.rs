@@ -1,15 +1,12 @@
 //! An orml_authority trait implementation.
 
 use crate::{
-	AcalaTreasuryModuleId, AccountId, AccountIdConversion, AuthoritysOriginId, BadOrigin, BlockNumber, DSWFModuleId,
-	DispatchResult, EnsureRoot, EnsureRootOrHalfGeneralCouncil, EnsureRootOrHalfHomaCouncil,
-	EnsureRootOrHalfHonzonCouncil, EnsureRootOrOneThirdsTechnicalCommittee, EnsureRootOrThreeFourthsGeneralCouncil,
-	EnsureRootOrTwoThirdsTechnicalCommittee, HomaTreasuryModuleId, HonzonTreasuryModuleId, OneDay, Origin,
-	OriginCaller, SevenDays, ZeroDay, HOURS,
+	AccountId, AccountIdConversion, BadOrigin, BlockNumber, 
+	DispatchResult, EnsureRoot, Origin, 
+	OriginCaller, HOURS,
 };
 pub use frame_support::traits::{schedule::Priority, EnsureOrigin, OriginTrait};
 use frame_system::ensure_root;
-use orml_authority::EnsureDelayed;
 
 pub struct AuthorityConfigImpl;
 impl orml_authority::AuthorityConfig<Origin, OriginCaller, BlockNumber> for AuthorityConfigImpl {
