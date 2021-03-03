@@ -36,34 +36,34 @@ pallet-evm-rpc-runtime-api = { path = "../../pallets/evm/rpc/runtime_api" }
 
 
 # Substrate dependencies
-frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sc-basic-authorship = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", version = '0.9.0' }
-sc-cli = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1",features = ['wasmtime'], version = '0.9.0' }
-sc-client-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sc-consensus = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", version = '0.9.0' }
-sc-consensus-aura = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", version = '0.9.0' }
-sc-executor = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", features = ['wasmtime'], version = '0.9.0'}
-sc-keystore = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sc-finality-grandpa = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", version = '0.9.0' }
-sc-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sc-rpc-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", version = '0.9.0' }
-sc-service = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1",features = ['wasmtime'], version = '0.9.0' }
-sc-telemetry = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sc-transaction-pool = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
+frame-benchmarking = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-basic-authorship = { git = "https://github.com/paritytech/substrate", version = '0.9.0' , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-cli = { git = "https://github.com/paritytech/substrate",features = ['wasmtime'], version = '0.9.0' , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-client-api = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-consensus = { git = "https://github.com/paritytech/substrate", version = '0.9.0' , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-consensus-aura = { git = "https://github.com/paritytech/substrate", version = '0.9.0' , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-executor = { git = "https://github.com/paritytech/substrate", features = ['wasmtime'], version = '0.9.0', rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-keystore = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-finality-grandpa = { git = "https://github.com/paritytech/substrate", version = '0.9.0' , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-rpc = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-rpc-api = { git = "https://github.com/paritytech/substrate", version = '0.9.0' , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-service = { git = "https://github.com/paritytech/substrate",features = ['wasmtime'], version = '0.9.0' , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-telemetry = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-transaction-pool = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 
-sp-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sp-block-builder = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sp-blockchain = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sp-consensus  = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", version = '0.9.0' }
-sp-consensus-aura = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", version = '0.9.0' }
-sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sp-finality-grandpa = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sp-inherents = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-sp-transaction-pool = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
-substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"}
+sp-api = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-block-builder = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-blockchain = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-consensus  = { git = "https://github.com/paritytech/substrate", version = '0.9.0' , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-consensus-aura = { git = "https://github.com/paritytech/substrate", version = '0.9.0' , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-core = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-finality-grandpa = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-inherents = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-runtime = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-transaction-pool = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 
 [features]
 default = []

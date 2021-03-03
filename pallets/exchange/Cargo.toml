@@ -10,13 +10,13 @@ edition = '2018'
 serde = { version = "1.0.101", optional = true }
 codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
 
-sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-std = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false }
+sp-core = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-runtime = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-std = { git = "https://github.com/paritytech/substrate.git",  default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 
-frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false, optional = true }
-frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false}
-frame-system = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", default-features = false}
+frame-benchmarking = { git = "https://github.com/paritytech/substrate", default-features = false, optional = true , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+frame-support = { git = "https://github.com/paritytech/substrate.git",  default-features = false, rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+frame-system = { git = "https://github.com/paritytech/substrate.git", default-features = false, rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 
 orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false }
 orml-utilities = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false }
@@ -26,8 +26,8 @@ support = { package = "pallet-support", path = "../support", default-features = 
 
 
 [dev-dependencies]
-sp-core = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false}
-sp-io = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1",  default-features = false }
+sp-core = { git = "https://github.com/paritytech/substrate.git",  default-features = false, rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-io = { git = "https://github.com/paritytech/substrate.git",  default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 orml-tokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false}
 
 [features]

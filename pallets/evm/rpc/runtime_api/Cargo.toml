@@ -5,10 +5,10 @@ authors = ["Sunrise Protocol"]
 edition = "2018"
 
 [dependencies]
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-runtime = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-api = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-std = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-core = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 ethereum-types = { version = "0.11", default-features = false }
 primitives = { package = "sunrise-primitives", path = "../../../../primitives", default-features = false }
 

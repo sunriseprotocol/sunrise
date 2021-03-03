@@ -6,26 +6,26 @@ edition = "2018"
 
 [dependencies]
 structopt = "0.3.8"
-sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
-sc-cli = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
-sc-service = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true}
-sc-tracing = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sc-telemetry = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", optional = true }
+sp-core = { git = "https://github.com/paritytech/substrate", optional = true , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-cli = { git = "https://github.com/paritytech/substrate", optional = true , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-service = { git = "https://github.com/paritytech/substrate", optional = true, rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-tracing = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-runtime = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-telemetry = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+frame-benchmarking-cli = { git = "https://github.com/paritytech/substrate", optional = true , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 
-cumulus-client-service = { git = "https://github.com/paritytech/cumulus", branch = "rococo-v1" }
-cumulus-primitives-core = { git = "https://github.com/paritytech/cumulus", branch = "rococo-v1" }
-polkadot-parachain = { git = "https://github.com/paritytech/polkadot", branch = "rococo-v1" }
-polkadot-cli = { git = "https://github.com/paritytech/polkadot", branch = "rococo-v1" }
-polkadot-primitives = { git = "https://github.com/paritytech/polkadot", branch = "rococo-v1" }
+cumulus-client-service = { git = "https://github.com/paritytech/cumulus", rev ="fad35c28b1f73aaeb25dedb46674b48774c092b4" }
+cumulus-primitives-core = { git = "https://github.com/paritytech/cumulus", rev ="fad35c28b1f73aaeb25dedb46674b48774c092b4" }
+polkadot-parachain = { git = "https://github.com/paritytech/polkadot", rev = "9bc8915acd5507a77737371fdd892bb1f6a8db22" }
+polkadot-cli = { git = "https://github.com/paritytech/polkadot", rev = "9bc8915acd5507a77737371fdd892bb1f6a8db22" }
+polkadot-primitives = { git = "https://github.com/paritytech/polkadot", rev = "9bc8915acd5507a77737371fdd892bb1f6a8db22" }
 
 
 inspect = { package = "sunrise-inspect", path = "../../../inspect" }
 service = { package = "sunrise-service", path = "../service", default-features = false, optional = true }
 
 [build-dependencies]
-substrate-build-script-utils = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+substrate-build-script-utils = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 
 [features]
 default = [ "wasmtime", "cli", "with-dawn-runtime" ]

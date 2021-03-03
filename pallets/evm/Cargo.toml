@@ -20,15 +20,15 @@ evm = { version = "0.24.0", default-features = false, features = ["with-codec"] 
 evm-gasometer = { version = "0.24.0", default-features = false }
 evm-runtime = { version = "0.24.0", default-features = false }
 
-frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-timestamp = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-support = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+frame-system = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+pallet-balances = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+pallet-timestamp = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 
-sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-core = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-io = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-runtime = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-std = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 orml-traits = { path = "../../orml/traits", default-features = false }
 
 support = { package = "pallet-support", path = "../support", default-features = false }

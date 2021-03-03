@@ -8,12 +8,12 @@ edition = "2018"
 static_assertions = "1.1.0"
 
 codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
-sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-scheduler  = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-std = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-core = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-runtime = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+frame-support = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+frame-system = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+pallet-scheduler  = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 pallet-evm = { path = "../../pallets/evm", default-features = false }
 
 orml-traits = { path = "../../orml/traits", default-features = false }
@@ -24,11 +24,11 @@ primitives = { package = "sunrise-primitives", path = "../../primitives", defaul
 [dev-dependencies]
 serde_json = "1.0.41"
 hex-literal = { version = "0.3.1" }
-sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-timestamp = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-proxy = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-utility = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-io = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+pallet-timestamp = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+pallet-balances = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+pallet-proxy = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+pallet-utility = { git = "https://github.com/paritytech/substrate", default-features = false , rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 orml-tokens = { path = "../../orml/tokens" }
 pallet-currencies = { path = "../../pallets/currencies" }
 pallet-evm-bridge = { path = "../../pallets/evm-bridge" }

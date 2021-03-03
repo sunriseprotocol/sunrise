@@ -8,18 +8,18 @@ edition = "2018"
 jsonrpc-core = "15.0.0"
 jsonrpc-derive = "14.0.3"
 ethereum-types = "0.11.0"
-sp-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sp-blockchain = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sp-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sp-storage = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sp-transaction-pool = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sc-service = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sc-client-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sc-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-sc-network = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sp-api = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-blockchain = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-core = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-io = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-rpc = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-runtime = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-storage = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sp-transaction-pool = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-service = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-client-api = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-rpc = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
+sc-network = { git = "https://github.com/paritytech/substrate", rev = "e03ca38d45f438932ec92bf69a40b6b16b6ec643" }
 rustc-hex = "2.1.0"
 serde = { version = "1.0", features = ["derive"] }
 pallet-evm-rpc-runtime-api = { path = "runtime_api" }
