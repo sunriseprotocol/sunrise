@@ -1400,6 +1400,7 @@ dependencies = [
  "orml-tokens 0.4.0-dev",
  "orml-traits 0.4.0-dev",
  "orml-xcm-support",
+ "orml-xtokens",
  "pallet-aura",
  "pallet-balances",
  "pallet-currencies",
@@ -1408,6 +1409,7 @@ dependencies = [
  "pallet-evm-bridge",
  "pallet-evm-rpc-runtime-api",
  "pallet-exchange",
+ "pallet-multisig",
  "pallet-randomness-collective-flip",
  "pallet-sudo",
  "pallet-support",
@@ -1416,6 +1418,7 @@ dependencies = [
  "pallet-tokens",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
+ "pallet-utility",
  "parachain-info",
  "parity-scale-codec",
  "polkadot-parachain",
@@ -4395,6 +4398,25 @@ dependencies = [
  "frame-support",
  "orml-traits 0.4.0-dev",
  "parity-scale-codec",
+ "sp-runtime",
+ "sp-std",
+ "xcm",
+ "xcm-executor",
+]
+
+[[package]]
+name = "orml-xtokens"
+version = "0.3.3-dev"
+dependencies = [
+ "cumulus-primitives-core",
+ "frame-support",
+ "frame-system",
+ "orml-tokens 0.4.0-dev",
+ "parity-scale-codec",
+ "polkadot-core-primitives",
+ "serde",
+ "sp-core",
+ "sp-io",
  "sp-runtime",
  "sp-std",
  "xcm",

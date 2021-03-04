@@ -76,7 +76,6 @@ pub use pallet_timestamp::Call as TimestampCall;
 pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Percent, Permill, Perquintill};
 
-pub use authority::AuthorityConfigImpl;
 pub use constants::{currency::*, fee::*, time::*};
 pub use primitives::{
 	AccountId, AccountIndex, Amount, AuctionId, Balance, BlockNumber,
@@ -87,7 +86,6 @@ pub use runtime_common::{
 	Ratio, SystemContractsFilter, AVERAGE_ON_INITIALIZE_RATIO,
 };
 
-mod authority;
 mod benchmarking;
 mod constants;
 
@@ -160,8 +158,8 @@ impl frame_system::Config for Runtime {
 	type AccountData = pallet_balances::AccountData<Balance>;
 	type OnNewAccount = ();
 	type OnKilledAccount = (
-		module_evm::CallKillAccount<Runtime>,
-		module_evm_accounts::CallKillAccount<Runtime>,
+		pallet_evm::CallKillAccount<Runtime>,
+		pallet_evm_accounts::CallKillAccount<Runtime>,
 	);
 	type DbWeight = RocksDbWeight;
 	type BaseCallFilter = ();
@@ -210,14 +208,6 @@ impl frame_system::Config for Runtime {
 
 parameter_types! {
 	pub const IndexDeposit: Balance = DOLLARS;
-}
-
-impl pallet_indices::Config for Runtime {
-	type AccountIndex = AccountIndex;
-	type Event = Event;
-	type Currency = Balances;
-	type Deposit = IndexDeposit;
-	type WeightInfo = ();
 }
 
 parameter_types! {
@@ -318,7 +308,7 @@ parameter_types! {
 	pub const GetLDOTCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::LDOT);
 }
 
-impl module_currencies::Config for Runtime {
+impl pallet_currencies::Config for Runtime {
 	type Event = Event;
 	type MultiCurrency = Tokens;
 	type NativeCurrency = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
@@ -359,7 +349,7 @@ where
 			frame_system::CheckNonce::<Runtime>::from(nonce),
 			frame_system::CheckWeight::<Runtime>::new(),
 			module_transaction_payment::ChargeTransactionPayment::<Runtime>::from(tip),
-			module_evm::SetEvmOrigin::<Runtime>::new(),
+			pallet_evm::SetEvmOrigin::<Runtime>::new(),
 		);
 		let raw_payload = SignedPayload::new(call, extra)
 			.map_err(|e| {
@@ -426,7 +416,7 @@ pub type ScheduleCallPrecompile = runtime_common::ScheduleCallPrecompile<
 #[cfg(feature = "with-ethereum-compatibility")]
 static ISTANBUL_CONFIG: evm::Config = evm::Config::istanbul();
 
-impl module_evm::Config for Runtime {
+impl pallet_evm::Config for Runtime {
 	type AddressMapping = EvmAddressMapping<Runtime>;
 	type Currency = Balances;
 	type MergeAccount = Currencies;
@@ -461,7 +451,7 @@ impl module_evm::Config for Runtime {
 	}
 }
 
-impl module_evm_bridge::Config for Runtime {
+impl pallet_evm_bridge::Config for Runtime {
 	type EVM = EVM;
 }
 
@@ -615,8 +605,8 @@ macro_rules! construct_dawn_runtime {
 				Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
 
 				TransactionPayment: module_transaction_payment::{Module, Call, Storage},
-				EvmAccounts: module_evm_accounts::{Module, Call, Storage, Event<T>},
-				Currencies: module_currencies::{Module, Call, Event<T>},
+				EvmAccounts: pallet_evm_accounts::{Module, Call, Storage, Event<T>},
+				Currencies: pallet_currencies::{Module, Call, Event<T>},
 				Tokens: orml_tokens::{Module, Storage, Event<T>, Config<T>},
 
 				// Utility
@@ -627,8 +617,8 @@ macro_rules! construct_dawn_runtime {
 
 				Indices: pallet_indices::{Module, Call, Storage, Config<T>, Event<T>},
 
-				EVM: module_evm::{Module, Config<T>, Call, Storage, Event<T>},
-				EVMBridge: module_evm_bridge::{Module},
+				EVM: pallet_evm::{Module, Config<T>, Call, Storage, Event<T>},
+				EVMBridge: pallet_evm_bridge::{Module},
 
 				$($modules)*
 
@@ -670,7 +660,7 @@ pub type SignedExtra = (
 	frame_system::CheckNonce<Runtime>,
 	frame_system::CheckWeight<Runtime>,
 	module_transaction_payment::ChargeTransactionPayment<Runtime>,
-	module_evm::SetEvmOrigin<Runtime>,
+	pallet_evm::SetEvmOrigin<Runtime>,
 );
 /// Unchecked extrinsic type as expected by this runtime.
 pub type UncheckedExtrinsic = generic::UncheckedExtrinsic<Address, Call, Signature, SignedExtra>;
@@ -774,7 +764,7 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl module_evm_rpc_runtime_api::EVMRuntimeRPCApi<Block, Balance> for Runtime {
+	impl pallet_evm_rpc_runtime_api::EVMRuntimeRPCApi<Block, Balance> for Runtime {
 		fn call(
 			from: H160,
 			to: H160,
@@ -785,14 +775,14 @@ impl_runtime_apis! {
 			estimate: bool,
 		) -> Result<CallInfo, sp_runtime::DispatchError> {
 			let config = if estimate {
-				let mut config = <Runtime as module_evm::Config>::config().clone();
+				let mut config = <Runtime as pallet_evm::Config>::config().clone();
 				config.estimate = true;
 				Some(config)
 			} else {
 				None
 			};
 
-			module_evm::Runner::<Runtime>::call(
+			pallet_evm::Runner::<Runtime>::call(
 				from,
 				from,
 				to,
@@ -800,7 +790,7 @@ impl_runtime_apis! {
 				value,
 				gas_limit.into(),
 				storage_limit,
-				config.as_ref().unwrap_or(<Runtime as module_evm::Config>::config()),
+				config.as_ref().unwrap_or(<Runtime as pallet_evm::Config>::config()),
 			)
 		}
 
@@ -813,20 +803,20 @@ impl_runtime_apis! {
 			estimate: bool,
 		) -> Result<CreateInfo, sp_runtime::DispatchError> {
 			let config = if estimate {
-				let mut config = <Runtime as module_evm::Config>::config().clone();
+				let mut config = <Runtime as pallet_evm::Config>::config().clone();
 				config.estimate = true;
 				Some(config)
 			} else {
 				None
 			};
 
-			module_evm::Runner::<Runtime>::create(
+			pallet_evm::Runner::<Runtime>::create(
 				from,
 				data,
 				value,
 				gas_limit.into(),
 				storage_limit,
-				config.as_ref().unwrap_or(<Runtime as module_evm::Config>::config()),
+				config.as_ref().unwrap_or(<Runtime as pallet_evm::Config>::config()),
 			)
 		}
 	}
@@ -880,7 +870,7 @@ impl_runtime_apis! {
 			orml_add_benchmark!(params, batches, orml_tokens, benchmarking::tokens);
 			orml_add_benchmark!(params, batches, orml_vesting, benchmarking::vesting);
 			orml_add_benchmark!(params, batches, orml_auction, benchmarking::auction);
-			orml_add_benchmark!(params, batches, module_currencies, benchmarking::currencies);
+			orml_add_benchmark!(params, batches, pallet_currencies, benchmarking::currencies);
 
 			orml_add_benchmark!(params, batches, orml_authority, benchmarking::authority);
 			orml_add_benchmark!(params, batches, orml_gradually_update, benchmarking::gradually_update);

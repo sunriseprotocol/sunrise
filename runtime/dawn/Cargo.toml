@@ -30,11 +30,13 @@ frame-system-rpc-runtime-api = { git = "https://github.com/paritytech/substrate"
 
 pallet-aura = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-multisig = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-randomness-collective-flip = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-sudo = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-timestamp = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-utility = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 
 sp-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 sp-application-crypto = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
@@ -71,6 +73,7 @@ orml-benchmarking = { path = "../../orml/benchmarking", default-features = false
 orml-tokens = { path = "../../orml/tokens", default-features = false }
 orml-traits = { path = "../../orml/traits", default-features = false }
 orml-xcm-support = { path = "../../orml/xcm-support", default-features = false }
+orml-xtokens = { path = "../../orml/xtokens", default-features = false }
 
 # local dependencies
 primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
@@ -110,10 +113,13 @@ std = [
 
 	"pallet-aura/std",
 	"pallet-balances/std",
+	"pallet-balances/std",
+	"pallet-multisig/std",
 	"pallet-randomness-collective-flip/std",
 	"pallet-timestamp/std",
 	"pallet-sudo/std",
 	"pallet-transaction-payment/std",
+	"pallet-utility/std",
 
   	"sp-io/std",
 	"sp-api/std",
@@ -141,6 +147,7 @@ std = [
  	"orml-tokens/std",
 	"orml-traits/std",
 	"orml-xcm-support/std",
+	"orml-xtokens/std",
 
  	"pallet-currencies/std",
   	"pallet-evm/std",
