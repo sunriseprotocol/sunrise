@@ -89,50 +89,204 @@ ethereum = { git = "https://github.com/rust-blockchain/ethereum.git" }
 ## baz = { git = 'https://github.com/example/patched-baz', branch = 'my-branch' }
 
 [patch."https://github.com/paritytech/substrate"]
-## From runtime/common/Cargo.toml
-sp-std = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-sp-core = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-sp-runtime = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-frame-support = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-frame-system = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-pallet-scheduler = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 
-## from runtime/dawn/cargo.toml
 frame-benchmarking = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-benchmarking-cli = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 frame-executive = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-# frame-support = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-# frame-system = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-metadata = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-support = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-support-procedural = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-support-procedural-tools = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-support-procedural-tools-derive = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-system = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-system-benchmarking = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 frame-system-rpc-runtime-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 
-pallet-aura = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-pallet-balances = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-pallet-randomness-collective-flip = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-pallet-sudo = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-pallet-timestamp = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"} 
-pallet-transaction-payment = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-pallet-transaction-payment-rpc-runtime-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 
+pallet-aura = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"} 
+pallet-authority-discovery = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-authorship = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-babe = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-balances = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-bounties = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-collective = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+## pallet-currencies = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-democracy = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+#### pallet-election-provider-multi-phase = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-elections-phragmen = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+## pallet-evm = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+## pallet-evm-accounts = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+## pallet-evm-bridge = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+## pallet-evm-rpc-runtime-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+## pallet-exchange = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-grandpa = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-identity = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-im-online = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-indices = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-membership = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-multisig = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-nicks = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-offences = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-proxy = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-randomness-collective-flip = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-recovery = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-scheduler = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-session = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-society = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-staking = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-staking-reward-curve = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-sudo = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+## pallet-support = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+## pallet-template = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-timestamp = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-tips = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+## pallet-tokens = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-transaction-payment = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-transaction-payment-rpc = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-transaction-payment-rpc-runtime-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-treasury = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-utility = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-vesting = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+
+
+sc-authority-discovery = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-basic-authorship = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-block-builder = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-chain-spec = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-chain-spec-derive = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-cli = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-client-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-client-db = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-consensus = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-consensus-aura = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-consensus-babe = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-consensus-babe-rpc = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-consensus-epochs = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-consensus-manual-seal = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-consensus-slots = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-consensus-uncles = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-executor = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-executor-common = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-executor-wasmi = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-executor-wasmtime = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-finality-grandpa = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-finality-grandpa-rpc = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-finality-grandpa-warp-sync = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-informant = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-keystore = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-light = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-network = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-network-gossip = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-offchain = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-peerset = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-proposer-metrics = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-rpc = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-rpc-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-rpc-server = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-service = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-state-db = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-sync-state-rpc = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-telemetry = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-tracing = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-tracing-proc-macro = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-transaction-graph = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sc-transaction-pool = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+
+sp-allocator = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-api-proc-macro = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-application-crypto = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-arithmetic = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-authority-discovery = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-authorship = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-block-builder = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-blockchain = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-chain-spec = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-consensus = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-consensus-aura = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-# sp-core = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-consensus-babe = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-consensus-slots = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-consensus-vrf = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-core = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-database = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-debug-derive = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-election-providers = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-externalities = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-finality-grandpa = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-inherents = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-io = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-keyring = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-keystore = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-npos-elections = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-npos-elections-compact = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-offchain = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-# sp-runtime = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-panic-handler = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-rpc = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-runtime = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-runtime-interface = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-runtime-interface-proc-macro = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-serializer = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-session = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-staking = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
-# sp-std = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-state-machine = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-std = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-storage = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-tasks = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-timestamp = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-tracing = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-transaction-pool = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-trie = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-utils = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 sp-version = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-wasm-interface = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 
+substrate-build-script-utils = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+substrate-frame-rpc-system = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+substrate-prometheus-endpoint = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+substrate-wasm-builder = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
 
 
 [patch."https://github.com/paritytech/polkadot"]
 ## from runtime/dawn/cargo.toml
-parachain-info = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+
+polkadot-approval-distribution = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-availability-bitfield-distribution = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-availability-distribution = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-availability-recovery = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-cli = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-collator-protocol = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-core-primitives = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-erasure-coding = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-network-bridge = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-collation-generation = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-approval-voting = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-av-store = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-backing = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-bitfield-signing = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-candidate-selection = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-candidate-validation = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-chain-api = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-proposer = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-provisioner = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-core-runtime-api = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-jaeger = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-network-protocol = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-primitives = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-subsystem = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-node-subsystem-util = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-overseer = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
 polkadot-parachain = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-pov-distribution = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-primitives = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-rpc = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-runtime = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-runtime-common = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-runtime-parachains = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-service = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-statement-distribution = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-statement-table = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+
+
 xcm = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
 xcm-executor = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
 xcm-builder = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
@@ -140,6 +294,13 @@ xcm-builder = {git = "https://github.com/sunriseprotocol/polkadot", branch = "su
 [patch."https://github.com/paritytech/cumulus"]
 
 ## from runtime/dawn/cargo.toml
-cumulus-primitives-core = {git = "https://github.com/sunriseprotocol/cumulus", branch = 'sunrise-evm'} 
-cumulus-pallet-parachain-system = {git = "https://github.com/sunriseprotocol/cumulus", branch = 'sunrise-evm'}
-cumulus-pallet-xcm-handler = {git = "https://github.com/sunriseprotocol/cumulus", branch = 'sunrise-evm'}
+cumulus-client-collator = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
+# cumulus-client-consensus-common = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
+cumulus-client-network = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
+cumulus-client-service = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
+cumulus-pallet-parachain-system = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
+cumulus-pallet-xcm-handler = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
+cumulus-primitives-core = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
+cumulus-primitives-parachain-inherent = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
+
+parachain-info = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}

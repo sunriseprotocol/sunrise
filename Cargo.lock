@@ -1118,47 +1118,74 @@ dependencies = [
 [[package]]
 name = "cumulus-client-collator"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
+source = "git+https://github.com/sunriseprotocol/cumulus?branch=sunrise-evm#fad35c28b1f73aaeb25dedb46674b48774c092b4"
 dependencies = [
- "cumulus-client-consensus-common",
  "cumulus-client-network",
  "cumulus-primitives-core",
+ "cumulus-primitives-parachain-inherent",
  "futures 0.3.12",
+ "log",
  "parity-scale-codec",
  "parking_lot 0.9.0",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-overseer 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-overseer",
+ "polkadot-parachain",
+ "polkadot-primitives",
+ "polkadot-service",
+ "sc-cli",
  "sc-client-api",
+ "sp-api",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-inherents",
  "sp-io",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+]
+
+[[package]]
+name = "cumulus-client-consensus"
+version = "0.1.0"
+source = "git+https://github.com/sunriseprotocol/cumulus?branch=sunrise-evm#fad35c28b1f73aaeb25dedb46674b48774c092b4"
+dependencies = [
+ "futures 0.3.12",
+ "parity-scale-codec",
+ "polkadot-primitives",
+ "polkadot-runtime",
+ "sc-client-api",
+ "sp-api",
+ "sp-block-builder",
+ "sp-blockchain",
+ "sp-consensus",
+ "sp-core",
+ "sp-inherents",
+ "sp-runtime",
+ "substrate-prometheus-endpoint",
+ "tokio 0.1.22",
  "tracing",
 ]
 
 [[package]]
 name = "cumulus-client-consensus-common"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
+source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#a0dd25a596da1a1e387c88be195325acb8cb0474"
 dependencies = [
  "async-trait",
  "dyn-clone",
  "futures 0.3.12",
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-runtime 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-primitives",
+ "polkadot-runtime",
  "sc-client-api",
  "sp-api",
  "sp-block-builder",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-runtime",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-trie",
  "substrate-prometheus-endpoint",
  "tokio 0.1.22",
  "tracing",
@@ -1167,23 +1194,23 @@ dependencies = [
 [[package]]
 name = "cumulus-client-network"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
+source = "git+https://github.com/sunriseprotocol/cumulus?branch=sunrise-evm#fad35c28b1f73aaeb25dedb46674b48774c092b4"
 dependencies = [
  "derive_more",
  "futures 0.3.12",
  "futures-timer 3.0.2",
  "parity-scale-codec",
  "parking_lot 0.10.2",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-parachain 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-node-primitives",
+ "polkadot-parachain",
+ "polkadot-primitives",
  "polkadot-service",
- "polkadot-statement-table 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-statement-table",
  "sc-client-api",
  "sp-api",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
  "tracing",
 ]
@@ -1191,14 +1218,15 @@ dependencies = [
 [[package]]
 name = "cumulus-client-service"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
+source = "git+https://github.com/sunriseprotocol/cumulus?branch=sunrise-evm#fad35c28b1f73aaeb25dedb46674b48774c092b4"
 dependencies = [
  "cumulus-client-collator",
- "cumulus-client-consensus-common",
+ "cumulus-client-consensus",
  "cumulus-primitives-core",
  "futures 0.3.12",
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-overseer",
+ "polkadot-primitives",
  "polkadot-service",
  "sc-chain-spec",
  "sc-client-api",
@@ -1207,7 +1235,8 @@ dependencies = [
  "sp-api",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-inherents",
  "sp-runtime",
  "tracing",
 ]
@@ -1215,7 +1244,7 @@ dependencies = [
 [[package]]
 name = "cumulus-pallet-parachain-system"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
+source = "git+https://github.com/sunriseprotocol/cumulus?branch=sunrise-evm#fad35c28b1f73aaeb25dedb46674b48774c092b4"
 dependencies = [
  "cumulus-primitives-core",
  "cumulus-primitives-parachain-inherent",
@@ -1226,16 +1255,16 @@ dependencies = [
  "memory-db",
  "pallet-balances",
  "parity-scale-codec",
- "polkadot-parachain 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-parachain",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-externalities",
  "sp-inherents",
  "sp-io",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-std",
+ "sp-trie",
  "sp-version",
  "trie-db",
 ]
@@ -1243,46 +1272,46 @@ dependencies = [
 [[package]]
 name = "cumulus-pallet-xcm-handler"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
+source = "git+https://github.com/sunriseprotocol/cumulus?branch=sunrise-evm#fad35c28b1f73aaeb25dedb46674b48774c092b4"
 dependencies = [
  "cumulus-primitives-core",
  "frame-support",
  "frame-system",
  "parity-scale-codec",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "xcm 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "sp-std",
+ "xcm",
 ]
 
 [[package]]
 name = "cumulus-primitives-core"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
+source = "git+https://github.com/sunriseprotocol/cumulus?branch=sunrise-evm#fad35c28b1f73aaeb25dedb46674b48774c092b4"
 dependencies = [
  "impl-trait-for-tuples 0.2.1",
  "parity-scale-codec",
- "polkadot-core-primitives 0.7.30 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-parachain 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-core-primitives",
+ "polkadot-parachain",
+ "polkadot-primitives",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
+ "sp-trie",
 ]
 
 [[package]]
 name = "cumulus-primitives-parachain-inherent"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
+source = "git+https://github.com/sunriseprotocol/cumulus?branch=sunrise-evm#fad35c28b1f73aaeb25dedb46674b48774c092b4"
 dependencies = [
  "cumulus-primitives-core",
  "parity-scale-codec",
  "sc-client-api",
  "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-std",
+ "sp-trie",
  "tracing",
 ]
 
@@ -1389,7 +1418,7 @@ dependencies = [
  "pallet-transaction-payment-rpc-runtime-api",
  "parachain-info",
  "parity-scale-codec",
- "polkadot-parachain 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-parachain",
  "runtime-common",
  "serde",
  "serde_json",
@@ -1398,21 +1427,21 @@ dependencies = [
  "sp-application-crypto",
  "sp-block-builder",
  "sp-consensus-aura",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
  "sp-offchain",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-transaction-pool",
  "sp-version",
  "substrate-wasm-builder 3.0.0",
  "sunrise-primitives",
- "xcm 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "xcm-builder 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "xcm-executor 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "xcm",
+ "xcm-builder",
+ "xcm-executor",
 ]
 
 [[package]]
@@ -1742,7 +1771,7 @@ dependencies = [
  "serde",
  "sp-api",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -1871,7 +1900,7 @@ checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
 [[package]]
 name = "fork-tree"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
 ]
@@ -1888,8 +1917,8 @@ dependencies = [
 
 [[package]]
 name = "frame-benchmarking"
-version = "3.1.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+version = "3.0.0"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -1899,15 +1928,15 @@ dependencies = [
  "sp-api",
  "sp-io",
  "sp-runtime",
- "sp-runtime-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-storage 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-runtime-interface",
+ "sp-std",
+ "sp-storage",
 ]
 
 [[package]]
 name = "frame-benchmarking-cli"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "Inflector",
  "chrono",
@@ -1919,45 +1948,45 @@ dependencies = [
  "sc-executor",
  "sc-service",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-externalities",
+ "sp-keystore",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
  "structopt",
 ]
 
 [[package]]
 name = "frame-executive"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-tracing 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
+ "sp-tracing",
 ]
 
 [[package]]
 name = "frame-metadata"
 version = "13.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-std",
 ]
 
 [[package]]
 name = "frame-support"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "bitflags",
  "frame-metadata",
@@ -1970,20 +1999,20 @@ dependencies = [
  "serde",
  "smallvec 1.6.1",
  "sp-arithmetic",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
  "sp-runtime",
  "sp-staking",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-tracing 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-std",
+ "sp-tracing",
 ]
 
 [[package]]
 name = "frame-support-procedural"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "Inflector",
  "frame-support-procedural-tools",
@@ -1995,7 +2024,7 @@ dependencies = [
 [[package]]
 name = "frame-support-procedural-tools"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support-procedural-tools-derive",
  "proc-macro-crate",
@@ -2007,7 +2036,7 @@ dependencies = [
 [[package]]
 name = "frame-support-procedural-tools-derive"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -2017,37 +2046,37 @@ dependencies = [
 [[package]]
 name = "frame-system"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "impl-trait-for-tuples 0.2.1",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-version",
 ]
 
 [[package]]
 name = "frame-system-benchmarking"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
  "frame-system",
  "parity-scale-codec",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "frame-system-rpc-runtime-api"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
@@ -3083,8 +3112,8 @@ dependencies = [
  "pallet-utility",
  "pallet-vesting",
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-runtime-common 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-primitives",
+ "polkadot-runtime-common",
  "rustc-hex",
  "serde",
  "serde_derive",
@@ -3093,14 +3122,14 @@ dependencies = [
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
  "sp-offchain",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-transaction-pool",
  "sp-version",
  "static_assertions",
@@ -3197,15 +3226,16 @@ checksum = "c7d73b3f436185384286bd8098d17ec07c9a7d2388a6599f824d8502b529702a"
 
 [[package]]
 name = "libp2p"
-version = "0.35.1"
+version = "0.34.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "adc225a49973cf9ab10d0cdd6a4b8f0cda299df9b760824bbb623f15f8f0c95a"
+checksum = "d5133112ce42be9482f6a87be92a605dd6bbc9e93c297aee77d172ff06908f3a"
 dependencies = [
  "atomic",
  "bytes 1.0.1",
  "futures 0.3.12",
  "lazy_static",
  "libp2p-core",
+ "libp2p-core-derive",
  "libp2p-deflate",
  "libp2p-dns",
  "libp2p-floodsub",
@@ -3220,7 +3250,6 @@ dependencies = [
  "libp2p-pnet",
  "libp2p-request-response",
  "libp2p-swarm",
- "libp2p-swarm-derive",
  "libp2p-tcp",
  "libp2p-uds",
  "libp2p-wasm-ext",
@@ -3268,6 +3297,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "libp2p-core-derive"
+version = "0.21.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f4bc40943156e42138d22ed3c57ff0e1a147237742715937622a99b10fbe0156"
+dependencies = [
+ "quote",
+ "syn",
+]
+
+[[package]]
 name = "libp2p-deflate"
 version = "0.27.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3309,11 +3348,11 @@ dependencies = [
 
 [[package]]
 name = "libp2p-gossipsub"
-version = "0.28.0"
+version = "0.27.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "502dc5fcbfec4aa1c63ef3f7307ffe20e90c1a1387bf23ed0bec087f2dde58a1"
+checksum = "12451ba9493e87c91baf2a6dffce9ddf1fbc807a0861532d7cf477954f8ebbee"
 dependencies = [
- "asynchronous-codec 0.6.0",
+ "asynchronous-codec 0.5.0",
  "base64 0.13.0",
  "byteorder",
  "bytes 1.0.1",
@@ -3329,7 +3368,7 @@ dependencies = [
  "regex",
  "sha2 0.9.3",
  "smallvec 1.6.1",
- "unsigned-varint 0.7.0",
+ "unsigned-varint 0.6.0",
  "wasm-timer",
 ]
 
@@ -3516,16 +3555,6 @@ dependencies = [
  "smallvec 1.6.1",
  "void",
  "wasm-timer",
-]
-
-[[package]]
-name = "libp2p-swarm-derive"
-version = "0.22.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c564ebaa36a64839f51eaddb0243aaaa29ce64affb56129193cc3248b72af273"
-dependencies = [
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -3817,15 +3846,6 @@ dependencies = [
  "keccak",
  "rand_core 0.5.1",
  "zeroize",
-]
-
-[[package]]
-name = "metered-channel"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "futures 0.3.12",
- "futures-timer 3.0.2",
 ]
 
 [[package]]
@@ -4238,8 +4258,8 @@ dependencies = [
  "sp-api",
  "sp-io",
  "sp-runtime",
- "sp-runtime-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-runtime-interface",
+ "sp-std",
 ]
 
 [[package]]
@@ -4255,7 +4275,7 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4270,10 +4290,10 @@ dependencies = [
  "pallet-balances",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4288,7 +4308,7 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4304,10 +4324,10 @@ dependencies = [
  "pallet-treasury",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4323,7 +4343,7 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4338,7 +4358,7 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4351,7 +4371,7 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4365,7 +4385,7 @@ dependencies = [
  "serde_json",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4376,9 +4396,9 @@ dependencies = [
  "orml-traits 0.4.0-dev",
  "parity-scale-codec",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "xcm 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "xcm-executor 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "sp-std",
+ "xcm",
+ "xcm-executor",
 ]
 
 [[package]]
@@ -4393,7 +4413,7 @@ dependencies = [
 [[package]]
 name = "pallet-aura"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4404,14 +4424,14 @@ dependencies = [
  "sp-application-crypto",
  "sp-consensus-aura",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-timestamp",
 ]
 
 [[package]]
 name = "pallet-authority-discovery"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4421,13 +4441,13 @@ dependencies = [
  "sp-application-crypto",
  "sp-authority-discovery",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-authorship"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4436,13 +4456,13 @@ dependencies = [
  "sp-authorship",
  "sp-inherents",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-babe"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4455,18 +4475,19 @@ dependencies = [
  "sp-application-crypto",
  "sp-consensus-babe",
  "sp-consensus-vrf",
+ "sp-inherents",
  "sp-io",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-timestamp",
 ]
 
 [[package]]
 name = "pallet-balances"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4474,13 +4495,13 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-bounties"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4488,22 +4509,22 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-collective"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4523,17 +4544,17 @@ dependencies = [
  "pallet-timestamp",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sunrise-primitives",
 ]
 
 [[package]]
 name = "pallet-democracy"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4542,31 +4563,13 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
-]
-
-[[package]]
-name = "pallet-election-provider-multi-phase"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
- "sp-arithmetic",
- "sp-election-providers",
- "sp-io",
- "sp-npos-elections",
- "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "static_assertions",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-elections-phragmen"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4574,7 +4577,7 @@ dependencies = [
  "serde",
  "sp-npos-elections",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4600,10 +4603,10 @@ dependencies = [
  "rlp",
  "serde",
  "sha3 0.8.2",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sunrise-primitives",
 ]
 
@@ -4621,10 +4624,10 @@ dependencies = [
  "pallet-support",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sunrise-primitives",
 ]
 
@@ -4645,10 +4648,10 @@ dependencies = [
  "primitive-types",
  "serde",
  "sha3 0.8.2",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sunrise-primitives",
 ]
 
@@ -4658,9 +4661,9 @@ version = "0.1.0"
 dependencies = [
  "ethereum-types",
  "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sunrise-primitives",
 ]
 
@@ -4678,17 +4681,17 @@ dependencies = [
  "pallet-tokens",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sunrise-primitives",
 ]
 
 [[package]]
 name = "pallet-grandpa"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4698,18 +4701,18 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-application-crypto",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-finality-grandpa",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-identity"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "enumflags2",
  "frame-benchmarking",
@@ -4719,13 +4722,13 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-im-online"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4733,33 +4736,33 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-application-crypto",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-indices"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-keyring",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-membership"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4767,28 +4770,28 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-multisig"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-nicks"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4796,13 +4799,13 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-offences"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4811,41 +4814,41 @@ dependencies = [
  "serde",
  "sp-runtime",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-proxy"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-randomness-collective-flip"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
  "safe-mix",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-recovery"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "enumflags2",
  "frame-support",
@@ -4854,13 +4857,13 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-scheduler"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4869,13 +4872,13 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-session"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4883,19 +4886,19 @@ dependencies = [
  "pallet-timestamp",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
+ "sp-trie",
 ]
 
 [[package]]
 name = "pallet-society"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4903,13 +4906,13 @@ dependencies = [
  "rand_chacha 0.2.2",
  "serde",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-staking"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4918,19 +4921,18 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-application-crypto",
- "sp-election-providers",
  "sp-io",
  "sp-npos-elections",
  "sp-runtime",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "static_assertions",
 ]
 
 [[package]]
 name = "pallet-staking-reward-curve"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
@@ -4941,7 +4943,7 @@ dependencies = [
 [[package]]
 name = "pallet-sudo"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4949,7 +4951,7 @@ dependencies = [
  "serde",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -4960,9 +4962,9 @@ dependencies = [
  "impl-trait-for-tuples 0.1.3",
  "orml-traits 0.4.0-dev",
  "parity-scale-codec",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sunrise-primitives",
 ]
 
@@ -4973,7 +4975,7 @@ dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
 ]
@@ -4981,7 +4983,7 @@ dependencies = [
 [[package]]
 name = "pallet-timestamp"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -4992,14 +4994,14 @@ dependencies = [
  "sp-inherents",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-timestamp",
 ]
 
 [[package]]
 name = "pallet-tips"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -5007,7 +5009,7 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -5018,33 +5020,33 @@ dependencies = [
  "frame-system",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sunrise-primitives",
 ]
 
 [[package]]
 name = "pallet-transaction-payment"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
  "serde",
  "smallvec 1.6.1",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-transaction-payment-rpc"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "jsonrpc-core",
  "jsonrpc-core-client",
@@ -5053,7 +5055,7 @@ dependencies = [
  "parity-scale-codec",
  "sp-api",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-rpc",
  "sp-runtime",
 ]
@@ -5061,7 +5063,7 @@ dependencies = [
 [[package]]
 name = "pallet-transaction-payment-rpc-runtime-api"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "pallet-transaction-payment",
  "parity-scale-codec",
@@ -5072,7 +5074,7 @@ dependencies = [
 [[package]]
 name = "pallet-treasury"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -5081,28 +5083,28 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-utility"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-support",
  "frame-system",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "pallet-vesting"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "enumflags2",
  "frame-support",
@@ -5110,13 +5112,13 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "parachain-info"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/cumulus?branch=rococo-v1#cd5f356edd7ac93232f623fef44a14e92784fa94"
+source = "git+https://github.com/sunriseprotocol/cumulus?branch=sunrise-evm#fad35c28b1f73aaeb25dedb46674b48774c092b4"
 dependencies = [
  "cumulus-primitives-core",
  "frame-support",
@@ -5550,11 +5552,11 @@ version = "0.1.0"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "futures 0.3.12",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-network-protocol",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "tracing",
  "tracing-futures",
 ]
@@ -5566,10 +5568,10 @@ source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc
 dependencies = [
  "futures 0.3.12",
  "parity-scale-codec",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-network-protocol",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "tracing",
  "tracing-futures",
 ]
@@ -5582,12 +5584,12 @@ dependencies = [
  "futures 0.3.12",
  "parity-scale-codec",
  "polkadot-erasure-coding",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "polkadot-node-network-protocol",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
+ "sp-core",
+ "sp-keystore",
  "thiserror",
  "tracing",
  "tracing-futures",
@@ -5602,10 +5604,10 @@ dependencies = [
  "futures-timer 3.0.2",
  "lru",
  "polkadot-erasure-coding",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-network-protocol",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "rand 0.8.3",
  "streamunordered",
  "thiserror",
@@ -5616,19 +5618,19 @@ dependencies = [
 [[package]]
 name = "polkadot-cli"
 version = "0.8.28"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#9bc8915acd5507a77737371fdd892bb1f6a8db22"
+source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "frame-benchmarking-cli",
  "futures 0.3.12",
  "log",
- "polkadot-parachain 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-parachain",
  "polkadot-service",
  "sc-cli",
  "sc-service",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-trie",
  "structopt",
- "substrate-build-script-utils 3.0.0 (git+https://github.com/paritytech/substrate.git?branch=rococo-v1)",
+ "substrate-build-script-utils 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
  "thiserror",
  "tracing-futures",
 ]
@@ -5639,11 +5641,11 @@ version = "0.1.0"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "futures 0.3.12",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-network-protocol",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "thiserror",
  "tracing",
  "tracing-futures",
@@ -5652,25 +5654,13 @@ dependencies = [
 [[package]]
 name = "polkadot-core-primitives"
 version = "0.7.30"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "parity-scale-codec",
- "parity-util-mem",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
-]
-
-[[package]]
-name = "polkadot-core-primitives"
-version = "0.7.30"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "parity-scale-codec",
  "parity-util-mem",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -5679,10 +5669,10 @@ version = "0.8.28"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-primitives",
  "reed-solomon-erasure",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-trie",
  "thiserror",
 ]
 
@@ -5694,9 +5684,9 @@ dependencies = [
  "async-trait",
  "futures 0.3.12",
  "parity-scale-codec",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-network-protocol",
+ "polkadot-node-subsystem",
+ "polkadot-primitives",
  "sc-authority-discovery",
  "sc-network",
  "strum",
@@ -5711,11 +5701,11 @@ source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc
 dependencies = [
  "futures 0.3.12",
  "polkadot-erasure-coding",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
+ "sp-core",
  "thiserror",
  "tracing",
  "tracing-futures",
@@ -5733,10 +5723,10 @@ dependencies = [
  "kvdb-rocksdb",
  "parity-scale-codec",
  "polkadot-erasure-coding",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-overseer 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-overseer",
+ "polkadot-primitives",
  "sc-service",
  "thiserror",
  "tracing",
@@ -5751,12 +5741,12 @@ dependencies = [
  "bitvec",
  "futures 0.3.12",
  "polkadot-erasure-coding",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-statement-table 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
+ "polkadot-statement-table",
+ "sp-keystore",
  "thiserror",
  "tracing",
  "tracing-futures",
@@ -5768,10 +5758,10 @@ version = "0.1.0"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "futures 0.3.12",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
+ "sp-keystore",
  "thiserror",
  "tracing",
  "tracing-futures",
@@ -5784,11 +5774,11 @@ version = "0.1.0"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "futures 0.3.12",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
+ "sp-keystore",
  "thiserror",
  "tracing",
  "tracing-futures",
@@ -5801,12 +5791,12 @@ source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc
 dependencies = [
  "futures 0.3.12",
  "parity-scale-codec",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-parachain 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-parachain",
+ "polkadot-primitives",
+ "sp-core",
  "tracing",
  "tracing-futures",
 ]
@@ -5817,9 +5807,9 @@ version = "0.1.0"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "futures 0.3.12",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "sp-blockchain",
  "tracing",
  "tracing-futures",
@@ -5832,16 +5822,16 @@ source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc
 dependencies = [
  "futures 0.3.12",
  "futures-timer 3.0.2",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-overseer 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-subsystem",
+ "polkadot-overseer",
+ "polkadot-primitives",
  "sc-basic-authorship",
  "sc-block-builder",
  "sc-client-api",
  "sp-api",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-runtime",
  "sp-transaction-pool",
@@ -5857,9 +5847,9 @@ dependencies = [
  "bitvec",
  "futures 0.3.12",
  "futures-timer 3.0.2",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "thiserror",
  "tracing",
  "tracing-futures",
@@ -5873,30 +5863,14 @@ dependencies = [
  "futures 0.3.12",
  "memory-lru",
  "parity-util-mem",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "sp-api",
  "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "tracing",
  "tracing-futures",
-]
-
-[[package]]
-name = "polkadot-node-jaeger"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "async-std",
- "lazy_static",
- "log",
- "mick-jaeger",
- "parking_lot 0.11.1",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "sc-network",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "thiserror",
 ]
 
 [[package]]
@@ -5909,26 +5883,10 @@ dependencies = [
  "log",
  "mick-jaeger",
  "parking_lot 0.11.1",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-primitives",
  "sc-network",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "thiserror",
-]
-
-[[package]]
-name = "polkadot-node-network-protocol"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "futures 0.3.12",
- "parity-scale-codec",
- "polkadot-node-jaeger 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "sc-network",
- "strum",
- "thiserror",
- "zstd",
 ]
 
 [[package]]
@@ -5938,9 +5896,9 @@ source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc
 dependencies = [
  "futures 0.3.12",
  "parity-scale-codec",
- "polkadot-node-jaeger 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-jaeger",
+ "polkadot-node-primitives",
+ "polkadot-primitives",
  "sc-network",
  "strum",
  "thiserror",
@@ -5950,67 +5908,19 @@ dependencies = [
 [[package]]
 name = "polkadot-node-primitives"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "futures 0.3.12",
- "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-statement-table 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "schnorrkel",
- "sp-application-crypto",
- "sp-consensus-babe",
- "sp-consensus-vrf",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-runtime",
- "thiserror",
-]
-
-[[package]]
-name = "polkadot-node-primitives"
-version = "0.1.0"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "futures 0.3.12",
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-statement-table 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-primitives",
+ "polkadot-statement-table",
  "schnorrkel",
  "sp-application-crypto",
  "sp-consensus-babe",
  "sp-consensus-vrf",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
  "thiserror",
-]
-
-[[package]]
-name = "polkadot-node-subsystem"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "async-std",
- "async-trait",
- "derive_more",
- "futures 0.3.12",
- "futures-timer 3.0.2",
- "lazy_static",
- "log",
- "mick-jaeger",
- "parity-scale-codec",
- "parking_lot 0.11.1",
- "pin-project 1.0.5",
- "polkadot-node-jaeger 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-statement-table 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "sc-network",
- "smallvec 1.6.1",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "substrate-prometheus-endpoint",
- "thiserror",
- "tracing",
- "tracing-futures",
 ]
 
 [[package]]
@@ -6029,41 +5939,14 @@ dependencies = [
  "parity-scale-codec",
  "parking_lot 0.11.1",
  "pin-project 1.0.5",
- "polkadot-node-jaeger 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-statement-table 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-jaeger",
+ "polkadot-node-network-protocol",
+ "polkadot-node-primitives",
+ "polkadot-primitives",
+ "polkadot-statement-table",
  "sc-network",
  "smallvec 1.6.1",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "substrate-prometheus-endpoint",
- "thiserror",
- "tracing",
- "tracing-futures",
-]
-
-[[package]]
-name = "polkadot-node-subsystem-util"
-version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "async-trait",
- "futures 0.3.12",
- "futures-timer 3.0.2",
- "metered-channel 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "parity-scale-codec",
- "pin-project 1.0.5",
- "polkadot-node-jaeger 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "sc-network",
- "sp-application-crypto",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "streamunordered",
+ "sp-core",
  "substrate-prometheus-endpoint",
  "thiserror",
  "tracing",
@@ -6078,18 +5961,18 @@ dependencies = [
  "async-trait",
  "futures 0.3.12",
  "futures-timer 3.0.2",
- "metered-channel 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "metered-channel",
  "parity-scale-codec",
  "pin-project 1.0.5",
- "polkadot-node-jaeger 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-jaeger",
+ "polkadot-node-network-protocol",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-primitives",
  "sc-network",
  "sp-application-crypto",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-keystore",
  "streamunordered",
  "substrate-prometheus-endpoint",
  "thiserror",
@@ -6100,64 +5983,19 @@ dependencies = [
 [[package]]
 name = "polkadot-overseer"
 version = "0.1.0"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "async-trait",
- "futures 0.3.12",
- "futures-timer 3.0.2",
- "oorandom",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "sc-client-api",
- "tracing",
- "tracing-futures",
-]
-
-[[package]]
-name = "polkadot-overseer"
-version = "0.1.0"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "async-trait",
  "futures 0.3.12",
  "futures-timer 3.0.2",
  "oorandom",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "sc-client-api",
  "tracing",
  "tracing-futures",
-]
-
-[[package]]
-name = "polkadot-parachain"
-version = "0.8.28"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "derive_more",
- "futures 0.3.12",
- "libc",
- "log",
- "parity-scale-codec",
- "parity-util-mem",
- "parking_lot 0.11.1",
- "polkadot-core-primitives 0.7.30 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "raw_sync",
- "sc-executor",
- "serde",
- "shared_memory",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-io",
- "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-wasm-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "static_assertions",
- "thiserror",
 ]
 
 [[package]]
@@ -6172,17 +6010,17 @@ dependencies = [
  "parity-scale-codec",
  "parity-util-mem",
  "parking_lot 0.11.1",
- "polkadot-core-primitives 0.7.30 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-core-primitives",
  "raw_sync",
  "sc-executor",
  "serde",
  "shared_memory",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-externalities",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-wasm-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
+ "sp-wasm-interface",
  "static_assertions",
  "thiserror",
 ]
@@ -6193,41 +6031,13 @@ version = "0.1.0"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "futures 0.3.12",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-network-protocol",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "thiserror",
  "tracing",
  "tracing-futures",
-]
-
-[[package]]
-name = "polkadot-primitives"
-version = "0.8.28"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "bitvec",
- "frame-system",
- "hex-literal 0.3.1",
- "parity-scale-codec",
- "parity-util-mem",
- "polkadot-core-primitives 0.7.30 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-parachain 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "serde",
- "sp-api",
- "sp-application-crypto",
- "sp-arithmetic",
- "sp-authority-discovery",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-inherents",
- "sp-io",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-runtime",
- "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-version",
 ]
 
 [[package]]
@@ -6240,21 +6050,21 @@ dependencies = [
  "hex-literal 0.3.1",
  "parity-scale-codec",
  "parity-util-mem",
- "polkadot-core-primitives 0.7.30 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-parachain 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-core-primitives",
+ "polkadot-parachain",
  "serde",
  "sp-api",
  "sp-application-crypto",
  "sp-arithmetic",
  "sp-authority-discovery",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
+ "sp-trie",
  "sp-version",
 ]
 
@@ -6266,7 +6076,7 @@ dependencies = [
  "jsonrpc-core",
  "pallet-transaction-payment-rpc",
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-primitives",
  "sc-chain-spec",
  "sc-client-api",
  "sc-consensus-babe",
@@ -6282,7 +6092,7 @@ dependencies = [
  "sp-blockchain",
  "sp-consensus",
  "sp-consensus-babe",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
  "sp-transaction-pool",
  "substrate-frame-rpc-system",
@@ -6291,72 +6101,6 @@ dependencies = [
 [[package]]
 name = "polkadot-runtime"
 version = "0.8.28"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "bitvec",
- "frame-executive",
- "frame-support",
- "frame-system",
- "frame-system-rpc-runtime-api",
- "log",
- "pallet-authority-discovery",
- "pallet-authorship",
- "pallet-babe",
- "pallet-balances",
- "pallet-bounties",
- "pallet-collective",
- "pallet-democracy",
- "pallet-election-provider-multi-phase",
- "pallet-elections-phragmen",
- "pallet-grandpa",
- "pallet-identity",
- "pallet-im-online",
- "pallet-indices",
- "pallet-membership",
- "pallet-multisig",
- "pallet-nicks",
- "pallet-offences",
- "pallet-proxy",
- "pallet-randomness-collective-flip",
- "pallet-scheduler",
- "pallet-session",
- "pallet-staking",
- "pallet-staking-reward-curve",
- "pallet-timestamp",
- "pallet-tips",
- "pallet-transaction-payment",
- "pallet-transaction-payment-rpc-runtime-api",
- "pallet-treasury",
- "pallet-utility",
- "pallet-vesting",
- "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-runtime-common 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "rustc-hex",
- "serde",
- "serde_derive",
- "smallvec 1.6.1",
- "sp-api",
- "sp-authority-discovery",
- "sp-block-builder",
- "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-inherents",
- "sp-io",
- "sp-offchain",
- "sp-runtime",
- "sp-session",
- "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-transaction-pool",
- "sp-version",
- "static_assertions",
- "substrate-wasm-builder 3.0.0",
-]
-
-[[package]]
-name = "polkadot-runtime"
-version = "0.8.28"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "bitvec",
@@ -6395,8 +6139,8 @@ dependencies = [
  "pallet-utility",
  "pallet-vesting",
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-runtime-common 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-primitives",
+ "polkadot-runtime-common",
  "rustc-hex",
  "serde",
  "serde_derive",
@@ -6405,14 +6149,14 @@ dependencies = [
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
  "sp-offchain",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-transaction-pool",
  "sp-version",
  "static_assertions",
@@ -6422,42 +6166,6 @@ dependencies = [
 [[package]]
 name = "polkadot-runtime-common"
 version = "0.8.28"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "bitvec",
- "frame-support",
- "frame-system",
- "log",
- "pallet-authorship",
- "pallet-balances",
- "pallet-offences",
- "pallet-session",
- "pallet-staking",
- "pallet-timestamp",
- "pallet-transaction-payment",
- "pallet-treasury",
- "pallet-vesting",
- "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-runtime-parachains 0.8.0 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "rustc-hex",
- "serde",
- "serde_derive",
- "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-inherents",
- "sp-io",
- "sp-runtime",
- "sp-session",
- "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "static_assertions",
- "xcm 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
-]
-
-[[package]]
-name = "polkadot-runtime-common"
-version = "0.8.28"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "bitvec",
@@ -6474,58 +6182,21 @@ dependencies = [
  "pallet-treasury",
  "pallet-vesting",
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-runtime-parachains 0.8.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-primitives",
+ "polkadot-runtime-parachains",
  "rustc-hex",
  "serde",
  "serde_derive",
  "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "static_assertions",
- "xcm 0.8.22 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
-]
-
-[[package]]
-name = "polkadot-runtime-parachains"
-version = "0.8.0"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "bitvec",
- "derive_more",
- "frame-support",
- "frame-system",
- "log",
- "pallet-authority-discovery",
- "pallet-authorship",
- "pallet-balances",
- "pallet-offences",
- "pallet-session",
- "pallet-staking",
- "pallet-timestamp",
- "pallet-vesting",
- "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "rand 0.8.3",
- "rand_chacha 0.3.0",
- "rustc-hex",
- "serde",
- "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-inherents",
- "sp-io",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-runtime",
- "sp-session",
- "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "xcm 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "xcm-executor 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "xcm",
 ]
 
 [[package]]
@@ -6547,22 +6218,22 @@ dependencies = [
  "pallet-timestamp",
  "pallet-vesting",
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-primitives",
  "rand 0.8.3",
  "rand_chacha 0.3.0",
  "rustc-hex",
  "serde",
  "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "xcm 0.8.22 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "xcm-executor 0.8.22 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "sp-std",
+ "xcm",
+ "xcm-executor",
 ]
 
 [[package]]
@@ -6595,15 +6266,15 @@ dependencies = [
  "polkadot-node-core-proposer",
  "polkadot-node-core-provisioner",
  "polkadot-node-core-runtime-api",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-overseer 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-parachain 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-overseer",
+ "polkadot-parachain",
  "polkadot-pov-distribution",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-primitives",
  "polkadot-rpc",
- "polkadot-runtime 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-runtime-parachains 0.8.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-runtime",
+ "polkadot-runtime-parachains",
  "polkadot-statement-distribution",
  "rococo-runtime",
  "sc-authority-discovery",
@@ -6629,18 +6300,18 @@ dependencies = [
  "sp-blockchain",
  "sp-consensus",
  "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-finality-grandpa",
  "sp-inherents",
  "sp-io",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-offchain",
  "sp-runtime",
  "sp-session",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-storage 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-storage",
  "sp-transaction-pool",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-trie",
  "substrate-prometheus-endpoint",
  "thiserror",
  "tracing",
@@ -6656,11 +6327,11 @@ dependencies = [
  "arrayvec 0.5.2",
  "futures 0.3.12",
  "indexmap",
- "polkadot-node-network-protocol 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-primitives 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-node-subsystem-util 0.1.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-node-network-protocol",
+ "polkadot-node-primitives",
+ "polkadot-node-subsystem",
+ "polkadot-node-subsystem-util",
+ "polkadot-primitives",
  "sp-staking",
  "tracing",
  "tracing-futures",
@@ -6669,21 +6340,11 @@ dependencies = [
 [[package]]
 name = "polkadot-statement-table"
 version = "0.8.28"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
-]
-
-[[package]]
-name = "polkadot-statement-table"
-version = "0.8.28"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "polkadot-primitives",
+ "sp-core",
 ]
 
 [[package]]
@@ -7332,10 +6993,10 @@ dependencies = [
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
  "parity-scale-codec",
- "polkadot-parachain 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-runtime-common 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-runtime-parachains 0.8.0 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-parachain",
+ "polkadot-primitives",
+ "polkadot-runtime-common",
+ "polkadot-runtime-parachains",
  "serde",
  "serde_derive",
  "smallvec 1.6.1",
@@ -7343,20 +7004,20 @@ dependencies = [
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
  "sp-offchain",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-transaction-pool",
  "sp-version",
  "substrate-wasm-builder 3.0.0",
- "xcm 0.8.22 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "xcm-builder 0.8.22 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "xcm-executor 0.8.22 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "xcm",
+ "xcm-builder",
+ "xcm-executor",
 ]
 
 [[package]]
@@ -7391,10 +7052,10 @@ dependencies = [
  "pallet-utility",
  "parity-scale-codec",
  "serde_json",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "static_assertions",
  "sunrise-primitives",
 ]
@@ -7523,7 +7184,7 @@ dependencies = [
 [[package]]
 name = "sc-authority-discovery"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "async-trait",
  "derive_more",
@@ -7542,8 +7203,8 @@ dependencies = [
  "sp-api",
  "sp-authority-discovery",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-keystore",
  "sp-runtime",
  "substrate-prometheus-endpoint",
 ]
@@ -7551,7 +7212,7 @@ dependencies = [
 [[package]]
 name = "sc-basic-authorship"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.3.12",
  "futures-timer 3.0.2",
@@ -7564,7 +7225,7 @@ dependencies = [
  "sp-api",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-runtime",
  "sp-transaction-pool",
@@ -7574,23 +7235,24 @@ dependencies = [
 [[package]]
 name = "sc-block-builder"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "sc-client-api",
  "sp-api",
  "sp-block-builder",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-consensus",
+ "sp-core",
  "sp-inherents",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
 ]
 
 [[package]]
 name = "sc-chain-spec"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "impl-trait-for-tuples 0.2.1",
  "parity-scale-codec",
@@ -7604,14 +7266,14 @@ dependencies = [
  "serde_json",
  "sp-chain-spec",
  "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
 ]
 
 [[package]]
 name = "sc-chain-spec-derive"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
@@ -7622,7 +7284,7 @@ dependencies = [
 [[package]]
 name = "sc-cli"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "chrono",
  "fdlimit",
@@ -7644,10 +7306,10 @@ dependencies = [
  "serde",
  "serde_json",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-keyring",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-panic-handler 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
+ "sp-panic-handler",
  "sp-runtime",
  "sp-utils",
  "sp-version",
@@ -7660,7 +7322,7 @@ dependencies = [
 [[package]]
 name = "sc-client-api"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "fnv",
@@ -7675,17 +7337,17 @@ dependencies = [
  "sp-api",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-database",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-externalities",
  "sp-inherents",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-storage 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-std",
+ "sp-storage",
  "sp-transaction-pool",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-trie",
  "sp-utils",
  "sp-version",
  "substrate-prometheus-endpoint",
@@ -7694,7 +7356,7 @@ dependencies = [
 [[package]]
 name = "sc-client-db"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "blake2-rfc",
  "hash-db",
@@ -7713,18 +7375,18 @@ dependencies = [
  "sp-arithmetic",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-database",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-trie",
  "substrate-prometheus-endpoint",
 ]
 
 [[package]]
 name = "sc-consensus"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "sc-client-api",
  "sp-blockchain",
@@ -7735,7 +7397,7 @@ dependencies = [
 [[package]]
 name = "sc-consensus-aura"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "futures 0.3.12",
@@ -7754,10 +7416,10 @@ dependencies = [
  "sp-consensus",
  "sp-consensus-aura",
  "sp-consensus-slots",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
  "sp-timestamp",
  "sp-version",
@@ -7767,7 +7429,7 @@ dependencies = [
 [[package]]
 name = "sc-consensus-babe"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "fork-tree",
@@ -7799,10 +7461,10 @@ dependencies = [
  "sp-consensus-babe",
  "sp-consensus-slots",
  "sp-consensus-vrf",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
  "sp-timestamp",
  "sp-utils",
@@ -7813,7 +7475,7 @@ dependencies = [
 [[package]]
 name = "sc-consensus-babe-rpc"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "futures 0.3.12",
@@ -7829,15 +7491,15 @@ dependencies = [
  "sp-blockchain",
  "sp-consensus",
  "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-keystore",
  "sp-runtime",
 ]
 
 [[package]]
 name = "sc-consensus-epochs"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "fork-tree",
  "parity-scale-codec",
@@ -7850,7 +7512,7 @@ dependencies = [
 [[package]]
 name = "sc-consensus-manual-seal"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "assert_matches",
  "derive_more",
@@ -7871,10 +7533,10 @@ dependencies = [
  "sp-consensus",
  "sp-consensus-babe",
  "sp-consensus-slots",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-keyring",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
  "sp-timestamp",
  "sp-transaction-pool",
@@ -7884,7 +7546,7 @@ dependencies = [
 [[package]]
 name = "sc-consensus-slots"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.3.12",
  "futures-timer 3.0.2",
@@ -7899,24 +7561,24 @@ dependencies = [
  "sp-blockchain",
  "sp-consensus",
  "sp-consensus-slots",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-trie",
  "thiserror",
 ]
 
 [[package]]
 name = "sc-consensus-uncles"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "log",
  "sc-client-api",
  "sp-authorship",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-runtime",
 ]
@@ -7924,7 +7586,7 @@ dependencies = [
 [[package]]
 name = "sc-executor"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "lazy_static",
@@ -7937,31 +7599,31 @@ dependencies = [
  "sc-executor-wasmi",
  "sc-executor-wasmtime",
  "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-externalities",
  "sp-io",
- "sp-panic-handler 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-runtime-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-panic-handler",
+ "sp-runtime-interface",
  "sp-serializer",
  "sp-tasks",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-trie",
  "sp-version",
- "sp-wasm-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-wasm-interface",
  "wasmi",
 ]
 
 [[package]]
 name = "sc-executor-common"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "parity-scale-codec",
  "parity-wasm 0.41.0",
  "sp-allocator",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-serializer",
- "sp-wasm-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-wasm-interface",
  "thiserror",
  "wasmi",
 ]
@@ -7969,22 +7631,22 @@ dependencies = [
 [[package]]
 name = "sc-executor-wasmi"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "log",
  "parity-scale-codec",
  "sc-executor-common",
  "sp-allocator",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-runtime-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-wasm-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-runtime-interface",
+ "sp-wasm-interface",
  "wasmi",
 ]
 
 [[package]]
 name = "sc-executor-wasmtime"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "log",
  "parity-scale-codec",
@@ -7993,16 +7655,16 @@ dependencies = [
  "sc-executor-common",
  "scoped-tls",
  "sp-allocator",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-runtime-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-wasm-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-runtime-interface",
+ "sp-wasm-interface",
  "wasmtime",
 ]
 
 [[package]]
 name = "sc-finality-grandpa"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "dyn-clone",
@@ -8029,10 +7691,10 @@ dependencies = [
  "sp-arithmetic",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-finality-grandpa",
  "sp-inherents",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
  "sp-utils",
  "substrate-prometheus-endpoint",
@@ -8041,7 +7703,7 @@ dependencies = [
 [[package]]
 name = "sc-finality-grandpa-rpc"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "finality-grandpa",
@@ -8058,14 +7720,14 @@ dependencies = [
  "serde",
  "serde_json",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
 ]
 
 [[package]]
 name = "sc-finality-grandpa-warp-sync"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "futures 0.3.12",
@@ -8079,14 +7741,13 @@ dependencies = [
  "sc-network",
  "sc-service",
  "sp-blockchain",
- "sp-finality-grandpa",
  "sp-runtime",
 ]
 
 [[package]]
 name = "sc-informant"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "ansi_term 0.12.1",
  "futures 0.3.12",
@@ -8104,7 +7765,7 @@ dependencies = [
 [[package]]
 name = "sc-keystore"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "async-trait",
  "derive_more",
@@ -8116,15 +7777,15 @@ dependencies = [
  "rand 0.7.3",
  "serde_json",
  "sp-application-crypto",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-keystore",
  "subtle 2.4.0",
 ]
 
 [[package]]
 name = "sc-light"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "hash-db",
  "lazy_static",
@@ -8134,16 +7795,16 @@ dependencies = [
  "sc-executor",
  "sp-api",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-externalities",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
 ]
 
 [[package]]
 name = "sc-network"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "async-std",
  "async-trait",
@@ -8182,7 +7843,7 @@ dependencies = [
  "sp-arithmetic",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
  "sp-utils",
  "substrate-prometheus-endpoint",
@@ -8196,7 +7857,7 @@ dependencies = [
 [[package]]
 name = "sc-network-gossip"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.3.12",
  "futures-timer 3.0.2",
@@ -8212,7 +7873,7 @@ dependencies = [
 [[package]]
 name = "sc-offchain"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "bytes 0.5.6",
  "fnv",
@@ -8229,7 +7890,7 @@ dependencies = [
  "sc-keystore",
  "sc-network",
  "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-offchain",
  "sp-runtime",
  "sp-utils",
@@ -8239,7 +7900,7 @@ dependencies = [
 [[package]]
 name = "sc-peerset"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.3.12",
  "libp2p",
@@ -8252,7 +7913,7 @@ dependencies = [
 [[package]]
 name = "sc-proposer-metrics"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "log",
  "substrate-prometheus-endpoint",
@@ -8261,7 +7922,7 @@ dependencies = [
 [[package]]
 name = "sc-rpc"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.3.12",
  "hash-db",
@@ -8280,13 +7941,13 @@ dependencies = [
  "sp-api",
  "sp-blockchain",
  "sp-chain-spec",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-keystore",
  "sp-offchain",
  "sp-rpc",
  "sp-runtime",
  "sp-session",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
  "sp-transaction-pool",
  "sp-utils",
  "sp-version",
@@ -8295,7 +7956,7 @@ dependencies = [
 [[package]]
 name = "sc-rpc-api"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "futures 0.3.12",
@@ -8309,7 +7970,7 @@ dependencies = [
  "serde",
  "serde_json",
  "sp-chain-spec",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-rpc",
  "sp-runtime",
  "sp-transaction-pool",
@@ -8319,7 +7980,7 @@ dependencies = [
 [[package]]
 name = "sc-rpc-server"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.1.30",
  "jsonrpc-core",
@@ -8337,7 +7998,7 @@ dependencies = [
 [[package]]
 name = "sc-service"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "directories",
  "exit-future",
@@ -8376,17 +8037,17 @@ dependencies = [
  "sp-block-builder",
  "sp-blockchain",
  "sp-consensus",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-externalities",
  "sp-inherents",
  "sp-io",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
  "sp-session",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-tracing 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-tracing",
  "sp-transaction-pool",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-trie",
  "sp-utils",
  "sp-version",
  "substrate-prometheus-endpoint",
@@ -8400,7 +8061,7 @@ dependencies = [
 [[package]]
 name = "sc-state-db"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "log",
  "parity-scale-codec",
@@ -8408,14 +8069,14 @@ dependencies = [
  "parity-util-mem-derive",
  "parking_lot 0.11.1",
  "sc-client-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "thiserror",
 ]
 
 [[package]]
 name = "sc-sync-state-rpc"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "jsonrpc-core",
  "jsonrpc-core-client",
@@ -8435,7 +8096,7 @@ dependencies = [
 [[package]]
 name = "sc-telemetry"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "chrono",
  "futures 0.3.12",
@@ -8457,7 +8118,7 @@ dependencies = [
 [[package]]
 name = "sc-tracing"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "ansi_term 0.12.1",
  "atty",
@@ -8472,7 +8133,7 @@ dependencies = [
  "sc-tracing-proc-macro",
  "serde",
  "serde_json",
- "sp-tracing 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-tracing",
  "thiserror",
  "tracing",
  "tracing-core",
@@ -8485,7 +8146,7 @@ dependencies = [
 [[package]]
 name = "sc-tracing-proc-macro"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
@@ -8496,7 +8157,7 @@ dependencies = [
 [[package]]
 name = "sc-transaction-graph"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "futures 0.3.12",
@@ -8507,7 +8168,7 @@ dependencies = [
  "retain_mut",
  "serde",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
  "sp-transaction-pool",
  "sp-utils",
@@ -8518,7 +8179,7 @@ dependencies = [
 [[package]]
 name = "sc-transaction-pool"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.3.12",
  "futures-diagnose",
@@ -8531,9 +8192,9 @@ dependencies = [
  "sc-transaction-graph",
  "sp-api",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
- "sp-tracing 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-tracing",
  "sp-transaction-pool",
  "sp-utils",
  "substrate-prometheus-endpoint",
@@ -8928,27 +8589,27 @@ dependencies = [
 [[package]]
 name = "sp-allocator"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "log",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-wasm-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-std",
+ "sp-wasm-interface",
  "thiserror",
 ]
 
 [[package]]
 name = "sp-api"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "hash-db",
  "parity-scale-codec",
  "sp-api-proc-macro",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-std",
  "sp-version",
  "thiserror",
 ]
@@ -8956,7 +8617,7 @@ dependencies = [
 [[package]]
 name = "sp-api-proc-macro"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "blake2-rfc",
  "proc-macro-crate",
@@ -8968,67 +8629,67 @@ dependencies = [
 [[package]]
 name = "sp-application-crypto"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-arithmetic"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "integer-sqrt",
  "num-traits",
  "parity-scale-codec",
  "serde",
- "sp-debug-derive 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-debug-derive",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-authority-discovery"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
  "sp-application-crypto",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-authorship"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "sp-inherents",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-block-builder"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
  "sp-inherents",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-blockchain"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.3.12",
  "log",
@@ -9039,14 +8700,14 @@ dependencies = [
  "sp-consensus",
  "sp-database",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
  "thiserror",
 ]
 
 [[package]]
 name = "sp-chain-spec"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "serde",
  "serde_json",
@@ -9055,7 +8716,7 @@ dependencies = [
 [[package]]
 name = "sp-consensus"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.3.12",
  "futures-timer 3.0.2",
@@ -9065,12 +8726,12 @@ dependencies = [
  "parking_lot 0.11.1",
  "serde",
  "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-runtime",
- "sp-state-machine 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-state-machine",
+ "sp-std",
+ "sp-trie",
  "sp-utils",
  "sp-version",
  "substrate-prometheus-endpoint",
@@ -9081,7 +8742,7 @@ dependencies = [
 [[package]]
 name = "sp-consensus-aura"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
@@ -9089,14 +8750,14 @@ dependencies = [
  "sp-consensus-slots",
  "sp-inherents",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-timestamp",
 ]
 
 [[package]]
 name = "sp-consensus-babe"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "merlin",
  "parity-scale-codec",
@@ -9105,18 +8766,18 @@ dependencies = [
  "sp-consensus",
  "sp-consensus-slots",
  "sp-consensus-vrf",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-keystore",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-timestamp",
 ]
 
 [[package]]
 name = "sp-consensus-slots"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "sp-arithmetic",
@@ -9126,57 +8787,13 @@ dependencies = [
 [[package]]
 name = "sp-consensus-vrf"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "schnorrkel",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
-]
-
-[[package]]
-name = "sp-core"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "base58",
- "blake2-rfc",
- "byteorder",
- "dyn-clonable",
- "ed25519-dalek",
- "futures 0.3.12",
- "hash-db",
- "hash256-std-hasher",
- "hex",
- "impl-serde",
- "lazy_static",
- "libsecp256k1",
- "log",
- "merlin",
- "num-traits",
- "parity-scale-codec",
- "parity-util-mem",
- "parking_lot 0.11.1",
- "primitive-types",
- "rand 0.7.3",
- "regex",
- "schnorrkel",
- "secrecy",
- "serde",
- "sha2 0.9.3",
- "sp-debug-derive 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-runtime-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-storage 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "substrate-bip39",
- "thiserror",
- "tiny-bip39",
- "tiny-keccak",
- "twox-hash",
- "wasmi",
- "zeroize",
+ "sp-std",
 ]
 
 [[package]]
@@ -9209,11 +8826,11 @@ dependencies = [
  "secrecy",
  "serde",
  "sha2 0.9.3",
- "sp-debug-derive 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-externalities 0.9.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-runtime-interface 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-std 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-storage 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "sp-debug-derive",
+ "sp-externalities",
+ "sp-runtime-interface",
+ "sp-std",
+ "sp-storage",
  "substrate-bip39",
  "thiserror",
  "tiny-bip39",
@@ -9226,7 +8843,7 @@ dependencies = [
 [[package]]
 name = "sp-database"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "kvdb",
  "parking_lot 0.11.1",
@@ -9235,43 +8852,11 @@ dependencies = [
 [[package]]
 name = "sp-debug-derive"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
-name = "sp-debug-derive"
-version = "3.0.0"
 source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "proc-macro2",
  "quote",
  "syn",
-]
-
-[[package]]
-name = "sp-election-providers"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "parity-scale-codec",
- "sp-arithmetic",
- "sp-npos-elections",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
-]
-
-[[package]]
-name = "sp-externalities"
-version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "environmental",
- "parity-scale-codec",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-storage 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
 ]
 
 [[package]]
@@ -9281,14 +8866,14 @@ source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e0
 dependencies = [
  "environmental",
  "parity-scale-codec",
- "sp-std 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-storage 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "sp-std",
+ "sp-storage",
 ]
 
 [[package]]
 name = "sp-finality-grandpa"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "finality-grandpa",
  "log",
@@ -9296,21 +8881,21 @@ dependencies = [
  "serde",
  "sp-api",
  "sp-application-crypto",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-keystore 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-keystore",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-inherents"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "parking_lot 0.11.1",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-std",
  "thiserror",
 ]
 
@@ -9325,15 +8910,15 @@ dependencies = [
  "log",
  "parity-scale-codec",
  "parking_lot 0.11.1",
- "sp-core 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-externalities 0.9.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-keystore 0.9.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-runtime-interface 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-state-machine 0.9.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-std 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-tracing 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-trie 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-wasm-interface 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "sp-core",
+ "sp-externalities",
+ "sp-keystore",
+ "sp-runtime-interface",
+ "sp-state-machine",
+ "sp-std",
+ "sp-tracing",
+ "sp-trie",
+ "sp-wasm-interface",
  "tracing",
  "tracing-core",
 ]
@@ -9341,29 +8926,12 @@ dependencies = [
 [[package]]
 name = "sp-keyring"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "lazy_static",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
  "strum",
-]
-
-[[package]]
-name = "sp-keystore"
-version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "async-trait",
- "derive_more",
- "futures 0.3.12",
- "merlin",
- "parity-scale-codec",
- "parking_lot 0.11.1",
- "schnorrkel",
- "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
 ]
 
 [[package]]
@@ -9378,27 +8946,28 @@ dependencies = [
  "parity-scale-codec",
  "parking_lot 0.11.1",
  "schnorrkel",
- "sp-core 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-externalities 0.9.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "serde",
+ "sp-core",
+ "sp-externalities",
 ]
 
 [[package]]
 name = "sp-npos-elections"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-arithmetic",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-npos-elections-compact",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-npos-elections-compact"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "proc-macro-crate",
  "proc-macro2",
@@ -9409,19 +8978,11 @@ dependencies = [
 [[package]]
 name = "sp-offchain"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
-]
-
-[[package]]
-name = "sp-panic-handler"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "backtrace",
 ]
 
 [[package]]
@@ -9435,16 +8996,16 @@ dependencies = [
 [[package]]
 name = "sp-rpc"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
 ]
 
 [[package]]
 name = "sp-runtime"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "either",
  "hash256-std-hasher",
@@ -9457,26 +9018,9 @@ dependencies = [
  "serde",
  "sp-application-crypto",
  "sp-arithmetic",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
-]
-
-[[package]]
-name = "sp-runtime-interface"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "impl-trait-for-tuples 0.2.1",
- "parity-scale-codec",
- "primitive-types",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-runtime-interface-proc-macro 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-storage 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-tracing 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-wasm-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "static_assertions",
+ "sp-std",
 ]
 
 [[package]]
@@ -9487,25 +9031,13 @@ dependencies = [
  "impl-trait-for-tuples 0.2.1",
  "parity-scale-codec",
  "primitive-types",
- "sp-externalities 0.9.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-runtime-interface-proc-macro 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-std 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-storage 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-tracing 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-wasm-interface 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "sp-externalities",
+ "sp-runtime-interface-proc-macro",
+ "sp-std",
+ "sp-storage",
+ "sp-tracing",
+ "sp-wasm-interface",
  "static_assertions",
-]
-
-[[package]]
-name = "sp-runtime-interface-proc-macro"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "Inflector",
- "proc-macro-crate",
- "proc-macro2",
- "quote",
- "syn",
 ]
 
 [[package]]
@@ -9523,7 +9055,7 @@ dependencies = [
 [[package]]
 name = "sp-serializer"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "serde",
  "serde_json",
@@ -9532,46 +9064,24 @@ dependencies = [
 [[package]]
 name = "sp-session"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "sp-api",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-staking"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "parity-scale-codec",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
-]
-
-[[package]]
-name = "sp-state-machine"
-version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "hash-db",
- "log",
- "num-traits",
- "parity-scale-codec",
- "parking_lot 0.11.1",
- "rand 0.7.3",
- "smallvec 1.6.1",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-panic-handler 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "thiserror",
- "trie-db",
- "trie-root",
+ "sp-std",
 ]
 
 [[package]]
@@ -9586,11 +9096,11 @@ dependencies = [
  "parking_lot 0.11.1",
  "rand 0.7.3",
  "smallvec 1.6.1",
- "sp-core 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-externalities 0.9.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-panic-handler 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-std 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-trie 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "sp-core",
+ "sp-externalities",
+ "sp-panic-handler",
+ "sp-std",
+ "sp-trie",
  "thiserror",
  "trie-db",
  "trie-root",
@@ -9599,25 +9109,7 @@ dependencies = [
 [[package]]
 name = "sp-std"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-
-[[package]]
-name = "sp-std"
-version = "3.0.0"
 source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
-
-[[package]]
-name = "sp-storage"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "impl-serde",
- "parity-scale-codec",
- "ref-cast",
- "serde",
- "sp-debug-derive 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
-]
 
 [[package]]
 name = "sp-storage"
@@ -9628,48 +9120,35 @@ dependencies = [
  "parity-scale-codec",
  "ref-cast",
  "serde",
- "sp-debug-derive 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-std 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "sp-debug-derive",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-tasks"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "log",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-externalities 0.9.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
+ "sp-externalities",
  "sp-io",
- "sp-runtime-interface 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-runtime-interface",
+ "sp-std",
 ]
 
 [[package]]
 name = "sp-timestamp"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "impl-trait-for-tuples 0.2.1",
  "parity-scale-codec",
  "sp-api",
  "sp-inherents",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "wasm-timer",
-]
-
-[[package]]
-name = "sp-tracing"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "log",
- "parity-scale-codec",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "tracing",
- "tracing-core",
- "tracing-subscriber",
 ]
 
 [[package]]
@@ -9679,7 +9158,7 @@ source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e0
 dependencies = [
  "log",
  "parity-scale-codec",
- "sp-std 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "sp-std",
  "tracing",
  "tracing-core",
  "tracing-subscriber",
@@ -9688,7 +9167,7 @@ dependencies = [
 [[package]]
 name = "sp-transaction-pool"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "derive_more",
  "futures 0.3.12",
@@ -9704,27 +9183,13 @@ dependencies = [
 [[package]]
 name = "sp-trie"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "hash-db",
- "memory-db",
- "parity-scale-codec",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "trie-db",
- "trie-root",
-]
-
-[[package]]
-name = "sp-trie"
-version = "3.0.0"
 source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "hash-db",
  "memory-db",
  "parity-scale-codec",
- "sp-core 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
- "sp-std 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "sp-core",
+ "sp-std",
  "trie-db",
  "trie-root",
 ]
@@ -9732,7 +9197,7 @@ dependencies = [
 [[package]]
 name = "sp-utils"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "futures 0.3.12",
  "futures-core",
@@ -9744,24 +9209,13 @@ dependencies = [
 [[package]]
 name = "sp-version"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "impl-serde",
  "parity-scale-codec",
  "serde",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
-]
-
-[[package]]
-name = "sp-wasm-interface"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "impl-trait-for-tuples 0.2.1",
- "parity-scale-codec",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "wasmi",
+ "sp-std",
 ]
 
 [[package]]
@@ -9771,7 +9225,7 @@ source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e0
 dependencies = [
  "impl-trait-for-tuples 0.2.1",
  "parity-scale-codec",
- "sp-std 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
+ "sp-std",
  "wasmi",
 ]
 
@@ -9900,7 +9354,7 @@ dependencies = [
 [[package]]
 name = "substrate-build-script-utils"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "platforms",
 ]
@@ -9917,7 +9371,7 @@ dependencies = [
 [[package]]
 name = "substrate-frame-rpc-system"
 version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "frame-system-rpc-runtime-api",
  "futures 0.3.12",
@@ -9932,7 +9386,7 @@ dependencies = [
  "sp-api",
  "sp-block-builder",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
  "sp-transaction-pool",
 ]
@@ -9940,7 +9394,7 @@ dependencies = [
 [[package]]
 name = "substrate-prometheus-endpoint"
 version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "async-std",
  "derive_more",
@@ -9970,7 +9424,7 @@ dependencies = [
 [[package]]
 name = "substrate-wasm-builder"
 version = "4.0.0"
-source = "git+https://github.com/paritytech/substrate.git?branch=rococo-v1#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
 dependencies = [
  "ansi_term 0.12.1",
  "atty",
@@ -10030,7 +9484,7 @@ dependencies = [
  "sp-blockchain",
  "sp-consensus",
  "sp-consensus-aura",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-finality-grandpa",
  "sp-inherents",
  "sp-runtime",
@@ -10050,16 +9504,16 @@ dependencies = [
  "cumulus-primitives-core",
  "frame-benchmarking-cli",
  "polkadot-cli",
- "polkadot-parachain 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-parachain",
+ "polkadot-primitives",
  "sc-cli",
  "sc-service",
  "sc-telemetry",
  "sc-tracing",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
  "structopt",
- "substrate-build-script-utils 3.0.0 (git+https://github.com/paritytech/substrate.git?branch=rococo-v1)",
+ "substrate-build-script-utils 3.0.0 (git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm)",
  "sunrise-inspect",
  "sunrise-service",
 ]
@@ -10075,7 +9529,7 @@ dependencies = [
  "sc-client-api",
  "sc-service",
  "sp-blockchain",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-runtime",
  "structopt",
 ]
@@ -10087,10 +9541,10 @@ dependencies = [
  "evm",
  "parity-scale-codec",
  "serde",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
 ]
 
 [[package]]
@@ -10129,12 +9583,12 @@ dependencies = [
  "sp-api",
  "sp-block-builder",
  "sp-consensus-aura",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-offchain",
  "sp-runtime",
  "sp-session",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-transaction-pool",
  "sp-version",
  "substrate-wasm-builder 4.0.0",
@@ -10165,7 +9619,7 @@ dependencies = [
  "pallet-tokens",
  "pallet-transaction-payment-rpc-runtime-api",
  "parity-scale-codec",
- "polkadot-primitives 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "polkadot-primitives",
  "polkadot-service",
  "runtime-common",
  "sc-basic-authorship",
@@ -10190,16 +9644,16 @@ dependencies = [
  "sp-blockchain",
  "sp-consensus",
  "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-finality-grandpa",
  "sp-inherents",
  "sp-offchain",
  "sp-runtime",
  "sp-session",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-storage 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
+ "sp-storage",
  "sp-transaction-pool",
- "sp-trie 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-trie",
  "substrate-prometheus-endpoint",
  "sunrise-primitives",
  "sunrise-runtime",
@@ -11428,9 +10882,9 @@ dependencies = [
  "pallet-utility",
  "pallet-vesting",
  "parity-scale-codec",
- "polkadot-parachain 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-primitives 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "polkadot-runtime-common 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-parachain",
+ "polkadot-primitives",
+ "polkadot-runtime-common",
  "rustc-hex",
  "serde",
  "serde_derive",
@@ -11439,14 +10893,14 @@ dependencies = [
  "sp-authority-discovery",
  "sp-block-builder",
  "sp-consensus-babe",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-inherents",
  "sp-io",
  "sp-offchain",
  "sp-runtime",
  "sp-session",
  "sp-staking",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-std",
  "sp-transaction-pool",
  "sp-version",
  "static_assertions",
@@ -11545,33 +10999,9 @@ dependencies = [
 [[package]]
 name = "xcm"
 version = "0.8.22"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "parity-scale-codec",
-]
-
-[[package]]
-name = "xcm"
-version = "0.8.22"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
 dependencies = [
  "parity-scale-codec",
-]
-
-[[package]]
-name = "xcm-builder"
-version = "0.8.22"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "frame-support",
- "parity-scale-codec",
- "polkadot-parachain 0.8.28 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "sp-arithmetic",
- "sp-io",
- "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "xcm 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
- "xcm-executor 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
 ]
 
 [[package]]
@@ -11581,29 +11011,13 @@ source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc
 dependencies = [
  "frame-support",
  "parity-scale-codec",
- "polkadot-parachain 0.8.28 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "polkadot-parachain",
  "sp-arithmetic",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "xcm 0.8.22 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
- "xcm-executor 0.8.22 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
-]
-
-[[package]]
-name = "xcm-executor"
-version = "0.8.22"
-source = "git+https://github.com/paritytech/polkadot?branch=rococo-v1#05832c3c8742b39eb9d90ca343e5c4d8fb18dfe3"
-dependencies = [
- "frame-support",
- "impl-trait-for-tuples 0.2.1",
- "parity-scale-codec",
- "sp-arithmetic",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "sp-io",
- "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "xcm 0.8.22 (git+https://github.com/paritytech/polkadot?branch=rococo-v1)",
+ "sp-std",
+ "xcm",
+ "xcm-executor",
 ]
 
 [[package]]
@@ -11615,11 +11029,11 @@ dependencies = [
  "impl-trait-for-tuples 0.2.1",
  "parity-scale-codec",
  "sp-arithmetic",
- "sp-core 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "sp-core",
  "sp-io",
  "sp-runtime",
- "sp-std 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
- "xcm 0.8.22 (git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm)",
+ "sp-std",
+ "xcm",
 ]
 
 [[package]]
@@ -11687,3 +11101,13 @@ dependencies = [
  "itertools",
  "libc",
 ]
+
+[[patch.unused]]
+name = "sp-election-providers"
+version = "3.0.0"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
+
+[[patch.unused]]
+name = "polkadot-node-core-approval-voting"
+version = "0.1.0"
+source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
