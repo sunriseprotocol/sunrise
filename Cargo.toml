@@ -85,3 +85,61 @@ ethereum = { git = "https://github.com/rust-blockchain/ethereum.git" }
 ## TODO - add patches for the following
 ## cargo update && cargo update -p schnorrkel:0.9.2 --precise 0.9.1 && cargo update -p funty --precise 1.1.0
 
+## [patch.'https://github.com/example/baz']
+## baz = { git = 'https://github.com/example/patched-baz', branch = 'my-branch' }
+
+[patch."https://github.com/paritytech/substrate"]
+## From runtime/common/Cargo.toml
+sp-std = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-core = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-runtime = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-support = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-system = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-scheduler = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+
+## from runtime/dawn/cargo.toml
+frame-benchmarking = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-executive = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+# frame-support = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+# frame-system = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+frame-system-rpc-runtime-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+
+pallet-aura = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-balances = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-randomness-collective-flip = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-sudo = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-timestamp = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"} 
+pallet-transaction-payment = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+pallet-transaction-payment-rpc-runtime-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+
+sp-api = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-application-crypto = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-block-builder = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-consensus-aura = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+# sp-core = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-inherents = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-io = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-offchain = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+# sp-runtime = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-session = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-staking = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+# sp-std = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-transaction-pool = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+sp-version = {git = "https://github.com/sunriseprotocol/substrate", branch = "sunrise-evm"}
+
+
+
+[patch."https://github.com/paritytech/polkadot"]
+## from runtime/dawn/cargo.toml
+parachain-info = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+polkadot-parachain = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+xcm = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+xcm-executor = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+xcm-builder = {git = "https://github.com/sunriseprotocol/polkadot", branch = "sunrise-evm"}
+
+[patch."https://github.com/paritytech/cumulus"]
+
+## from runtime/dawn/cargo.toml
+cumulus-primitives-core = {git = "https://github.com/sunriseprotocol/cumulus", branch = 'sunrise-evm'} 
+cumulus-pallet-parachain-system = {git = "https://github.com/sunriseprotocol/cumulus", branch = 'sunrise-evm'}
+cumulus-pallet-xcm-handler = {git = "https://github.com/sunriseprotocol/cumulus", branch = 'sunrise-evm'}
