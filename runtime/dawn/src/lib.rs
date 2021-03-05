@@ -406,7 +406,7 @@ pub type ScheduleCallPrecompile = runtime_common::ScheduleCallPrecompile<
 	AccountId,
 	EvmAddressMapping<Runtime>,
 	Scheduler,
-	module_transaction_payment::ChargeTransactionPayment<Runtime>,
+	srs_pallet_transaction_payment::ChargeTransactionPayment<Runtime>,
 	Call,
 	Origin,
 	OriginCaller,
@@ -436,7 +436,7 @@ impl pallet_evm::Config for Runtime {
 	>;
 	type ChainId = ChainId;
 	type GasToWeight = GasToWeight;
-	type ChargeTransactionPayment = module_transaction_payment::ChargeTransactionPayment<Runtime>;
+	type ChargeTransactionPayment = srs_pallet_transaction_payment::ChargeTransactionPayment<Runtime>;
 	type NetworkContractOrigin = EnsureRootOrTwoThirdsTechnicalCommittee;
 	type NetworkContractSource = NetworkContractSource;
 	type DeveloperDeposit = DeveloperDeposit;
@@ -604,7 +604,7 @@ macro_rules! construct_dawn_runtime {
 				// Tokens & Related
 				Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
 
-				TransactionPayment: module_transaction_payment::{Module, Call, Storage},
+				TransactionPayment: srs_pallet_transaction_payment::{Module, Call, Storage},
 				EvmAccounts: pallet_evm_accounts::{Module, Call, Storage, Event<T>},
 				Currencies: pallet_currencies::{Module, Call, Event<T>},
 				Tokens: orml_tokens::{Module, Storage, Event<T>, Config<T>},
@@ -612,7 +612,6 @@ macro_rules! construct_dawn_runtime {
 				// Utility
 				Utility: pallet_utility::{Module, Call, Event},
 				Multisig: pallet_multisig::{Module, Call, Storage, Event<T>},
-				Recovery: pallet_recovery::{Module, Call, Storage, Event<T>},
 				Proxy: pallet_proxy::{Module, Call, Storage, Event<T>},
 
 				Indices: pallet_indices::{Module, Call, Storage, Config<T>, Event<T>},
@@ -659,7 +658,7 @@ pub type SignedExtra = (
 	frame_system::CheckEra<Runtime>,
 	frame_system::CheckNonce<Runtime>,
 	frame_system::CheckWeight<Runtime>,
-	module_transaction_payment::ChargeTransactionPayment<Runtime>,
+	srs_pallet_transaction_payment::ChargeTransactionPayment<Runtime>,
 	pallet_evm::SetEvmOrigin<Runtime>,
 );
 /// Unchecked extrinsic type as expected by this runtime.

@@ -61,7 +61,7 @@ orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-li
 orml-tokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
 orml-currencies = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
 
-exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
+pallet-exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
 
 
 [features]
@@ -108,7 +108,7 @@ std = [
 
 	"pallet-template/std",
 	"pallet-exchange/std",
-	"exchange-rpc-runtime-api/std",
+	"pallet-exchange-rpc-runtime-api/std",
 	"pallet-tokens/std",
 	"primitives/std",
 	"pallet-evm/std",

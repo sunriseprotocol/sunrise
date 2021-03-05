@@ -295,7 +295,7 @@ xcm-builder = {git = "https://github.com/sunriseprotocol/polkadot", branch = "su
 
 ## from runtime/dawn/cargo.toml
 cumulus-client-collator = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
-# cumulus-client-consensus-common = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
+cumulus-client-consensus = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
 cumulus-client-network = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
 cumulus-client-service = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}
 cumulus-pallet-parachain-system = {git = "https://github.com/sunriseprotocol/cumulus", branch = "sunrise-evm"}

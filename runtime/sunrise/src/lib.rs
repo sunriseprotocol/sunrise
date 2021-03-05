@@ -41,7 +41,7 @@ pub use frame_support::{
 use orml_traits::{parameter_type_with_key};
 pub use primitives::{CurrencyId, TokenSymbol, AssetId, PoolId};
 use pallet_transaction_payment::CurrencyAdapter;
-use exchange_rpc_runtime_api as exchange_rpc;
+use pallet_exchange_rpc_runtime_api as exchange_rpc;
 
 use orml_currencies::{BasicCurrencyAdapter};
 /// Import the template pallet.

@@ -1,0 +1,44 @@
+[package]
+name = "pallet-nft-benchmarking"
+version = "0.1.0"
+authors = ["Sunrise Protocol"]
+edition = "2018"
+
+[dependencies]
+sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-proxy = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+orml-nft = { path = "../../../orml/nft", default-features = false }
+orml-traits = { path = "../../../orml/traits", default-features = false }
+pallet-currencies = { path = "../../../modules/currencies", default-features = false }
+module-nft = {  path = "../../nft", default-features = false }
+primitives = { package = "sunrise-primitives", path = "../../../primitives", default-features = false }
+support = { package = "pallet-support", path = "../../support", default-features = false }
+pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+
+[dev-dependencies]
+serde = { version = "1.0.101" }
+codec = { package = "parity-scale-codec", version = "2.0.0", features = ["derive"] }
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+orml-tokens = { path = "../../../orml/tokens", default-features = false }
+pallet-utility = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+support = { package = "pallet-support", path = "../../../pallets/support" }
+
+[features]
+default = ["std"]
+std = [
+	"sp-runtime/std",
+	"sp-std/std",
+	"frame-support/std",
+	"frame-system/std",
+	"frame-benchmarking/std",
+	"pallet-proxy/std",
+	"module-nft/std",
+	"support/std",
+	"orml-nft/std",
+	"orml-traits/std",
+]

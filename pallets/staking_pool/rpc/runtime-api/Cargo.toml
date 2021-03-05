@@ -1,7 +1,7 @@
 [package]
-name = "pallet-exchange-rpc-runtime-api"
+name = "pallet-staking-pool-rpc-runtime-api"
 version = "0.1.0"
-authors = ["Sunrise"]
+authors = ["Sunrise Prtocol"]
 edition = "2018"
 
 [dependencies]
@@ -10,7 +10,7 @@ codec = { package = "parity-scale-codec", version = "2.0.0", default-features = 
 sp-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet_exchange = { package = "pallet-exchange", path = "../../", version = "0.1.0", default-features = false}
+support = { package = "pallet-support", path = "../../../support", default-features = false }
 
 [features]
 default = ["std"]
@@ -20,4 +20,5 @@ std = [
 	"sp-api/std",
 	"sp-runtime/std",
 	"sp-std/std",
+	"support/std",
 ]

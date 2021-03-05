@@ -50,7 +50,7 @@ sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"
 
 cumulus-client-network = { git = "https://github.com/paritytech/cumulus", branch = "rococo-v1" }
 cumulus-client-service = { git = "https://github.com/paritytech/cumulus", branch = "rococo-v1" }
-cumulus-client-consensus-common = { git = "https://github.com/paritytech/cumulus", branch = "rococo-v1" }
+cumulus-client-consensus = { git = "https://github.com/paritytech/cumulus", branch = "rococo-v1" }
 
 polkadot-primitives = { git = "https://github.com/paritytech/polkadot", branch = "rococo-v1" }
 polkadot-service = { git = "https://github.com/paritytech/polkadot", branch = "rococo-v1", features = ["real-overseer"] }
@@ -63,7 +63,7 @@ pallet-evm-rpc-runtime-api = { path = "../../../pallets/evm/rpc/runtime_api", de
 pallet-evm-accounts = { path = "../../../pallets/evm-accounts", default-features = false }
 pallet-evm-bridge = { path = "../../../pallets/evm-bridge", default-features = false }
 pallet-exchange = { path = '../../../pallets/exchange', default-features = false }
-exchange-rpc-runtime-api = { path = '../../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
+pallet-exchange-rpc-runtime-api = { path = '../../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
 pallet-support = { path = '../../../pallets/support', default-features = false }
 pallet-tokens = { path = '../../../pallets/tokens', default-features = false }
 pallet-template = { path = '../../../pallets/template', default-features = false }

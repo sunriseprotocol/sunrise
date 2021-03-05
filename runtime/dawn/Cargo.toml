@@ -30,7 +30,9 @@ frame-system-rpc-runtime-api = { git = "https://github.com/paritytech/substrate"
 
 pallet-aura = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-indices = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-multisig = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-proxy = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-randomness-collective-flip = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-sudo = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-timestamp = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
@@ -78,16 +80,25 @@ orml-xtokens = { path = "../../orml/xtokens", default-features = false }
 # local dependencies
 primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
 runtime-common = { path = "../common", default-features = false }
+pallet-airdrop = { path = '../../pallets/airdrop', default-features = false }
 pallet-currencies = { path = '../../pallets/currencies', default-features = false }
+pallet-dex = { path = '../../pallets/dex', default-features = false }
 pallet-evm = { path = "../../pallets/evm", default-features = false }
 pallet-evm-rpc-runtime-api = { path = "../../pallets/evm/rpc/runtime_api", default-features = false }
 pallet-evm-accounts = { path = "../../pallets/evm-accounts", default-features = false }
 pallet-evm-bridge = { path = "../../pallets/evm-bridge", default-features = false }
 pallet-exchange = { path = '../../pallets/exchange', default-features = false }
-exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false}
+pallet-exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false}
+pallet-nft = { path = '../../pallets/nft', default-features = false }
+pallet-nominees-election = { path = '../../pallets/nominees_election', default-features = false }
+pallet-polkadot-bridge = { path = '../../pallets/polkadot_bridge', default-features = false }
+pallet-prices = { path = '../../pallets/prices', default-features = false }
+pallet-staking-pool = { path = '../../pallets/staking_pool', default-features = false }
+pallet-staking-pool-rpc-runtime-api = { path = '../../pallets/staking_pool/rpc/runtime-api', default-features = false }
 pallet-support = { path = '../../pallets/support', default-features = false }
-pallet-tokens = { path = '../../pallets/tokens', default-features = false }
 pallet-template = { path = '../../pallets/template', default-features = false }
+pallet-tokens = { path = '../../pallets/tokens', default-features = false }
+srs-pallet-transaction-payment = { path = '../../pallets/transaction_payment', default-features = false }
 
 [build-dependencies]
 substrate-wasm-builder = "3.0.0"
@@ -149,16 +160,24 @@ std = [
 	"orml-xcm-support/std",
 	"orml-xtokens/std",
 
+ 	"pallet-airdrop/std",
  	"pallet-currencies/std",
+ 	"pallet-dex/std",
   	"pallet-evm/std",
-  	"pallet-evm-accounts/std",
   	"pallet-evm-rpc-runtime-api/std",
+  	"pallet-evm-accounts/std",
   	"pallet-evm-bridge/std",
  	"pallet-exchange/std",
- 	"exchange-rpc-runtime-api/std",
+ 	"pallet-exchange-rpc-runtime-api/std",
+ 	"pallet-nft/std",
+ 	"pallet-nominees-election/std",
+ 	"pallet-polkadot-bridge/std",
+ 	"pallet-staking-pool/std",
+ 	"pallet-staking-pool-rpc-runtime-api/std",
  	"pallet-support/std",
  	"pallet-template/std",
  	"pallet-tokens/std",
+ 	"srs-pallet-transaction-payment/std",
 	
  	"primitives/std",
 ]

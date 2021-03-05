@@ -1,11 +1,11 @@
 [package]
-name = "pallet-exchange-rpc"
+name = "pallet-staking-pool-rpc"
 version = "0.1.0"
-authors = ["Sunrise"]
+authors = ["Sunrise Prtocol"]
 edition = "2018"
 
 [dependencies]
-serde = { version = "1.0.101", optional = true, features = ["derive"] }
+serde = { version = "1.0.101", features = ["derive"] }
 codec = { package = "parity-scale-codec", version = "2.0.0" }
 jsonrpc-core = "15.0.0"
 jsonrpc-core-client = "15.0.0"
@@ -13,13 +13,5 @@ jsonrpc-derive = "15.0.0"
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 sp-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 sp-blockchain = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-pallet-exchange-rpc-runtime-api = { path = "runtime-api", version = "0.1.0", default-features=false }
-
-[features]
-default = ['std']
-std = [
-  'serde',
-  'codec/std',
-  'pallet-exchange-rpc-runtime-api/std',
-
-]
+pallet-staking-pool-rpc-runtime-api = { path = "runtime-api" }
+pallet-support = { path = "../../support" }
