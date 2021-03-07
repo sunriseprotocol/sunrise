@@ -13,7 +13,7 @@ use sp_std::marker::PhantomData;
 
 /// Weight functions for evm.
 pub struct WeightInfo<T>(PhantomData<T>);
-impl<T: frame_system::Config> pallet_evm::WeightInfo for WeightInfo<T> {
+impl<T: frame_system::Config> srs_pallet_evm::WeightInfo for WeightInfo<T> {
 	fn transfer_maintainer() -> Weight {
 		(249_253_000 as Weight)
 			.saturating_add(DbWeight::get().reads(4 as Weight))

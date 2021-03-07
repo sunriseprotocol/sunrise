@@ -1,5 +1,5 @@
 [package]
-name = 'pallet-exchange'
+name = 'srs-pallet-exchange'
 description = 'dex prototype'
 repository = 'https://github.com/sunriseprotocol/sunrise'
 authors = ['Sunrise']
@@ -20,9 +20,9 @@ frame-system = { git = "https://github.com/paritytech/substrate.git", branch = "
 
 orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false }
 orml-utilities = { git = "https://github.com/open-web3-stack/open-runtime-module-library.git", branch = "sw/rococo-v1", default-features = false }
-pallet-tokens = {   default-features = false, path = "../tokens" }
-primitives = { package = "sunrise-primitives", path = "../../primitives", version = "0.1.0", default-features=false }
-support = { package = "pallet-support", path = "../support", default-features = false }
+srs-pallet-tokens = {   default-features = false, path = "../tokens" }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", version = "0.1.0", default-features=false }
+srs-pallet-support = { package = "srs-pallet-support", path = "../support", default-features = false }
 
 
 [dev-dependencies]
@@ -40,7 +40,7 @@ std = [
     'frame-system/std',
     'orml-traits/std',
     'orml-utilities/std',
-    'pallet-tokens/std',
+    'srs-pallet-tokens/std',
 ]
 runtime-benchmarks = [
 	"frame-benchmarking",

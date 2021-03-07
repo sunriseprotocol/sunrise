@@ -39,13 +39,13 @@ pub use frame_support::{
 };
 
 use orml_traits::{parameter_type_with_key};
-pub use primitives::{CurrencyId, TokenSymbol, AssetId, PoolId};
+pub use srs_primitives::{CurrencyId, TokenSymbol, AssetId, PoolId};
 use pallet_transaction_payment::CurrencyAdapter;
-use pallet_exchange_rpc_runtime_api as exchange_rpc;
+use srs_pallet_exchange_rpc_runtime_api as exchange_rpc;
 
 use orml_currencies::{BasicCurrencyAdapter};
 /// Import the template pallet.
-pub use pallet_template;
+pub use srs_pallet_template;
 
 /// An index to a block.
 pub type BlockNumber = u32;
@@ -271,11 +271,11 @@ impl pallet_sudo::Config for Runtime {
 }
 
 /// Configure the template pallet in pallets/template.
-impl pallet_template::Config for Runtime {
+impl srs_pallet_template::Config for Runtime {
 	type Event = Event;
 }
 
-impl pallet_tokens::Config for Runtime {
+impl srs_pallet_tokens::Config for Runtime {
 	type Event = Event;
 	type Balance = u128;
 	type AssetId = u64;
@@ -288,7 +288,7 @@ parameter_types! {
 	
 }
 
-impl pallet_exchange::Config for Runtime {
+impl srs_pallet_exchange::Config for Runtime {
 	type Event = Event;
 	type Currency = Currencies;
 	type PoolId = u32;
@@ -342,9 +342,9 @@ construct_runtime!(
 		TransactionPayment: pallet_transaction_payment::{Module, Storage},
 		Sudo: pallet_sudo::{Module, Call, Config<T>, Storage, Event<T>},
 		// Include the custom logic from the template pallet in the runtime.
-		TemplateModule: pallet_template::{Module, Call, Storage, Event<T>},
-        Tokens: pallet_tokens::{Module, Storage, Call, Config<T>, Event<T>},
-		Exchange: pallet_exchange::{Module, Storage, Call, Event<T>},
+		TemplateModule: srs_pallet_template::{Module, Call, Storage, Event<T>},
+        Tokens: srs_pallet_tokens::{Module, Storage, Call, Config<T>, Event<T>},
+		Exchange: srs_pallet_exchange::{Module, Storage, Call, Event<T>},
 		OrmlTokens: orml_tokens::{Module, Storage, Event<T>},
 		Currencies: orml_currencies::{Module, Call, Event<T>},
 	}

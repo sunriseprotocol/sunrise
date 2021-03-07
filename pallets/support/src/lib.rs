@@ -2,7 +2,7 @@
 
 use codec::{Decode, Encode, FullCodec, HasCompact};
 use frame_support::pallet_prelude::Weight;
-use primitives::evm::{CallInfo, EvmAddress};
+use srs_primitives::evm::{CallInfo, EvmAddress};
 use sp_core::H160;
 use sp_runtime::{
 	traits::{AtLeast32BitUnsigned, MaybeSerializeDeserialize},

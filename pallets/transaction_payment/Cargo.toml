@@ -17,15 +17,15 @@ pallet-proxy = { git = "https://github.com/paritytech/substrate", branch = "roco
 pallet-transaction-payment = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-transaction-payment-rpc-runtime-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 orml-tokens = { path = "../../orml/tokens", default-features = false }
-pallet-currencies = { path = "../../pallets/currencies", default-features = false }
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
-support = { package = "pallet-support", path = "../support", default-features = false }
+srs-pallet-currencies = { path = "../../pallets/currencies", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
+srs-pallet-support = { package = "srs-pallet-support", path = "../support", default-features = false }
 orml-traits = { path = "../../orml/traits", default-features = false }
-pallet-dex = { path = "../dex", default-features = false }
+srs-pallet-dex = { path = "../dex", default-features = false }
 
 [dev-dependencies]
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-staking-pool = { path = "../staking_pool" }
+srs-pallet-staking-pool = { path = "../staking_pool" }
 smallvec = "1.4.1"
 
 [features]
@@ -36,16 +36,16 @@ std = [
 	"sp-runtime/std",
 	"frame-support/std",
 	"frame-system/std",
-	"sp-io/std",
-	"sp-std/std",
-	"orml-tokens/std",
-	"pallet-currencies/std",
 	"pallet-balances/std",
 	"pallet-proxy/std",
 	"pallet-transaction-payment/std",
 	"pallet-transaction-payment-rpc-runtime-api/std",
-	"primitives/std",
-	"support/std",
+	"sp-io/std",
+	"sp-std/std",
+	"orml-tokens/std",
 	"orml-traits/std",
-	"pallet-dex/std",
+	"srs-pallet-currencies/std",
+	"srs-primitives/std",
+	"srs-pallet-support/std",
+	"srs-pallet-dex/std",
 ]

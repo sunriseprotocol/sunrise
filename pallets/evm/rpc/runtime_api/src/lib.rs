@@ -2,7 +2,7 @@
 #![allow(clippy::all)]
 
 use ethereum_types::H160;
-use primitives::evm::{CallInfo, CreateInfo};
+use srs_primitives::evm::{CallInfo, CreateInfo};
 use sp_runtime::{
 	codec::Codec,
 	traits::{MaybeDisplay, MaybeFromStr},

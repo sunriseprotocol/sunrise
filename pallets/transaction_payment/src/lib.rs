@@ -17,7 +17,7 @@ use frame_support::{
 use frame_system::pallet_prelude::*;
 use orml_traits::MultiCurrency;
 use pallet_transaction_payment::{FeeDetails, InclusionFee, RuntimeDispatchInfo};
-use primitives::{Balance, CurrencyId};
+use srs_primitives::{Balance, CurrencyId};
 use sp_runtime::{
 	traits::{
 		CheckedSub, Convert, DispatchInfoOf, PostDispatchInfoOf, SaturatedConversion, Saturating, SignedExtension,
@@ -29,7 +29,7 @@ use sp_runtime::{
 	FixedPointNumber, FixedPointOperand, FixedU128, Perquintill,
 };
 use sp_std::{prelude::*, vec};
-use support::{DEXManager, Ratio, TransactionPayment};
+use srs_pallet_support::{DEXManager, Ratio, TransactionPayment};
 
 mod default_weight;
 mod mock;

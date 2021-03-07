@@ -10,7 +10,7 @@ use frame_support::{
 };
 use frame_system::pallet_prelude::*;
 use orml_traits::{BasicCurrency, BasicReservableCurrency, NFT};
-use primitives::{Balance, NFTBalance};
+use srs_primitives::{Balance, NFTBalance};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 use sp_runtime::{

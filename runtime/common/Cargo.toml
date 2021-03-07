@@ -1,5 +1,5 @@
 [package]
-name = "runtime-common"
+name = "srs-runtime-common"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"
@@ -14,12 +14,12 @@ sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo
 frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-scheduler  = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-evm = { path = "../../pallets/evm", default-features = false }
 
 orml-traits = { path = "../../orml/traits", default-features = false }
 
-pallet-support = { path = "../../pallets/support", default-features = false }
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
+srs-pallet-evm = { path = "../../pallets/evm", default-features = false }
+srs-pallet-support = { path = "../../pallets/support", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
 
 [dev-dependencies]
 serde_json = "1.0.41"
@@ -30,10 +30,10 @@ pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "r
 pallet-proxy = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-utility = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 orml-tokens = { path = "../../orml/tokens" }
-pallet-currencies = { path = "../../pallets/currencies" }
-pallet-evm-bridge = { path = "../../pallets/evm-bridge" }
-pallet-exchange = { path = '../../pallets/exchange'}
-pallet-tokens = { path = '../../pallets/tokens'}
+srs-pallet-currencies = { path = "../../pallets/currencies" }
+srs-pallet-evm-bridge = { path = "../../pallets/evm-bridge" }
+srs-pallet-exchange = { path = '../../pallets/exchange'}
+srs-pallet-tokens = { path = '../../pallets/tokens'}
 
 [features]
 default = ["std"]
@@ -45,9 +45,9 @@ std = [
 	"frame-support/std",
 	"frame-system/std",
 	"pallet-scheduler/std",
-	"pallet-evm/std",
 	"orml-traits/std",
-	"pallet-support/std",
-	"primitives/std",
+	"srs-pallet-evm/std",
+	"srs-pallet-support/std",
+	"srs-primitives/std",
 ]
 with-ethereum-compatibility = []

@@ -43,6 +43,6 @@ sp_api::decl_runtime_apis! {
 			account: AccountId
 		) -> BalanceInfo<Balance>;
 
-		fn get_liquid_staking_exchange_rate() -> support::ExchangeRate;
+		fn get_liquid_staking_exchange_rate() -> srs_pallet_support::ExchangeRate;
 	}
 }

@@ -18,7 +18,7 @@ use frame_support::{
 };
 use frame_system::{ensure_signed, pallet_prelude::*};
 use orml_traits::account::MergeAccount;
-use primitives::{
+use srs_primitives::{
 	evm::{AddressMapping, EvmAddress},
 	AccountIndex,
 };

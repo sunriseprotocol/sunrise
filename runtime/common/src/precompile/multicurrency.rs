@@ -1,13 +1,13 @@
 use frame_support::debug;
-use pallet_evm::{Context, ExitError, ExitSucceed, Precompile};
-use primitives::evm::AddressMapping as AddressMappingT;
+use srs_pallet_evm::{Context, ExitError, ExitSucceed, Precompile};
+use srs_primitives::evm::AddressMapping as AddressMappingT;
 use sp_core::U256;
 use sp_std::{convert::TryFrom, fmt::Debug, marker::PhantomData, prelude::*, result};
 
 use orml_traits::MultiCurrency as MultiCurrencyT;
 
 use super::input::{Input, InputT};
-use primitives::{Balance, CurrencyId};
+use srs_primitives::{Balance, CurrencyId};
 
 /// The `MultiCurrency` impl precompile.
 ///

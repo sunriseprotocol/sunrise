@@ -1,5 +1,5 @@
 [package]
-name = "pallet-nft"
+name = "srs-pallet-nft"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"
@@ -13,7 +13,7 @@ sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo
 frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-proxy = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
 orml-traits = { path = "../../orml/traits", default-features = false }
 orml-nft = { path = "../../orml/nft", default-features = false }
 pallet-timestamp = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
@@ -23,9 +23,9 @@ sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1
 sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 pallet-utility = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-pallet-currencies = { path = "../../pallets/currencies", default-features = false }
+srs-pallet-currencies = { path = "../../pallets/currencies", default-features = false }
 orml-tokens = { path = "../../orml/tokens", default-features = false }
-support = { package = "pallet-support", path = "../../pallets/support" }
+srs-pallet-support = { package = "srs-pallet-support", path = "../../pallets/support" }
 
 [features]
 default = ["std"]
@@ -38,7 +38,7 @@ std = [
 	"frame-support/std",
 	"frame-system/std",
 	"pallet-proxy/std",
-	"primitives/std",
+	"srs-primitives/std",
 	"orml-traits/std",
 	"orml-nft/std",
 	"pallet-timestamp/std",

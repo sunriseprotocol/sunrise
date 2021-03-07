@@ -1,5 +1,5 @@
 [package]
-name = "pallet-airdrop"
+name = "srs-pallet-airdrop"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"
@@ -10,7 +10,7 @@ codec = { package = "parity-scale-codec", version = "2.0.0", default-features = 
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
 
 [dev-dependencies]
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
@@ -24,5 +24,5 @@ std = [
 	"sp-runtime/std",
 	"frame-support/std",
 	"frame-system/std",
-	"primitives/std",
+	"srs-primitives/std",
 ]

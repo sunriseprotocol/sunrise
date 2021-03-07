@@ -56,19 +56,19 @@ polkadot-primitives = { git = "https://github.com/paritytech/polkadot", branch =
 polkadot-service = { git = "https://github.com/paritytech/polkadot", branch = "rococo-v1", features = ["real-overseer"] }
 
 # local dependencies
-primitives = { package = "sunrise-primitives", path = "../../../primitives", default-features = false }
-pallet-currencies = { path = '../../../pallets/currencies', default-features = false }
-pallet-evm = { path = "../../../pallets/evm", default-features = false }
-pallet-evm-rpc-runtime-api = { path = "../../../pallets/evm/rpc/runtime_api", default-features = false }
-pallet-evm-accounts = { path = "../../../pallets/evm-accounts", default-features = false }
-pallet-evm-bridge = { path = "../../../pallets/evm-bridge", default-features = false }
-pallet-exchange = { path = '../../../pallets/exchange', default-features = false }
-pallet-exchange-rpc-runtime-api = { path = '../../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
-pallet-support = { path = '../../../pallets/support', default-features = false }
-pallet-tokens = { path = '../../../pallets/tokens', default-features = false }
-pallet-template = { path = '../../../pallets/template', default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../../primitives", default-features = false }
+srs-pallet-currencies = { path = '../../../pallets/currencies', default-features = false }
+srs-pallet-evm = { path = "../../../pallets/evm", default-features = false }
+srs-pallet-evm-rpc-runtime-api = { path = "../../../pallets/evm/rpc/runtime_api", default-features = false }
+srs-pallet-evm-accounts = { path = "../../../pallets/evm-accounts", default-features = false }
+srs-pallet-evm-bridge = { path = "../../../pallets/evm-bridge", default-features = false }
+srs-pallet-exchange = { path = '../../../pallets/exchange', default-features = false }
+srs-pallet-exchange-rpc-runtime-api = { path = '../../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
+srs-pallet-support = { path = '../../../pallets/support', default-features = false }
+srs-pallet-tokens = { path = '../../../pallets/tokens', default-features = false }
+srs-pallet-template = { path = '../../../pallets/template', default-features = false }
 
-runtime-common = { path = "../../../runtime/common" }
+srs-runtime-common = { path = "../../../runtime/common" }
 dawn-runtime = { path = "../../../runtime/dawn", optional = true }
 sunrise-runtime = { path = "../../../runtime/sunrise", optional = true }
 

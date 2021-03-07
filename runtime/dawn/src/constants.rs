@@ -16,7 +16,7 @@ pub mod currency {
 
 /// Time and blocks.
 pub mod time {
-	use primitives::{BlockNumber, Moment};
+	use srs_primitives::{BlockNumber, Moment};
 
 	pub const SECS_PER_BLOCK: Moment = 4;
 	pub const MILLISECS_PER_BLOCK: Moment = SECS_PER_BLOCK * 1000;
@@ -46,7 +46,7 @@ pub mod fee {
 	use frame_support::weights::{
 		constants::ExtrinsicBaseWeight, WeightToFeeCoefficient, WeightToFeeCoefficients, WeightToFeePolynomial,
 	};
-	use primitives::Balance;
+	use srs_primitives::Balance;
 	use smallvec::smallvec;
 	use sp_runtime::Perbill;
 

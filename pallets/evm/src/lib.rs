@@ -26,13 +26,13 @@ use sp_runtime::{
 	Either, TransactionOutcome,
 };
 use sp_std::{marker::PhantomData, vec::Vec};
-use support::{EVMStateRentTrait, ExecutionMode, InvokeContext, TransactionPayment, EVM as EVMTrait};
+use srs_pallet_support::{EVMStateRentTrait, ExecutionMode, InvokeContext, TransactionPayment, EVM as EVMTrait};
 
 pub use crate::precompiles::{Precompile, Precompiles};
 pub use crate::runner::Runner;
 pub use evm::{Context, ExitError, ExitFatal, ExitReason, ExitRevert, ExitSucceed};
 pub use orml_traits::account::MergeAccount;
-pub use primitives::evm::{Account, AddressMapping, CallInfo, CreateInfo, EvmAddress, Log, Vicinity};
+pub use srs_primitives::evm::{Account, AddressMapping, CallInfo, CreateInfo, EvmAddress, Log, Vicinity};
 
 pub mod precompiles;
 pub mod runner;

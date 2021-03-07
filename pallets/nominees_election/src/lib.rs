@@ -5,13 +5,13 @@ use codec::Encode;
 use frame_support::{pallet_prelude::*, traits::LockIdentifier, transactional};
 use frame_system::pallet_prelude::*;
 use orml_traits::{BasicCurrency, BasicLockableCurrency};
-use primitives::{Balance, EraIndex};
+use srs_primitives::{Balance, EraIndex};
 use sp_runtime::{
 	traits::{MaybeDisplay, MaybeSerializeDeserialize, Member, Zero},
 	RuntimeDebug, SaturatedConversion,
 };
 use sp_std::{fmt::Debug, prelude::*};
-use support::{NomineesProvider, OnNewEra};
+use srs_pallet_support::{NomineesProvider, OnNewEra};
 
 mod mock;
 mod tests;

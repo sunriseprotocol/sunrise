@@ -17,14 +17,14 @@
 use frame_support::{pallet_prelude::*, transactional};
 use frame_system::pallet_prelude::*;
 use orml_traits::{MultiCurrency, MultiCurrencyExtended};
-use primitives::{Balance, CurrencyId, TradingPair};
+use srs_primitives::{Balance, CurrencyId, TradingPair};
 use sp_core::U256;
 use sp_runtime::{
 	traits::{AccountIdConversion, UniqueSaturatedInto, Zero},
 	DispatchError, DispatchResult, FixedPointNumber, ModuleId, RuntimeDebug, SaturatedConversion,
 };
 use sp_std::{convert::TryInto, prelude::*, vec};
-use support::{DEXIncentives, DEXManager, Price, Ratio};
+use srs_pallet_support::{DEXIncentives, DEXManager, Price, Ratio};
 
 mod default_weight;
 mod mock;

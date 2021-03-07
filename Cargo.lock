@@ -1375,39 +1375,20 @@ dependencies = [
  "orml-traits 0.4.0-dev",
  "orml-xcm-support",
  "orml-xtokens",
- "pallet-airdrop",
  "pallet-aura",
  "pallet-balances",
- "pallet-currencies",
- "pallet-dex",
- "pallet-evm",
- "pallet-evm-accounts",
- "pallet-evm-bridge",
- "pallet-evm-rpc-runtime-api",
- "pallet-exchange",
- "pallet-exchange-rpc-runtime-api",
  "pallet-indices",
  "pallet-multisig",
- "pallet-nft",
- "pallet-nominees-election",
- "pallet-polkadot-bridge",
- "pallet-prices",
  "pallet-proxy",
  "pallet-randomness-collective-flip",
- "pallet-staking-pool",
- "pallet-staking-pool-rpc-runtime-api",
  "pallet-sudo",
- "pallet-support",
- "pallet-template",
  "pallet-timestamp",
- "pallet-tokens",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
  "pallet-utility",
  "parachain-info",
  "parity-scale-codec",
  "polkadot-parachain",
- "runtime-common",
  "serde",
  "serde_json",
  "smallvec 1.6.1",
@@ -1425,9 +1406,28 @@ dependencies = [
  "sp-std",
  "sp-transaction-pool",
  "sp-version",
+ "srs-pallet-airdrop",
+ "srs-pallet-currencies",
+ "srs-pallet-dex",
+ "srs-pallet-evm",
+ "srs-pallet-evm-accounts",
+ "srs-pallet-evm-bridge",
+ "srs-pallet-evm-rpc-runtime-api",
+ "srs-pallet-exchange",
+ "srs-pallet-exchange-rpc-runtime-api",
+ "srs-pallet-nft",
+ "srs-pallet-nominees-election",
+ "srs-pallet-polkadot-bridge",
+ "srs-pallet-prices",
+ "srs-pallet-staking-pool",
+ "srs-pallet-staking-pool-rpc-runtime-api",
+ "srs-pallet-support",
+ "srs-pallet-template",
+ "srs-pallet-tokens",
  "srs-pallet-transaction-payment",
+ "srs-primitives",
+ "srs-runtime-common",
  "substrate-wasm-builder 3.0.0",
- "sunrise-primitives",
  "xcm",
  "xcm-builder",
  "xcm-executor",
@@ -4407,20 +4407,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-airdrop"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sunrise-primitives",
-]
-
-[[package]]
 name = "pallet-aura"
 version = "3.0.0"
 source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
@@ -4538,30 +4524,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-currencies"
-version = "0.1.0"
-dependencies = [
- "clear_on_drop",
- "frame-support",
- "frame-system",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "orml-utilities 0.4.0-dev",
- "pallet-balances",
- "pallet-evm",
- "pallet-evm-bridge",
- "pallet-support",
- "pallet-timestamp",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
 name = "pallet-democracy"
 version = "3.0.0"
 source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
@@ -4577,26 +4539,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-dex"
-version = "0.1.0"
-dependencies = [
- "frame-benchmarking",
- "frame-support",
- "frame-system",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-support",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
 name = "pallet-elections-phragmen"
 version = "3.0.0"
 source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
@@ -4606,141 +4548,6 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-npos-elections",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "pallet-evm"
-version = "0.1.0"
-dependencies = [
- "env_logger",
- "evm",
- "evm-gasometer",
- "evm-runtime",
- "frame-support",
- "frame-system",
- "impl-trait-for-tuples 0.1.3",
- "orml-currencies 0.4.0-dev",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-support",
- "pallet-timestamp",
- "parity-scale-codec",
- "primitive-types",
- "ripemd160",
- "rlp",
- "serde",
- "sha3 0.8.2",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-evm-accounts"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "libsecp256k1",
- "orml-currencies 0.4.0-dev",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-support",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-evm-bridge"
-version = "0.1.0"
-dependencies = [
- "ethereum-types",
- "frame-support",
- "frame-system",
- "hex-literal 0.3.1",
- "impl-trait-for-tuples 0.1.3",
- "pallet-balances",
- "pallet-evm",
- "pallet-support",
- "pallet-timestamp",
- "parity-scale-codec",
- "primitive-types",
- "serde",
- "sha3 0.8.2",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-evm-rpc-runtime-api"
-version = "0.1.0"
-dependencies = [
- "ethereum-types",
- "sp-api",
- "sp-core",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-exchange"
-version = "0.1.0"
-dependencies = [
- "frame-benchmarking",
- "frame-support",
- "frame-system",
- "orml-tokens 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "orml-utilities 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "pallet-support",
- "pallet-tokens",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-exchange-rpc"
-version = "0.1.0"
-dependencies = [
- "jsonrpc-core",
- "jsonrpc-core-client",
- "jsonrpc-derive",
- "pallet-exchange-rpc-runtime-api",
- "parity-scale-codec",
- "serde",
- "sp-api",
- "sp-blockchain",
- "sp-runtime",
-]
-
-[[package]]
-name = "pallet-exchange-rpc-runtime-api"
-version = "0.1.0"
-dependencies = [
- "pallet-exchange",
- "parity-scale-codec",
- "serde",
- "sp-api",
  "sp-runtime",
  "sp-std",
 ]
@@ -4846,31 +4653,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-nft"
-version = "0.1.0"
-dependencies = [
- "enumflags2",
- "frame-support",
- "frame-system",
- "orml-nft",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-currencies",
- "pallet-proxy",
- "pallet-support",
- "pallet-timestamp",
- "pallet-utility",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
 name = "pallet-nicks"
 version = "3.0.0"
 source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
@@ -4882,26 +4664,6 @@ dependencies = [
  "sp-io",
  "sp-runtime",
  "sp-std",
-]
-
-[[package]]
-name = "pallet-nominees-election"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "orml-currencies 0.4.0-dev",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-support",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
 ]
 
 [[package]]
@@ -4917,40 +4679,6 @@ dependencies = [
  "sp-runtime",
  "sp-staking",
  "sp-std",
-]
-
-[[package]]
-name = "pallet-polkadot-bridge"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "orml-traits 0.4.0-dev",
- "pallet-support",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-prices"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "orml-traits 0.4.0-dev",
- "pallet-support",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
 ]
 
 [[package]]
@@ -5066,38 +4794,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pallet-staking-pool"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "orml-currencies 0.4.0-dev",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-support",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-staking-pool-rpc-runtime-api"
-version = "0.1.0"
-dependencies = [
- "pallet-support",
- "parity-scale-codec",
- "serde",
- "sp-api",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
 name = "pallet-staking-reward-curve"
 version = "3.0.0"
 source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
@@ -5120,32 +4816,6 @@ dependencies = [
  "sp-io",
  "sp-runtime",
  "sp-std",
-]
-
-[[package]]
-name = "pallet-support"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "impl-trait-for-tuples 0.1.3",
- "orml-traits 0.4.0-dev",
- "parity-scale-codec",
- "sp-core",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
-]
-
-[[package]]
-name = "pallet-template"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "sp-core",
- "sp-io",
- "sp-runtime",
 ]
 
 [[package]]
@@ -5178,21 +4848,6 @@ dependencies = [
  "serde",
  "sp-runtime",
  "sp-std",
-]
-
-[[package]]
-name = "pallet-tokens"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "sunrise-primitives",
 ]
 
 [[package]]
@@ -7196,36 +6851,6 @@ checksum = "ffc936cf8a7ea60c58f030fd36a612a48f440610214dc54bc36431f9ea0c3efb"
 dependencies = [
  "libc",
  "winapi 0.3.9",
-]
-
-[[package]]
-name = "runtime-common"
-version = "0.1.0"
-dependencies = [
- "frame-support",
- "frame-system",
- "hex-literal 0.3.1",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "pallet-balances",
- "pallet-currencies",
- "pallet-evm",
- "pallet-evm-bridge",
- "pallet-exchange",
- "pallet-proxy",
- "pallet-scheduler",
- "pallet-support",
- "pallet-timestamp",
- "pallet-tokens",
- "pallet-utility",
- "parity-scale-codec",
- "serde_json",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
- "static_assertions",
- "sunrise-primitives",
 ]
 
 [[package]]
@@ -9404,6 +9029,351 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
 
 [[package]]
+name = "srs-pallet-airdrop"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-currencies"
+version = "0.1.0"
+dependencies = [
+ "clear_on_drop",
+ "frame-support",
+ "frame-system",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "orml-utilities 0.4.0-dev",
+ "pallet-balances",
+ "pallet-timestamp",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-evm",
+ "srs-pallet-evm-bridge",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-dex"
+version = "0.1.0"
+dependencies = [
+ "frame-benchmarking",
+ "frame-support",
+ "frame-system",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-evm"
+version = "0.1.0"
+dependencies = [
+ "env_logger",
+ "evm",
+ "evm-gasometer",
+ "evm-runtime",
+ "frame-support",
+ "frame-system",
+ "impl-trait-for-tuples 0.1.3",
+ "orml-currencies 0.4.0-dev",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "pallet-balances",
+ "pallet-timestamp",
+ "parity-scale-codec",
+ "primitive-types",
+ "ripemd160",
+ "rlp",
+ "serde",
+ "sha3 0.8.2",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-evm-accounts"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "libsecp256k1",
+ "orml-currencies 0.4.0-dev",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-evm-bridge"
+version = "0.1.0"
+dependencies = [
+ "ethereum-types",
+ "frame-support",
+ "frame-system",
+ "hex-literal 0.3.1",
+ "impl-trait-for-tuples 0.1.3",
+ "pallet-balances",
+ "pallet-timestamp",
+ "parity-scale-codec",
+ "primitive-types",
+ "serde",
+ "sha3 0.8.2",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-evm",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-evm-rpc-runtime-api"
+version = "0.1.0"
+dependencies = [
+ "ethereum-types",
+ "sp-api",
+ "sp-core",
+ "sp-runtime",
+ "sp-std",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-exchange"
+version = "0.1.0"
+dependencies = [
+ "frame-benchmarking",
+ "frame-support",
+ "frame-system",
+ "orml-tokens 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
+ "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
+ "orml-utilities 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+ "srs-pallet-tokens",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-exchange-rpc"
+version = "0.1.0"
+dependencies = [
+ "jsonrpc-core",
+ "jsonrpc-core-client",
+ "jsonrpc-derive",
+ "parity-scale-codec",
+ "serde",
+ "sp-api",
+ "sp-blockchain",
+ "sp-runtime",
+ "srs-pallet-exchange-rpc-runtime-api",
+]
+
+[[package]]
+name = "srs-pallet-exchange-rpc-runtime-api"
+version = "0.1.0"
+dependencies = [
+ "parity-scale-codec",
+ "serde",
+ "sp-api",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-exchange",
+]
+
+[[package]]
+name = "srs-pallet-nft"
+version = "0.1.0"
+dependencies = [
+ "enumflags2",
+ "frame-support",
+ "frame-system",
+ "orml-nft",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "pallet-balances",
+ "pallet-proxy",
+ "pallet-timestamp",
+ "pallet-utility",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-currencies",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-nominees-election"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-currencies 0.4.0-dev",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-polkadot-bridge"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-traits 0.4.0-dev",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-prices"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-traits 0.4.0-dev",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-staking-pool"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-currencies 0.4.0-dev",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-staking-pool-rpc-runtime-api"
+version = "0.1.0"
+dependencies = [
+ "parity-scale-codec",
+ "serde",
+ "sp-api",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+]
+
+[[package]]
+name = "srs-pallet-support"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "impl-trait-for-tuples 0.1.3",
+ "orml-traits 0.4.0-dev",
+ "parity-scale-codec",
+ "sp-core",
+ "sp-runtime",
+ "sp-std",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-template"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+]
+
+[[package]]
+name = "srs-pallet-tokens"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-primitives",
+]
+
+[[package]]
 name = "srs-pallet-transaction-payment"
 version = "0.1.0"
 dependencies = [
@@ -9412,11 +9382,7 @@ dependencies = [
  "orml-tokens 0.4.0-dev",
  "orml-traits 0.4.0-dev",
  "pallet-balances",
- "pallet-currencies",
- "pallet-dex",
  "pallet-proxy",
- "pallet-staking-pool",
- "pallet-support",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
  "parity-scale-codec",
@@ -9426,7 +9392,54 @@ dependencies = [
  "sp-io",
  "sp-runtime",
  "sp-std",
- "sunrise-primitives",
+ "srs-pallet-currencies",
+ "srs-pallet-dex",
+ "srs-pallet-staking-pool",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-primitives"
+version = "0.1.0"
+dependencies = [
+ "evm",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "srs-runtime-common"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "hex-literal 0.3.1",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "pallet-balances",
+ "pallet-proxy",
+ "pallet-scheduler",
+ "pallet-timestamp",
+ "pallet-utility",
+ "parity-scale-codec",
+ "serde_json",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-currencies",
+ "srs-pallet-evm",
+ "srs-pallet-evm-bridge",
+ "srs-pallet-exchange",
+ "srs-pallet-support",
+ "srs-pallet-tokens",
+ "srs-primitives",
+ "static_assertions",
 ]
 
 [[package]]
@@ -9651,13 +9664,9 @@ dependencies = [
  "futures 0.3.12",
  "hex-literal 0.3.1",
  "jsonrpc-core",
- "pallet-evm",
- "pallet-evm-rpc-runtime-api",
- "pallet-exchange-rpc",
  "pallet-transaction-payment-rpc",
  "parity-scale-codec",
  "parity-util-mem",
- "runtime-common",
  "sc-basic-authorship",
  "sc-cli",
  "sc-client-api",
@@ -9683,10 +9692,14 @@ dependencies = [
  "sp-inherents",
  "sp-runtime",
  "sp-transaction-pool",
+ "srs-pallet-evm",
+ "srs-pallet-evm-rpc-runtime-api",
+ "srs-pallet-exchange-rpc",
+ "srs-primitives",
+ "srs-runtime-common",
  "structopt",
  "substrate-build-script-utils 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "substrate-frame-rpc-system",
- "sunrise-primitives",
  "sunrise-runtime",
 ]
 
@@ -9729,19 +9742,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sunrise-primitives"
-version = "0.1.0"
-dependencies = [
- "evm",
- "parity-scale-codec",
- "serde",
- "sp-core",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
 name = "sunrise-runtime"
 version = "0.1.0"
 dependencies = [
@@ -9758,17 +9758,10 @@ dependencies = [
  "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
  "pallet-aura",
  "pallet-balances",
- "pallet-evm",
- "pallet-evm-accounts",
- "pallet-evm-bridge",
- "pallet-exchange",
- "pallet-exchange-rpc-runtime-api",
  "pallet-grandpa",
  "pallet-randomness-collective-flip",
  "pallet-sudo",
- "pallet-template",
  "pallet-timestamp",
- "pallet-tokens",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
  "parity-scale-codec",
@@ -9785,8 +9778,15 @@ dependencies = [
  "sp-std",
  "sp-transaction-pool",
  "sp-version",
+ "srs-pallet-evm",
+ "srs-pallet-evm-accounts",
+ "srs-pallet-evm-bridge",
+ "srs-pallet-exchange",
+ "srs-pallet-exchange-rpc-runtime-api",
+ "srs-pallet-template",
+ "srs-pallet-tokens",
+ "srs-primitives",
  "substrate-wasm-builder 4.0.0",
- "sunrise-primitives",
 ]
 
 [[package]]
@@ -9801,21 +9801,10 @@ dependencies = [
  "frame-system-rpc-runtime-api",
  "hex-literal 0.3.1",
  "jsonrpc-core",
- "pallet-currencies",
- "pallet-evm",
- "pallet-evm-accounts",
- "pallet-evm-bridge",
- "pallet-evm-rpc-runtime-api",
- "pallet-exchange",
- "pallet-exchange-rpc-runtime-api",
- "pallet-support",
- "pallet-template",
- "pallet-tokens",
  "pallet-transaction-payment-rpc-runtime-api",
  "parity-scale-codec",
  "polkadot-primitives",
  "polkadot-service",
- "runtime-common",
  "sc-basic-authorship",
  "sc-chain-spec",
  "sc-cli",
@@ -9848,8 +9837,19 @@ dependencies = [
  "sp-storage",
  "sp-transaction-pool",
  "sp-trie",
+ "srs-pallet-currencies",
+ "srs-pallet-evm",
+ "srs-pallet-evm-accounts",
+ "srs-pallet-evm-bridge",
+ "srs-pallet-evm-rpc-runtime-api",
+ "srs-pallet-exchange",
+ "srs-pallet-exchange-rpc-runtime-api",
+ "srs-pallet-support",
+ "srs-pallet-template",
+ "srs-pallet-tokens",
+ "srs-primitives",
+ "srs-runtime-common",
  "substrate-prometheus-endpoint",
- "sunrise-primitives",
  "sunrise-runtime",
 ]
 
@@ -11297,11 +11297,11 @@ dependencies = [
 ]
 
 [[patch.unused]]
-name = "sp-election-providers"
-version = "3.0.0"
-source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"
-
-[[patch.unused]]
 name = "polkadot-node-core-approval-voting"
 version = "0.1.0"
 source = "git+https://github.com/sunriseprotocol/polkadot?branch=sunrise-evm#9bc8915acd5507a77737371fdd892bb1f6a8db22"
+
+[[patch.unused]]
+name = "sp-election-providers"
+version = "3.0.0"
+source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e03ca38d45f438932ec92bf69a40b6b16b6ec643"

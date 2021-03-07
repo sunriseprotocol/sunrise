@@ -6,12 +6,12 @@ mod tests;
 
 use crate::is_sunrise_precompile;
 use frame_support::debug;
-use pallet_evm::{
+use srs_pallet_evm::{
 	precompiles::{Precompile, Precompiles},
 	Context, ExitError, ExitSucceed,
 };
-use pallet_support::PrecompileCallerFilter as PrecompileCallerFilterT;
-use primitives::PRECOMPILE_ADDRESS_START;
+use srs_pallet_support::PrecompileCallerFilter as PrecompileCallerFilterT;
+use srs_primitives::PRECOMPILE_ADDRESS_START;
 use sp_core::H160;
 use sp_std::{marker::PhantomData, prelude::*};
 
@@ -25,10 +25,10 @@ pub use schedule_call::ScheduleCallPrecompile;
 pub use state_rent::StateRentPrecompile;
 
 pub type EthereumPrecompiles = (
-	pallet_evm::precompiles::ECRecover,
-	pallet_evm::precompiles::Sha256,
-	pallet_evm::precompiles::Ripemd160,
-	pallet_evm::precompiles::Identity,
+	srs_pallet_evm::precompiles::ECRecover,
+	srs_pallet_evm::precompiles::Sha256,
+	srs_pallet_evm::precompiles::Ripemd160,
+	srs_pallet_evm::precompiles::Identity,
 );
 
 pub struct AllPrecompiles<

@@ -1,3 +1,9 @@
+[package]
+authors = ['Sunrise Protocol']
+edition = '2018'
+name = 'srs-pallet-template'
+version = '0.1.0'
+
 [features]
 default = ['std']
 std = [
@@ -35,10 +41,3 @@ branch = "rococo-v1"
 default-features = false
 git = 'https://github.com/paritytech/substrate.git'
 branch = "rococo-v1"
-
-[package]
-authors = ['Sunrise Protocol']
-edition = '2018'
-name = 'pallet-template'
-version = '0.1.0'
-

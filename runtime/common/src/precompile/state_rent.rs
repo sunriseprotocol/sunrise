@@ -1,12 +1,12 @@
 use frame_support::debug;
-use pallet_evm::{Context, ExitError, ExitSucceed, Precompile};
+use srs_pallet_evm::{Context, ExitError, ExitSucceed, Precompile};
 use sp_core::U256;
 use sp_std::{borrow::Cow, convert::TryFrom, marker::PhantomData, prelude::*, result};
 
-use pallet_support::EVMStateRentTrait;
+use srs_pallet_support::EVMStateRentTrait;
 
 use super::input::{Input, InputT};
-use primitives::{evm::AddressMapping as AddressMappingT, Balance};
+use srs_primitives::{evm::AddressMapping as AddressMappingT, Balance};
 
 /// The `EVM` impl precompile.
 ///

@@ -7,8 +7,8 @@ use sp_std::{
 	vec::Vec,
 };
 
-use pallet_evm::ExitError;
-use primitives::{evm::AddressMapping as AddressMappingT, Amount, Balance, CurrencyId};
+use srs_pallet_evm::ExitError;
+use srs_primitives::{evm::AddressMapping as AddressMappingT, Amount, Balance, CurrencyId};
 use sp_core::H160;
 
 pub const PER_PARAM_BYTES: usize = 32;

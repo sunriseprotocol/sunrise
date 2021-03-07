@@ -4,7 +4,7 @@ use codec::Codec;
 use jsonrpc_core::{Error as RpcError, ErrorCode, Result};
 use jsonrpc_derive::rpc;
 use module_staking_pool_rpc_runtime_api::BalanceInfo;
-use module_support::ExchangeRate;
+use srs_pallet_support::ExchangeRate;
 use sp_api::ProvideRuntimeApi;
 use sp_blockchain::HeaderBackend;
 use sp_runtime::{

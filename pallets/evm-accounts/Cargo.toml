@@ -1,5 +1,5 @@
 [package]
-name = "pallet-evm-accounts"
+name = "srs-pallet-evm-accounts"
 version = "0.1.0"
 authors = ["Sunrise Prtocol"]
 edition = "2018"
@@ -18,8 +18,8 @@ sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"
 
 orml-traits = { path = "../../orml/traits", default-features = false }
 
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
-pallet-support = { path = "../support", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
+srs-pallet-support = { path = "../support", default-features = false }
 
 [dev-dependencies]
 pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
@@ -38,7 +38,7 @@ std = [
 	"sp-std/std",
 	"frame-support/std",
 	"frame-system/std",
-	"primitives/std",
 	"orml-traits/std",
-	"pallet-support/std",
+	"srs-primitives/std",
+	"srs-pallet-support/std",
 ]

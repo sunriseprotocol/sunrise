@@ -1,5 +1,5 @@
 [package]
-name = "pallet-staking-pool"
+name = "srs-pallet-staking-pool"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"
@@ -13,8 +13,8 @@ orml-tokens = { path = "../../orml/tokens", default-features = false }
 orml-traits = { package = "orml-traits", path = "../../orml/traits", default-features = false }
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
-support = { package = "pallet-support", path = "../support", default-features = false }
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
+srs-pallet-support = { package = "srs-pallet-support", path = "../support", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
 
 [dev-dependencies]
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
@@ -33,6 +33,6 @@ std = [
 	"orml-traits/std",
 	"sp-runtime/std",
 	"sp-std/std",
-	"support/std",
-	"primitives/std",
+	"srs-pallet-support/std",
+	"srs-primitives/std",
 ]

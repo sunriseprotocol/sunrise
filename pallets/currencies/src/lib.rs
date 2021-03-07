@@ -19,7 +19,7 @@ use orml_traits::{
 	LockIdentifier, MultiCurrency, MultiCurrencyExtended, MultiLockableCurrency, MultiReservableCurrency,
 };
 use orml_utilities::with_transaction_result;
-use primitives::{
+use srs_primitives::{
 	evm::{AddressMapping, EvmAddress},
 	CurrencyId, TokenSymbol,
 };
@@ -33,7 +33,7 @@ use sp_std::{
 	fmt::Debug,
 	marker, result,
 };
-use support::{EVMBridge, InvokeContext};
+use srs_pallet_support::{EVMBridge, InvokeContext};
 
 mod default_weight;
 mod mock;

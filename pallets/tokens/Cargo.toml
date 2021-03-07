@@ -1,5 +1,5 @@
 [package]
-name = "pallet-tokens"
+name = "srs-pallet-tokens"
 version = "0.1.0"
 authors = ["Sunrise"]
 edition = "2018"
@@ -13,7 +13,7 @@ sp-runtime = { git = "https://github.com/paritytech/substrate.git", branch = "ro
 sp-std = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", default-features = false }
 frame-support = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", default-features = false }
 frame-system = {  git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", default-features = false }
-primitives = { package = "sunrise-primitives", path = "../../primitives", version = "0.1.0", default-features=false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", version = "0.1.0", default-features=false }
 
 [dev-dependencies]
 sp-core = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", default-features = false }

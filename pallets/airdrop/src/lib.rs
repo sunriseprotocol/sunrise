@@ -2,7 +2,7 @@
 
 use frame_support::{decl_event, decl_module, decl_storage, transactional};
 use frame_system::{self as system, ensure_root};
-use primitives::{AirDropCurrencyId, Balance};
+use srs_primitives::{AirDropCurrencyId, Balance};
 use sp_runtime::traits::StaticLookup;
 
 mod mock;

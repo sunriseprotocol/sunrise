@@ -10,8 +10,8 @@ use frame_support::{
 	},
 };
 use frame_system::limits;
-pub use pallet_support::{ExchangeRate, PrecompileCallerFilter, Price, Rate, Ratio};
-use primitives::{PRECOMPILE_ADDRESS_START, PREDEPLOY_ADDRESS_START};
+pub use srs_pallet_support::{ExchangeRate, PrecompileCallerFilter, Price, Rate, Ratio};
+use srs_primitives::{PRECOMPILE_ADDRESS_START, PREDEPLOY_ADDRESS_START};
 use sp_core::H160;
 use sp_runtime::{
 	traits::{Convert, Saturating},

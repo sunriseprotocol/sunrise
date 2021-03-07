@@ -13,7 +13,7 @@ use frame_system::ensure_signed;
 use codec::{Encode, Decode};
 use frame_support::traits::{Get, Vec};
 
-use primitives::{Balance, CurrencyId};
+use srs_primitives::{Balance, CurrencyId};
 use sp_std::convert::{TryFrom};
 
 mod math;
@@ -25,9 +25,9 @@ mod mock;
 mod tests;
 
 //use orml_utilities::with_transaction_result;
-use pallet_tokens::{TokenInfo, Token, CreateTokenInfo};
+use srs_pallet_tokens::{TokenInfo, Token, CreateTokenInfo};
 
-	pub trait Config: frame_system::Config + pallet_tokens::Config {
+	pub trait Config: frame_system::Config + srs_pallet_tokens::Config {
 	type Event: From<Event<Self>> + Into<<Self as frame_system::Config>::Event>;
 	type Currency: MultiCurrencyExtended<Self::AccountId, CurrencyId = CurrencyId, Balance = Balance>;
 	type PoolId: Parameter + AtLeast32BitUnsigned + Default + Copy + MaybeSerializeDeserialize + Bounded;
@@ -97,7 +97,7 @@ impl<A, B> PoolConfig<A, B>{
 	}
 }
 
-type AssetIdOf<T> = <T as pallet_tokens::Config>::AssetId;
+type AssetIdOf<T> = <T as srs_pallet_tokens::Config>::AssetId;
 
 type LiquidityPool_<T> = LiquidityPool<Balance, <T as Config>::PoolConfigId, AssetIdOf<T> >;
 type LiquidityPoolConfig_<T> = PoolConfig<Balance, AssetIdOf<T> >; 
@@ -353,7 +353,7 @@ impl<T: Config> Module<T> {
 		let weight_in = pool_config.token_weights[0];
 		let weight_out = pool_config.token_weights[1];	
 		let total_weight = weight_in.checked_add(weight_out).unwrap();
-		let pool_supply = pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id).saturated_into::<u128>();
+		let pool_supply = srs_pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id).saturated_into::<u128>();
 
 		math::math_join_pool_with_min_lptokens_given(balance_in, weight_in.into(), pool_supply, total_weight.into(), token_amount_in, pool_config.fees)
 	}
@@ -364,7 +364,7 @@ impl<T: Config> Module<T> {
 		let weight_in = pool_config.token_weights[0];
 		let weight_out = pool_config.token_weights[1];
 		let total_weight = weight_in.checked_add(weight_out).unwrap();
-		let pool_supply = pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id).saturated_into::<u128>();
+		let pool_supply = srs_pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id).saturated_into::<u128>();
 
 		math::math_join_pool_with_max_collateral_taken(balance_in, weight_in.into(), pool_supply, total_weight.into(), pool_amount_out, pool_config.fees)
 	}
@@ -375,7 +375,7 @@ impl<T: Config> Module<T> {
 		let weight_in = pool_config.token_weights[0];
 		let weight_out = pool_config.token_weights[1];
 		let total_weight = weight_in.checked_add(weight_out).unwrap();
-		let pool_supply = pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id).saturated_into::<u128>();
+		let pool_supply = srs_pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id).saturated_into::<u128>();
 
 		math::math_exit_pool_with_min_collateral_received(balance_out, weight_out.into(), pool_supply, total_weight.into(), pool_amount_in, pool_config.fees)
 	}
@@ -388,7 +388,7 @@ impl<T: Config> Module<T> {
 		let total_weight = weight_in.checked_add(weight_out).unwrap();
 	//	let pool_supply = pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id) TryInto::<u128>::try_into(input);
 		//let pool_supply = TryInto::<u128>::saturated_into(pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id));
-		let pool_supply = pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id).saturated_into::<u128>();
+		let pool_supply = srs_pallet_tokens::TotalSupply::<T>::get(pool.lp_token_id).saturated_into::<u128>();
 
 		math::math_exit_pool_with_max_lp_given(balance_out, total_weight.into(), pool_supply, total_weight.into(), token_amount_out, pool_config.fees)
 	}

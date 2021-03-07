@@ -1,5 +1,5 @@
 [package]
-name = "pallet-currencies"
+name = "srs-pallet-currencies"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"
@@ -15,21 +15,21 @@ sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1"
 frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 
-pallet-evm = { path = "../evm", default-features = false }
-pallet-evm-bridge = { path = "../evm-bridge", default-features = false }
+srs-pallet-evm = { path = "../evm", default-features = false }
+srs-pallet-evm-bridge = { path = "../evm-bridge", default-features = false }
 
 orml-traits = { path = "../../orml/traits", default-features = false }
 orml-utilities = { path = "../../orml/utilities", default-features = false }
 
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
-support = { package = "pallet-support", path = "../support", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
+srs-pallet-support = { package = "srs-pallet-support", path = "../support", default-features = false }
 
 [dev-dependencies]
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 pallet-timestamp = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 tokens = { package = "orml-tokens", path = "../../orml/tokens" }
-pallet-evm = { path = "../evm" }
+srs-pallet-evm = { path = "../evm" }
 
 clear_on_drop = { version = "0.2.4", features = ["no_cc"] }	# https://github.com/paritytech/substrate/issues/4179
 
@@ -44,10 +44,10 @@ std = [
 	"sp-io/std",
 	"frame-support/std",
 	"frame-system/std",
-	"pallet-evm/std",
-	"pallet-evm-bridge/std",
+	"srs-pallet-evm/std",
+	"srs-pallet-evm-bridge/std",
 	"orml-traits/std",
 	"orml-utilities/std",
- 	"primitives/std",
- 	"support/std",
+ 	"srs-primitives/std",
+ 	"srs-pallet-support/std",
 ]

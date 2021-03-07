@@ -21,13 +21,14 @@ serde = { features = ['derive'], optional = true, version = '1.0.119' }
 evm = { version = "0.24.0", optional = true, default-features = false }
 
 # local dependencies
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
-pallet-template = { path = '../../pallets/template', default-features = false }
-pallet-exchange = { path = '../../pallets/exchange', default-features = false }
-pallet-tokens = { path = '../../pallets/tokens', default-features = false }
-pallet-evm = { path = "../../pallets/evm", default-features = false }
-pallet-evm-accounts = { path = "../../pallets/evm-accounts", default-features = false }
-pallet-evm-bridge = { path = "../../pallets/evm-bridge", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
+srs-pallet-template = { path = '../../pallets/template', default-features = false }
+srs-pallet-exchange = { path = '../../pallets/exchange', default-features = false }
+srs-pallet-tokens = { path = '../../pallets/tokens', default-features = false }
+srs-pallet-evm = { path = "../../pallets/evm", default-features = false }
+srs-pallet-evm-accounts = { path = "../../pallets/evm-accounts", default-features = false }
+srs-pallet-evm-bridge = { path = "../../pallets/evm-bridge", default-features = false }
+srs-pallet-exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
 
 # Substrate dependencies
 frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false, optional = true }
@@ -61,7 +62,6 @@ orml-traits = { git = "https://github.com/open-web3-stack/open-runtime-module-li
 orml-tokens = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
 orml-currencies = { git = "https://github.com/open-web3-stack/open-runtime-module-library", branch = "sw/rococo-v1", default-features = false, version = '0.4.0-dev' }
 
-pallet-exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
 
 
 [features]
@@ -106,14 +106,14 @@ std = [
 	"sp-transaction-pool/std",
 	"sp-version/std",
 
-	"pallet-template/std",
-	"pallet-exchange/std",
-	"pallet-exchange-rpc-runtime-api/std",
-	"pallet-tokens/std",
-	"primitives/std",
-	"pallet-evm/std",
-	"pallet-evm-accounts/std",
-	"pallet-evm-bridge/std",
+	"srs-pallet-template/std",
+	"srs-pallet-exchange/std",
+	"srs-pallet-exchange-rpc-runtime-api/std",
+	"srs-pallet-tokens/std",
+	"srs-primitives/std",
+	"srs-pallet-evm/std",
+	"srs-pallet-evm-accounts/std",
+	"srs-pallet-evm-bridge/std",
 
 	"orml-tokens/std",
 	"orml-currencies/std",

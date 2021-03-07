@@ -7,11 +7,11 @@ use frame_support::{
 	pallet_prelude::*,
 };
 use hex_literal::hex;
-use pallet_evm::{ExitReason, ExitSucceed};
+use srs_pallet_evm::{ExitReason, ExitSucceed};
 use primitive_types::H256;
 use sp_core::{H160, U256};
 use sp_runtime::SaturatedConversion;
-use support::{EVMBridge as EVMBridgeTrait, ExecutionMode, InvokeContext, EVM};
+use srs_pallet_support::{EVMBridge as EVMBridgeTrait, ExecutionMode, InvokeContext, EVM};
 
 type AccountIdOf<T> = <T as frame_system::Config>::AccountId;
 type BalanceOf<T> = <<T as Config>::EVM as EVM<AccountIdOf<T>>>::Balance;

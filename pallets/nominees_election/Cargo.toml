@@ -1,5 +1,5 @@
 [package]
-name = "pallet-nominees-election"
+name = "srs-pallet-nominees-election"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"
@@ -13,8 +13,8 @@ frame-system = { git = "https://github.com/paritytech/substrate", branch = "roco
 sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 orml-traits = { path = "../../orml/traits", default-features = false }
 orml-tokens = { path = "../../orml/tokens", default-features = false }
-support = { package = "pallet-support", path = "../support", default-features = false }
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
+srs-pallet-support = { package = "srs-pallet-support", path = "../support", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
 
 [dev-dependencies]
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
@@ -31,8 +31,8 @@ std = [
 	"frame-support/std",
 	"frame-system/std",
 	"sp-std/std",
-	"support/std",
+	"srs-pallet-support/std",
 	"orml-traits/std",
 	"orml-tokens/std",
-	"primitives/std",
+	"srs-primitives/std",
 ]

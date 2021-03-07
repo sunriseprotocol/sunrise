@@ -27,12 +27,12 @@ serde_json = "1.0.41"
 codec = { package = "parity-scale-codec", version = "2.0.0" }
 
 # local dependencies
-runtime-common = { path = "../../runtime/common" }
+srs-runtime-common = { path = "../../runtime/common" }
 sunrise-runtime = { path = '../../runtime/sunrise', version = '0.1.0' }
-primitives = { package = 'sunrise-primitives', path = '../../primitives', version = '0.1.0'}
-pallet-exchange-rpc = {path = '../../pallets/exchange/rpc', version = '0.1.0'}
-pallet-evm = { path = "../../pallets/evm" }
-pallet-evm-rpc-runtime-api = { path = "../../pallets/evm/rpc/runtime_api" }
+srs-primitives = { package = 'srs-primitives', path = '../../primitives', version = '0.1.0'}
+srs-pallet-exchange-rpc = {path = '../../pallets/exchange/rpc', version = '0.1.0'}
+srs-pallet-evm = { path = "../../pallets/evm" }
+srs-pallet-evm-rpc-runtime-api = { path = "../../pallets/evm/rpc/runtime_api" }
 
 
 # Substrate dependencies

@@ -9,9 +9,9 @@ use frame_support::{
 	RuntimeDebug,
 };
 use frame_system::{EnsureRoot, EnsureSignedBy};
-use pallet_support::DEXIncentives;
+use srs_pallet_support::DEXIncentives;
 use orml_traits::{parameter_type_with_key, MultiReservableCurrency};
-pub use primitives::{
+pub use srs_primitives::{
 	evm::AddressMapping, mocks::MockAddressMapping, Amount, BlockNumber, CurrencyId, Header, Nonce, TokenSymbol,
 	TradingPair, PREDEPLOY_ADDRESS_START,
 };
@@ -27,7 +27,7 @@ impl_outer_event! {
 		frame_system<T>,
 		orml_oracle<T>,
 		orml_tokens<T>,
-		pallet_evm<T>,
+		srs_pallet_evm<T>,
 		pallet_balances<T>,
 		pallet_currencies<T>,
 		pallet_nft<T>,
@@ -48,7 +48,7 @@ impl_outer_dispatch! {
 		pallet_balances::Balances,
 		pallet_proxy::Proxy,
 		pallet_utility::Utility,
-		pallet_evm::palletEVM,
+		srs_pallet_evm::palletEVM,
 	}
 }
 
@@ -171,10 +171,10 @@ impl pallet_currencies::Config for Test {
 }
 pub type Currencies = pallet_currencies::pallet<Test>;
 
-impl pallet_evm_bridge::Config for Test {
+impl srs_pallet_evm_bridge::Config for Test {
 	type EVM = palletEVM;
 }
-pub type EVMBridge = pallet_evm_bridge::pallet<Test>;
+pub type EVMBridge = srs_pallet_evm_bridge::pallet<Test>;
 
 parameter_types! {
 	pub const CreateClassDeposit: Balance = 200;
@@ -373,7 +373,7 @@ impl Convert<u64, Weight> for GasToWeight {
 	}
 }
 
-impl pallet_evm::Config for Test {
+impl srs_pallet_evm::Config for Test {
 	type AddressMapping = MockAddressMapping;
 	type Currency = Balances;
 	type MergeAccount = Currencies;
@@ -402,7 +402,7 @@ impl pallet_evm::Config for Test {
 	type WeightInfo = ();
 }
 
-pub type palletEVM = pallet_evm::pallet<Test>;
+pub type palletEVM = srs_pallet_evm::pallet<Test>;
 
 pub const ALICE: AccountId = AccountId::new([1u8; 32]);
 pub const BOB: AccountId = AccountId::new([2u8; 32]);
@@ -416,13 +416,13 @@ pub fn bob() -> H160 {
 	H160([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2])
 }
 
-pub fn evm_genesis() -> (BTreeMap<H160, pallet_evm::GenesisAccount<Balance, Nonce>>, u64) {
+pub fn evm_genesis() -> (BTreeMap<H160, srs_pallet_evm::GenesisAccount<Balance, Nonce>>, u64) {
 	let contracts_json = &include_bytes!("../../../../predeploy-contracts/resources/bytecodes.json")[..];
 	let contracts: Vec<(String, String)> = serde_json::from_slice(contracts_json).unwrap();
 	let mut accounts = BTreeMap::new();
 	let mut network_contract_index = PREDEPLOY_ADDRESS_START;
 	for (_, code_string) in contracts {
-		let account = pallet_evm::GenesisAccount {
+		let account = srs_pallet_evm::GenesisAccount {
 			nonce: 0,
 			balance: 0u128,
 			storage: Default::default(),
@@ -455,7 +455,7 @@ pub fn new_test_ext() -> sp_io::TestExternalities {
 
 	accounts.insert(
 		alice(),
-		pallet_evm::GenesisAccount {
+		srs_pallet_evm::GenesisAccount {
 			nonce: 1,
 			balance: INITIAL_BALANCE,
 			storage: Default::default(),
@@ -464,7 +464,7 @@ pub fn new_test_ext() -> sp_io::TestExternalities {
 	);
 	accounts.insert(
 		bob(),
-		pallet_evm::GenesisAccount {
+		srs_pallet_evm::GenesisAccount {
 			nonce: 1,
 			balance: INITIAL_BALANCE,
 			storage: Default::default(),
@@ -475,7 +475,7 @@ pub fn new_test_ext() -> sp_io::TestExternalities {
 	pallet_balances::GenesisConfig::<Test>::default()
 		.assimilate_storage(&mut storage)
 		.unwrap();
-	pallet_evm::GenesisConfig::<Test> {
+	srs_pallet_evm::GenesisConfig::<Test> {
 		accounts,
 		network_contract_index,
 	}

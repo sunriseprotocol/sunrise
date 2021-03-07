@@ -1,5 +1,5 @@
 [package]
-name = "pallet-dex"
+name = "srs-pallet-dex"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"
@@ -15,8 +15,8 @@ frame-system = { git = "https://github.com/paritytech/substrate", branch = "roco
 sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
 orml-traits = { path = "../../orml/traits", default-features = false }
 orml-tokens = { path = "../../orml/tokens", default-features = false }
-support = { package = "pallet-support", path = "../support", default-features = false }
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
+srs-pallet-support = { package = "srs-pallet-support", path = "../support", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
 
 [dev-dependencies]
 sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
@@ -34,8 +34,8 @@ std = [
 	"sp-std/std",
 	"orml-traits/std",
 	"orml-tokens/std",
-	"support/std",
-	"primitives/std",
+	"srs-pallet-support/std",
+	"srs-primitives/std",
 	"frame-benchmarking/std",
 ]
 runtime-benchmarks = [

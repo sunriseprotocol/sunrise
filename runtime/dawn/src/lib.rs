@@ -37,9 +37,9 @@ use sp_version::NativeVersion;
 use sp_version::RuntimeVersion;
 
 use frame_system::{EnsureOneOf, EnsureRoot, RawOrigin};
-use pallet_currencies::{BasicCurrencyAdapter, Currency};
-use pallet_evm::{CallInfo, CreateInfo};
-use pallet_evm_accounts::EvmAddressMapping;
+use srs_pallet_currencies::{BasicCurrencyAdapter, Currency};
+use srs_pallet_evm::{CallInfo, CreateInfo};
+use srs_pallet_evm_accounts::EvmAddressMapping;
 use orml_traits::{create_median_value_data_provider, parameter_type_with_key, DataFeeder, DataProviderExtended};
 // use pallet_grandpa::fg_primitives;
 // use pallet_grandpa::{AuthorityId as GrandpaId, AuthorityList as
@@ -77,11 +77,11 @@ pub use sp_runtime::BuildStorage;
 pub use sp_runtime::{Perbill, Percent, Permill, Perquintill};
 
 pub use constants::{currency::*, fee::*, time::*};
-pub use primitives::{
+pub use srs_primitives::{
 	AccountId, AccountIndex, Amount, AuctionId, Balance, BlockNumber,
 	CurrencyId, EraIndex, Hash, Moment, Nonce, Share, Signature, TokenSymbol, 
 };
-pub use runtime_common::{
+pub use srs_runtime_common::{
 	BlockLength, BlockWeights, ExchangeRate, GasToWeight, OffchainSolutionWeightLimit, Price, Rate,
 	Ratio, SystemContractsFilter, AVERAGE_ON_INITIALIZE_RATIO,
 };
@@ -122,7 +122,7 @@ parameter_types! {
 	pub const ExchangeModuleId: ModuleId = ModuleId(*b"exchange");
 }
 
-impl pallet_exchange::Config for Runtime {
+impl srs_pallet_exchange::Config for Runtime {
 	type Event = Event;
 	type Currency = Currencies;
 	type PoolId = u32;
@@ -158,8 +158,8 @@ impl frame_system::Config for Runtime {
 	type AccountData = pallet_balances::AccountData<Balance>;
 	type OnNewAccount = ();
 	type OnKilledAccount = (
-		pallet_evm::CallKillAccount<Runtime>,
-		pallet_evm_accounts::CallKillAccount<Runtime>,
+		srs_pallet_evm::CallKillAccount<Runtime>,
+		srs_pallet_evm_accounts::CallKillAccount<Runtime>,
 	);
 	type DbWeight = RocksDbWeight;
 	type BaseCallFilter = ();
@@ -308,7 +308,7 @@ parameter_types! {
 	pub const GetLDOTCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::LDOT);
 }
 
-impl pallet_currencies::Config for Runtime {
+impl srs_pallet_currencies::Config for Runtime {
 	type Event = Event;
 	type MultiCurrency = Tokens;
 	type NativeCurrency = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
@@ -349,7 +349,7 @@ where
 			frame_system::CheckNonce::<Runtime>::from(nonce),
 			frame_system::CheckWeight::<Runtime>::new(),
 			module_transaction_payment::ChargeTransactionPayment::<Runtime>::from(tip),
-			pallet_evm::SetEvmOrigin::<Runtime>::new(),
+			srs_pallet_evm::SetEvmOrigin::<Runtime>::new(),
 		);
 		let raw_payload = SignedPayload::new(call, extra)
 			.map_err(|e| {
@@ -376,7 +376,7 @@ where
 	type Extrinsic = UncheckedExtrinsic;
 }
 
-impl pallet_evm_accounts::Config for Runtime {
+impl srs_pallet_evm_accounts::Config for Runtime {
 	type Event = Event;
 	type Currency = Balances;
 	type KillAccount = frame_system::Consumer<Runtime>;
@@ -399,10 +399,10 @@ parameter_types! {
 }
 
 pub type MultiCurrencyPrecompile =
-	runtime_common::MultiCurrencyPrecompile<AccountId, EvmAddressMapping<Runtime>, Currencies>;
+	srs_runtime_common::MultiCurrencyPrecompile<AccountId, EvmAddressMapping<Runtime>, Currencies>;
 
-pub type StateRentPrecompile = runtime_common::StateRentPrecompile<AccountId, EvmAddressMapping<Runtime>, EVM>;
-pub type ScheduleCallPrecompile = runtime_common::ScheduleCallPrecompile<
+pub type StateRentPrecompile = srs_runtime_common::StateRentPrecompile<AccountId, EvmAddressMapping<Runtime>, EVM>;
+pub type ScheduleCallPrecompile = srs_runtime_common::ScheduleCallPrecompile<
 	AccountId,
 	EvmAddressMapping<Runtime>,
 	Scheduler,
@@ -416,7 +416,7 @@ pub type ScheduleCallPrecompile = runtime_common::ScheduleCallPrecompile<
 #[cfg(feature = "with-ethereum-compatibility")]
 static ISTANBUL_CONFIG: evm::Config = evm::Config::istanbul();
 
-impl pallet_evm::Config for Runtime {
+impl srs_pallet_evm::Config for Runtime {
 	type AddressMapping = EvmAddressMapping<Runtime>;
 	type Currency = Balances;
 	type MergeAccount = Currencies;
@@ -425,7 +425,7 @@ impl pallet_evm::Config for Runtime {
 	type MaxCodeSize = MaxCodeSize;
 
 	type Event = Event;
-	type Precompiles = runtime_common::AllPrecompiles<
+	type Precompiles = srs_runtime_common::AllPrecompiles<
 		SystemContractsFilter,
 		MultiCurrencyPrecompile,
 		NFTPrecompile,
@@ -451,7 +451,7 @@ impl pallet_evm::Config for Runtime {
 	}
 }
 
-impl pallet_evm_bridge::Config for Runtime {
+impl srs_pallet_evm_bridge::Config for Runtime {
 	type EVM = EVM;
 }
 
@@ -593,7 +593,7 @@ macro_rules! construct_dawn_runtime {
 		construct_runtime! {
 			pub enum Runtime where
 				Block = Block,
-				NodeBlock = primitives::Block,
+				NodeBlock = srs_primitives::Block,
 				UncheckedExtrinsic = UncheckedExtrinsic
 			{
 				// Core
@@ -605,7 +605,7 @@ macro_rules! construct_dawn_runtime {
 				Balances: pallet_balances::{Module, Call, Storage, Config<T>, Event<T>},
 
 				TransactionPayment: srs_pallet_transaction_payment::{Module, Call, Storage},
-				EvmAccounts: pallet_evm_accounts::{Module, Call, Storage, Event<T>},
+				EvmAccounts: srs_pallet_evm_accounts::{Module, Call, Storage, Event<T>},
 				Currencies: pallet_currencies::{Module, Call, Event<T>},
 				Tokens: orml_tokens::{Module, Storage, Event<T>, Config<T>},
 
@@ -616,8 +616,8 @@ macro_rules! construct_dawn_runtime {
 
 				Indices: pallet_indices::{Module, Call, Storage, Config<T>, Event<T>},
 
-				EVM: pallet_evm::{Module, Config<T>, Call, Storage, Event<T>},
-				EVMBridge: pallet_evm_bridge::{Module},
+				EVM: srs_pallet_evm::{Module, Config<T>, Call, Storage, Event<T>},
+				EVMBridge: srs_pallet_evm_bridge::{Module},
 
 				$($modules)*
 
@@ -659,7 +659,7 @@ pub type SignedExtra = (
 	frame_system::CheckNonce<Runtime>,
 	frame_system::CheckWeight<Runtime>,
 	srs_pallet_transaction_payment::ChargeTransactionPayment<Runtime>,
-	pallet_evm::SetEvmOrigin<Runtime>,
+	srs_pallet_evm::SetEvmOrigin<Runtime>,
 );
 /// Unchecked extrinsic type as expected by this runtime.
 pub type UncheckedExtrinsic = generic::UncheckedExtrinsic<Address, Call, Signature, SignedExtra>;
@@ -763,7 +763,7 @@ impl_runtime_apis! {
 		}
 	}
 
-	impl pallet_evm_rpc_runtime_api::EVMRuntimeRPCApi<Block, Balance> for Runtime {
+	impl srs_pallet_evm_rpc_runtime_api::EVMRuntimeRPCApi<Block, Balance> for Runtime {
 		fn call(
 			from: H160,
 			to: H160,
@@ -774,14 +774,14 @@ impl_runtime_apis! {
 			estimate: bool,
 		) -> Result<CallInfo, sp_runtime::DispatchError> {
 			let config = if estimate {
-				let mut config = <Runtime as pallet_evm::Config>::config().clone();
+				let mut config = <Runtime as srs_pallet_evm::Config>::config().clone();
 				config.estimate = true;
 				Some(config)
 			} else {
 				None
 			};
 
-			pallet_evm::Runner::<Runtime>::call(
+			srs_pallet_evm::Runner::<Runtime>::call(
 				from,
 				from,
 				to,
@@ -789,7 +789,7 @@ impl_runtime_apis! {
 				value,
 				gas_limit.into(),
 				storage_limit,
-				config.as_ref().unwrap_or(<Runtime as pallet_evm::Config>::config()),
+				config.as_ref().unwrap_or(<Runtime as srs_pallet_evm::Config>::config()),
 			)
 		}
 
@@ -802,20 +802,20 @@ impl_runtime_apis! {
 			estimate: bool,
 		) -> Result<CreateInfo, sp_runtime::DispatchError> {
 			let config = if estimate {
-				let mut config = <Runtime as pallet_evm::Config>::config().clone();
+				let mut config = <Runtime as srs_pallet_evm::Config>::config().clone();
 				config.estimate = true;
 				Some(config)
 			} else {
 				None
 			};
 
-			pallet_evm::Runner::<Runtime>::create(
+			srs_pallet_evm::Runner::<Runtime>::create(
 				from,
 				data,
 				value,
 				gas_limit.into(),
 				storage_limit,
-				config.as_ref().unwrap_or(<Runtime as pallet_evm::Config>::config()),
+				config.as_ref().unwrap_or(<Runtime as srs_pallet_evm::Config>::config()),
 			)
 		}
 	}

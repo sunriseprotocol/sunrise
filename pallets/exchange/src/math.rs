@@ -1,4 +1,4 @@
-use primitives::{Balance};
+use srs_primitives::{Balance};
 use sp_std::convert::{TryFrom};
 
 const ONE: Balance = 1;

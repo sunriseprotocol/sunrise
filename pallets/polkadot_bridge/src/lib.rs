@@ -4,13 +4,13 @@
 use frame_support::{pallet_prelude::*, transactional};
 use frame_system::pallet_prelude::*;
 use orml_traits::BasicCurrency;
-use primitives::{Balance, EraIndex};
+use srs_primitives::{Balance, EraIndex};
 use sp_runtime::{
 	traits::{CheckedSub, MaybeDisplay, MaybeSerializeDeserialize, Member, StaticLookup, Zero},
 	DispatchResult, FixedPointNumber, RuntimeDebug,
 };
 use sp_std::{fmt::Debug, prelude::*};
-use support::{
+use srs_pallet_support::{
 	OnNewEra, PolkadotBridge, PolkadotBridgeCall, PolkadotBridgeState, PolkadotBridgeType, PolkadotStakingLedger,
 	PolkadotUnlockChunk, Rate,
 };

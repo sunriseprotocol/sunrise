@@ -1,5 +1,5 @@
 [package]
-name = "pallet-evm-bridge"
+name = "srs-pallet-evm-bridge"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"
@@ -20,9 +20,9 @@ primitive-types = { version = "0.9.0", default-features = false, features = ["rl
 sha3 = { version = "0.8", default-features = false }
 impl-trait-for-tuples = "0.1"
 ethereum-types = { version = "0.11.0", default-features = false }
-primitives = { package = "sunrise-primitives", path = "../../primitives", default-features = false }
-support = { package = "pallet-support", path = "../support", default-features = false }
-pallet-evm = { path = "../evm", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
+srs-pallet-support = { package = "srs-pallet-support", path = "../support", default-features = false }
+srs-pallet-evm = { path = "../evm", default-features = false }
 hex-literal = { version = "0.3.1" }
 
 [dev-dependencies]
@@ -42,8 +42,8 @@ std = [
 	"sp-std/std",
 	"sha3/std",
 	"ethereum-types/std",
-	"primitives/std",
+	"srs-primitives/std",
 	"primitive-types/std",
-	"support/std",
-	"pallet-evm/std",
+	"srs-pallet-support/std",
+	"srs-pallet-evm/std",
 ]

@@ -1,5 +1,5 @@
 [package]
-name = "pallet-exchange-rpc"
+name = "srs-pallet-exchange-rpc"
 version = "0.1.0"
 authors = ["Sunrise"]
 edition = "2018"
@@ -13,13 +13,13 @@ jsonrpc-derive = "15.0.0"
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 sp-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 sp-blockchain = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-pallet-exchange-rpc-runtime-api = { path = "runtime-api", version = "0.1.0", default-features=false }
+srs-pallet-exchange-rpc-runtime-api = { path = "runtime-api", version = "0.1.0", default-features=false }
 
 [features]
 default = ['std']
 std = [
   'serde',
   'codec/std',
-  'pallet-exchange-rpc-runtime-api/std',
+  'srs-pallet-exchange-rpc-runtime-api/std',
 
 ]

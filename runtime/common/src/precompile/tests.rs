@@ -6,7 +6,7 @@ use crate::precompile::mock::{
 };
 use frame_support::{assert_noop, assert_ok};
 use hex_literal::hex;
-use pallet_evm::ExitError;
+use srs_pallet_evm::ExitError;
 use orml_traits::DataFeeder;
 use primitives::{evm::AddressMapping, PREDEPLOY_ADDRESS_START};
 use sp_core::{H160, H256, U256};
@@ -224,8 +224,8 @@ fn schedule_call_precompile_should_work() {
 		assert_eq!(output, expected_output);
 		assert_eq!(used_gas, 0);
 
-		let from_account = <Test as pallet_evm::Config>::AddressMapping::get_account_id(&alice());
-		let to_account = <Test as pallet_evm::Config>::AddressMapping::get_account_id(&bob());
+		let from_account = <Test as srs_pallet_evm::Config>::AddressMapping::get_account_id(&alice());
+		let to_account = <Test as srs_pallet_evm::Config>::AddressMapping::get_account_id(&bob());
 		#[cfg(not(feature = "with-ethereum-compatibility"))]
 		{
 			assert_eq!(Balances::free_balance(from_account.clone()), 999999700000);
@@ -297,8 +297,8 @@ fn schedule_call_precompile_should_handle_invalid_input() {
 		assert_eq!(output, expected_output);
 		assert_eq!(used_gas, 0);
 
-		let from_account = <Test as pallet_evm::Config>::AddressMapping::get_account_id(&alice());
-		let to_account = <Test as pallet_evm::Config>::AddressMapping::get_account_id(&bob());
+		let from_account = <Test as srs_pallet_evm::Config>::AddressMapping::get_account_id(&alice());
+		let to_account = <Test as srs_pallet_evm::Config>::AddressMapping::get_account_id(&bob());
 		#[cfg(not(feature = "with-ethereum-compatibility"))]
 		{
 			assert_eq!(Balances::free_balance(from_account.clone()), 999999700000);

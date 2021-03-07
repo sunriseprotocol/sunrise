@@ -4,7 +4,7 @@
 use frame_support::{pallet_prelude::*, transactional};
 use frame_system::pallet_prelude::*;
 use orml_traits::{Change, MultiCurrency};
-use primitives::{Balance, CurrencyId, EraIndex};
+use srs_primitives::{Balance, CurrencyId, EraIndex};
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
 use sp_runtime::{
@@ -12,7 +12,7 @@ use sp_runtime::{
 	DispatchError, DispatchResult, FixedPointNumber, ModuleId, RuntimeDebug,
 };
 use sp_std::prelude::*;
-use support::{
+use srs_pallet_support::{
 	ExchangeRate, HomaProtocol, NomineesProvider, OnNewEra, PolkadotBridge, PolkadotBridgeCall, PolkadotBridgeState,
 	PolkadotBridgeType, PolkadotStakingLedger, PolkadotUnlockChunk, Rate, Ratio,
 };

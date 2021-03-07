@@ -14,9 +14,9 @@
 use frame_support::{pallet_prelude::*, transactional};
 use frame_system::pallet_prelude::*;
 use orml_traits::{DataFeeder, DataProvider};
-use primitives::CurrencyId;
+use srs_primitives::CurrencyId;
 use sp_runtime::traits::{CheckedDiv, CheckedMul};
-use support::{ExchangeRateProvider, Price, PriceProvider};
+use srs_pallet_support::{ExchangeRateProvider, Price, PriceProvider};
 
 mod default_weight;
 mod mock;

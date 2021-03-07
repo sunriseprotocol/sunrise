@@ -9,11 +9,11 @@ use sp_runtime::{
 	traits::{Block as BlockT, MaybeDisplay, MaybeFromStr},
 };
 use std::sync::Arc;
-use pallet_exchange_rpc_runtime_api::{BalanceInfo};
+use srs_pallet_exchange_rpc_runtime_api::{BalanceInfo};
 
 pub use self::gen_client::Client as ExchangeClient;
 
-pub use pallet_exchange_rpc_runtime_api::ExchangeApi as ExchangeRuntimeApi;
+pub use srs_pallet_exchange_rpc_runtime_api::ExchangeApi as ExchangeRuntimeApi;
 
 #[derive(Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
