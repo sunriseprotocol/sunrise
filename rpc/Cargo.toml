@@ -1,0 +1,34 @@
+[package]
+name = "sunrise-rpc"
+version = "0.1.0"
+authors = ["Sunrise Protocol"]
+edition = "2018"
+
+[dependencies]
+jsonrpc-core = "15.0.0"
+codec = { package = "parity-scale-codec", version = "2.0.0" }
+sp-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sp-blockchain = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sp-block-builder = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sp-consensus = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sp-consensus-babe = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sp-transaction-pool = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sc-client-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sc-consensus-babe = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sc-consensus-babe-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sc-consensus-epochs = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sc-finality-grandpa = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sc-finality-grandpa-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sc-keystore = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sp-keystore = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1" }
+sc-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+sc-rpc-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+
+srs-primitives = { package = "srs-primitives", path = "../primitives" }
+srs-pallet-staking-pool-rpc = { path = "../pallets/staking_pool/rpc" }
+orml-oracle-rpc = { path = "../orml/oracle/rpc" }
+srs-runtime-common = { path = "../runtime/common" }
+srs-pallet-evm-rpc = { path = "../pallets/evm/rpc" }

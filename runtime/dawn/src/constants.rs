@@ -2,7 +2,7 @@
 
 /// Money matters.
 pub mod currency {
-	use primitives::Balance;
+	use srs_primitives::Balance;
 
 	pub const DOLLARS: Balance = 1_000_000_000_000_000_000;
 	pub const CENTS: Balance = DOLLARS / 100; // 10_000_000_000_000_000

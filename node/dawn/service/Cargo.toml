@@ -65,8 +65,13 @@ srs-pallet-evm-bridge = { path = "../../../pallets/evm-bridge", default-features
 srs-pallet-exchange = { path = '../../../pallets/exchange', default-features = false }
 srs-pallet-exchange-rpc-runtime-api = { path = '../../../pallets/exchange/rpc/runtime-api', default-features = false, version = '0.1.0' }
 srs-pallet-support = { path = '../../../pallets/support', default-features = false }
+srs-pallet-staking-pool = { path = '../../../pallets/staking_pool', default-features = false }
+srs-pallet-staking-pool-rpc-runtime-api = { path = '../../../pallets/staking_pool/rpc/runtime-api', default-features = false, version = '0.1.0' }
 srs-pallet-tokens = { path = '../../../pallets/tokens', default-features = false }
 srs-pallet-template = { path = '../../../pallets/template', default-features = false }
+
+sunrise-rpc = { path = "../../../rpc" }
+
 
 srs-runtime-common = { path = "../../../runtime/common" }
 dawn-runtime = { path = "../../../runtime/dawn", optional = true }

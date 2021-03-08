@@ -1,5 +1,5 @@
 [package]
-name = "evm-rpc"
+name = "srs-pallet-evm-rpc"
 version = "0.1.0"
 authors = ["Sunrise Protocol"]
 edition = "2018"

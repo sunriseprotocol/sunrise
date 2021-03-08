@@ -23,8 +23,12 @@ use static_assertions::const_assert;
 
 pub mod precompile;
 pub use precompile::{
-	AllPrecompiles, MultiCurrencyPrecompile,  ScheduleCallPrecompile, StateRentPrecompile,
+	AllPrecompiles, DexPrecompile, MultiCurrencyPrecompile, NFTPrecompile, OraclePrecompile, ScheduleCallPrecompile, 
+	StateRentPrecompile,
 };
+
+pub type TimeStampedPrice = orml_oracle::TimestampedValue<Price, srs_primitives::Moment>;
+
 
 // Priority of unsigned transactions
 parameter_types! {
@@ -192,9 +196,9 @@ parameter_types! {
 		],
 	];
 }
-/*
+
 pub struct CurveFeeModel;
-impl<Balance: FixedPointOperand> pallet_staking_pool::FeeModel<Balance> for CurveFeeModel {
+impl<Balance: FixedPointOperand> srs_pallet_staking_pool::FeeModel<Balance> for CurveFeeModel {
 	/// The parameter `base_rate` does not work in this fee model, base fee is
 	/// fixed at 2%
 	fn get_fee(
@@ -259,7 +263,7 @@ impl<Balance: FixedPointOperand> pallet_staking_pool::FeeModel<Balance> for Curv
 		multiplier.checked_mul_int(available_amount)
 	}
 }
-*/
+
 pub const SYSTEM_CONTRACT_LEADING_ZERO_BYTES: usize = 12;
 
 /// Check if the given `address` is a system contract.

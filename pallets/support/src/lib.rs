@@ -15,9 +15,9 @@ use sp_std::{
 	prelude::*,
 };
 
-pub mod homa;
-pub use homa::{
-	HomaProtocol, NomineesProvider, OnCommission, OnNewEra, PolkadotBridge, PolkadotBridgeCall, PolkadotBridgeState,
+pub mod slip;
+pub use slip::{
+	Slip, NomineesProvider, OnCommission, OnNewEra, PolkadotBridge, PolkadotBridgeCall, PolkadotBridgeState,
 	PolkadotBridgeType, PolkadotStakingLedger, PolkadotUnlockChunk,
 };
 

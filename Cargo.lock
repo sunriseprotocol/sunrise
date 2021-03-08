@@ -1361,6 +1361,7 @@ dependencies = [
  "cumulus-pallet-parachain-system",
  "cumulus-pallet-xcm-handler",
  "cumulus-primitives-core",
+ "ecosystem-renvm-bridge",
  "evm",
  "frame-benchmarking",
  "frame-executive",
@@ -1370,21 +1371,43 @@ dependencies = [
  "hex",
  "hex-literal 0.3.1",
  "libsecp256k1",
+ "orml-auction",
+ "orml-authority",
  "orml-benchmarking",
+ "orml-gradually-update",
+ "orml-nft",
+ "orml-oracle",
+ "orml-oracle-rpc-runtime-api",
+ "orml-rewards",
  "orml-tokens 0.4.0-dev",
  "orml-traits 0.4.0-dev",
+ "orml-vesting",
  "orml-xcm-support",
  "orml-xtokens",
- "pallet-aura",
+ "pallet-authorship",
+ "pallet-babe",
  "pallet-balances",
+ "pallet-bounties",
+ "pallet-collective",
+ "pallet-elections-phragmen",
+ "pallet-grandpa",
  "pallet-indices",
+ "pallet-membership",
  "pallet-multisig",
+ "pallet-offences",
  "pallet-proxy",
  "pallet-randomness-collective-flip",
+ "pallet-recovery",
+ "pallet-scheduler",
+ "pallet-session",
+ "pallet-staking",
+ "pallet-staking-reward-curve",
  "pallet-sudo",
  "pallet-timestamp",
+ "pallet-tips",
  "pallet-transaction-payment",
  "pallet-transaction-payment-rpc-runtime-api",
+ "pallet-treasury",
  "pallet-utility",
  "parachain-info",
  "parity-scale-codec",
@@ -1395,7 +1418,7 @@ dependencies = [
  "sp-api",
  "sp-application-crypto",
  "sp-block-builder",
- "sp-consensus-aura",
+ "sp-consensus-babe",
  "sp-core",
  "sp-inherents",
  "sp-io",
@@ -1415,10 +1438,12 @@ dependencies = [
  "srs-pallet-evm-rpc-runtime-api",
  "srs-pallet-exchange",
  "srs-pallet-exchange-rpc-runtime-api",
+ "srs-pallet-incentives",
  "srs-pallet-nft",
  "srs-pallet-nominees-election",
  "srs-pallet-polkadot-bridge",
  "srs-pallet-prices",
+ "srs-pallet-slip",
  "srs-pallet-staking-pool",
  "srs-pallet-staking-pool-rpc-runtime-api",
  "srs-pallet-support",
@@ -1539,6 +1564,26 @@ name = "dyn-clone"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ee2626afccd7561a06cf1367e2950c4718ea04565e20fb5029b6c7d8ad09abcf"
+
+[[package]]
+name = "ecosystem-renvm-bridge"
+version = "0.7.3"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "hex-literal 0.3.1",
+ "orml-currencies 0.4.0-dev",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-primitives",
+]
 
 [[package]]
 name = "ed25519"
@@ -2934,6 +2979,18 @@ dependencies = [
 
 [[package]]
 name = "jsonrpc-derive"
+version = "14.2.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d0e77e8812f02155b85a677a96e1d16b60181950c0636199bc4528524fba98dc"
+dependencies = [
+ "proc-macro-crate",
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "jsonrpc-derive"
 version = "15.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "99a847f9ec7bb52149b2786a17c9cb260d6effc6b8eeb8c16b343a487a7563a3"
@@ -4209,6 +4266,37 @@ dependencies = [
 ]
 
 [[package]]
+name = "orml-auction"
+version = "0.4.0-dev"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-traits 0.4.0-dev",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "orml-authority"
+version = "0.4.0-dev"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-traits 0.4.0-dev",
+ "pallet-scheduler",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
 name = "orml-benchmarking"
 version = "0.4.0-dev"
 dependencies = [
@@ -4260,11 +4348,79 @@ dependencies = [
 ]
 
 [[package]]
+name = "orml-gradually-update"
+version = "0.4.0-dev"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
 name = "orml-nft"
 version = "0.4.0-dev"
 dependencies = [
  "frame-support",
  "frame-system",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "orml-oracle"
+version = "0.4.0-dev"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-traits 0.4.0-dev",
+ "orml-utilities 0.4.0-dev",
+ "parity-scale-codec",
+ "serde",
+ "sp-application-crypto",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "orml-oracle-rpc"
+version = "0.4.0-dev"
+dependencies = [
+ "jsonrpc-core",
+ "jsonrpc-core-client",
+ "jsonrpc-derive 15.1.0",
+ "orml-oracle-rpc-runtime-api",
+ "parity-scale-codec",
+ "sp-api",
+ "sp-blockchain",
+ "sp-runtime",
+]
+
+[[package]]
+name = "orml-oracle-rpc-runtime-api"
+version = "0.4.0-dev"
+dependencies = [
+ "parity-scale-codec",
+ "sp-api",
+ "sp-std",
+]
+
+[[package]]
+name = "orml-rewards"
+version = "0.4.0-dev"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-traits 0.4.0-dev",
  "parity-scale-codec",
  "serde",
  "sp-core",
@@ -4360,6 +4516,21 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "serde_json",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+]
+
+[[package]]
+name = "orml-vesting"
+version = "0.4.0-dev"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
  "sp-io",
  "sp-runtime",
  "sp-std",
@@ -4873,7 +5044,7 @@ source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e0
 dependencies = [
  "jsonrpc-core",
  "jsonrpc-core-client",
- "jsonrpc-derive",
+ "jsonrpc-derive 15.1.0",
  "pallet-transaction-payment-rpc-runtime-api",
  "parity-scale-codec",
  "sp-api",
@@ -7274,7 +7445,7 @@ dependencies = [
  "futures 0.3.12",
  "jsonrpc-core",
  "jsonrpc-core-client",
- "jsonrpc-derive",
+ "jsonrpc-derive 15.1.0",
  "sc-consensus-babe",
  "sc-consensus-epochs",
  "sc-rpc-api",
@@ -7312,7 +7483,7 @@ dependencies = [
  "futures 0.3.12",
  "jsonrpc-core",
  "jsonrpc-core-client",
- "jsonrpc-derive",
+ "jsonrpc-derive 15.1.0",
  "log",
  "parity-scale-codec",
  "parking_lot 0.11.1",
@@ -7503,7 +7674,7 @@ dependencies = [
  "futures 0.3.12",
  "jsonrpc-core",
  "jsonrpc-core-client",
- "jsonrpc-derive",
+ "jsonrpc-derive 15.1.0",
  "jsonrpc-pubsub",
  "log",
  "parity-scale-codec",
@@ -7755,7 +7926,7 @@ dependencies = [
  "futures 0.3.12",
  "jsonrpc-core",
  "jsonrpc-core-client",
- "jsonrpc-derive",
+ "jsonrpc-derive 15.1.0",
  "jsonrpc-pubsub",
  "log",
  "parity-scale-codec",
@@ -7873,7 +8044,7 @@ source = "git+https://github.com/sunriseprotocol/substrate?branch=sunrise-evm#e0
 dependencies = [
  "jsonrpc-core",
  "jsonrpc-core-client",
- "jsonrpc-derive",
+ "jsonrpc-derive 15.1.0",
  "sc-chain-spec",
  "sc-client-api",
  "sc-consensus-babe",
@@ -9162,6 +9333,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "srs-pallet-evm-rpc"
+version = "0.1.0"
+dependencies = [
+ "ethereum-types",
+ "jsonrpc-core",
+ "jsonrpc-derive 14.2.2",
+ "rustc-hex",
+ "sc-client-api",
+ "sc-network",
+ "sc-rpc",
+ "sc-service",
+ "serde",
+ "serde_json",
+ "sp-api",
+ "sp-blockchain",
+ "sp-core",
+ "sp-io",
+ "sp-rpc",
+ "sp-runtime",
+ "sp-storage",
+ "sp-transaction-pool",
+ "srs-pallet-evm",
+ "srs-pallet-evm-rpc-runtime-api",
+]
+
+[[package]]
 name = "srs-pallet-evm-rpc-runtime-api"
 version = "0.1.0"
 dependencies = [
@@ -9200,7 +9397,7 @@ version = "0.1.0"
 dependencies = [
  "jsonrpc-core",
  "jsonrpc-core-client",
- "jsonrpc-derive",
+ "jsonrpc-derive 15.1.0",
  "parity-scale-codec",
  "serde",
  "sp-api",
@@ -9219,6 +9416,26 @@ dependencies = [
  "sp-runtime",
  "sp-std",
  "srs-pallet-exchange",
+]
+
+[[package]]
+name = "srs-pallet-incentives"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-rewards",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
 ]
 
 [[package]]
@@ -9301,6 +9518,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "srs-pallet-slip"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "parity-scale-codec",
+ "serde",
+ "sp-runtime",
+ "srs-pallet-staking-pool",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
 name = "srs-pallet-staking-pool"
 version = "0.1.0"
 dependencies = [
@@ -9318,6 +9549,22 @@ dependencies = [
  "sp-std",
  "srs-pallet-support",
  "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-staking-pool-rpc"
+version = "0.1.0"
+dependencies = [
+ "jsonrpc-core",
+ "jsonrpc-core-client",
+ "jsonrpc-derive 15.1.0",
+ "parity-scale-codec",
+ "serde",
+ "sp-api",
+ "sp-blockchain",
+ "sp-runtime",
+ "srs-pallet-staking-pool-rpc-runtime-api",
+ "srs-pallet-support",
 ]
 
 [[package]]
@@ -9419,6 +9666,7 @@ dependencies = [
  "frame-support",
  "frame-system",
  "hex-literal 0.3.1",
+ "orml-oracle",
  "orml-tokens 0.4.0-dev",
  "orml-traits 0.4.0-dev",
  "pallet-balances",
@@ -9433,11 +9681,15 @@ dependencies = [
  "sp-runtime",
  "sp-std",
  "srs-pallet-currencies",
+ "srs-pallet-dex",
  "srs-pallet-evm",
  "srs-pallet-evm-bridge",
  "srs-pallet-exchange",
+ "srs-pallet-nft",
+ "srs-pallet-staking-pool",
  "srs-pallet-support",
  "srs-pallet-tokens",
+ "srs-pallet-transaction-payment",
  "srs-primitives",
  "static_assertions",
 ]
@@ -9584,7 +9836,7 @@ dependencies = [
  "futures 0.3.12",
  "jsonrpc-core",
  "jsonrpc-core-client",
- "jsonrpc-derive",
+ "jsonrpc-derive 15.1.0",
  "log",
  "parity-scale-codec",
  "sc-client-api",
@@ -9742,6 +9994,38 @@ dependencies = [
 ]
 
 [[package]]
+name = "sunrise-rpc"
+version = "0.1.0"
+dependencies = [
+ "jsonrpc-core",
+ "orml-oracle-rpc",
+ "pallet-transaction-payment-rpc",
+ "parity-scale-codec",
+ "sc-client-api",
+ "sc-consensus-babe",
+ "sc-consensus-babe-rpc",
+ "sc-consensus-epochs",
+ "sc-finality-grandpa",
+ "sc-finality-grandpa-rpc",
+ "sc-keystore",
+ "sc-rpc",
+ "sc-rpc-api",
+ "sp-api",
+ "sp-block-builder",
+ "sp-blockchain",
+ "sp-consensus",
+ "sp-consensus-babe",
+ "sp-keystore",
+ "sp-runtime",
+ "sp-transaction-pool",
+ "srs-pallet-evm-rpc",
+ "srs-pallet-staking-pool-rpc",
+ "srs-primitives",
+ "srs-runtime-common",
+ "substrate-frame-rpc-system",
+]
+
+[[package]]
 name = "sunrise-runtime"
 version = "0.1.0"
 dependencies = [
@@ -9844,12 +10128,15 @@ dependencies = [
  "srs-pallet-evm-rpc-runtime-api",
  "srs-pallet-exchange",
  "srs-pallet-exchange-rpc-runtime-api",
+ "srs-pallet-staking-pool",
+ "srs-pallet-staking-pool-rpc-runtime-api",
  "srs-pallet-support",
  "srs-pallet-template",
  "srs-pallet-tokens",
  "srs-primitives",
  "srs-runtime-common",
  "substrate-prometheus-endpoint",
+ "sunrise-rpc",
  "sunrise-runtime",
 ]
 

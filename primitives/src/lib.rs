@@ -88,6 +88,57 @@ pub enum AirDropCurrencyId {
 	SRS,
 }
 
+#[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub enum AuthoritysOriginId {
+	Root,
+	SunriseTreasury,
+	SlipTreasury,
+	DSWF,
+}
+
+#[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub enum DataProviderId {
+	Aggregated = 0,
+	Sunrise = 1,
+	Band = 2,
+}
+
+#[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
+#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
+pub struct TradingPair(pub CurrencyId, pub CurrencyId);
+
+impl TradingPair {
+	pub fn new(currency_id_a: CurrencyId, currency_id_b: CurrencyId) -> Self {
+		if currency_id_a > currency_id_b {
+			TradingPair(currency_id_b, currency_id_a)
+		} else {
+			TradingPair(currency_id_a, currency_id_b)
+		}
+	}
+
+	pub fn from_token_currency_ids(currency_id_0: CurrencyId, currency_id_1: CurrencyId) -> Option<Self> {
+		match currency_id_0.is_token_currency_id() && currency_id_1.is_token_currency_id() {
+			true if currency_id_0 > currency_id_1 => Some(TradingPair(currency_id_1, currency_id_0)),
+			true if currency_id_0 < currency_id_1 => Some(TradingPair(currency_id_0, currency_id_1)),
+			_ => None,
+		}
+	}
+
+	pub fn get_dex_share_currency_id(&self) -> Option<CurrencyId> {
+		CurrencyId::join_dex_share_currency_id(self.0, self.1)
+	}
+}
+
+/// The start address for pre-compiles.
+pub const PRECOMPILE_ADDRESS_START: u64 = 1024;
+
+/// The start address for pre-deployed smart contracts.
+pub const PREDEPLOY_ADDRESS_START: u64 = 2048;
+
+pub type NFTBalance = u128;
+
 
 #[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
@@ -203,45 +254,3 @@ impl From<CurrencyId> for [u8; 32] {
 		bytes
 	}
 }
-
-#[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
-#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub enum DataProviderId {
-	Aggregated = 0,
-	Sunrise = 1,
-	Band = 2,
-}
-
-#[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
-#[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
-pub struct TradingPair(pub CurrencyId, pub CurrencyId);
-
-impl TradingPair {
-	pub fn new(currency_id_a: CurrencyId, currency_id_b: CurrencyId) -> Self {
-		if currency_id_a > currency_id_b {
-			TradingPair(currency_id_b, currency_id_a)
-		} else {
-			TradingPair(currency_id_a, currency_id_b)
-		}
-	}
-
-	pub fn from_token_currency_ids(currency_id_0: CurrencyId, currency_id_1: CurrencyId) -> Option<Self> {
-		match currency_id_0.is_token_currency_id() && currency_id_1.is_token_currency_id() {
-			true if currency_id_0 > currency_id_1 => Some(TradingPair(currency_id_1, currency_id_0)),
-			true if currency_id_0 < currency_id_1 => Some(TradingPair(currency_id_0, currency_id_1)),
-			_ => None,
-		}
-	}
-
-	pub fn get_dex_share_currency_id(&self) -> Option<CurrencyId> {
-		CurrencyId::join_dex_share_currency_id(self.0, self.1)
-	}
-}
-
-/// The start address for pre-compiles.
-pub const PRECOMPILE_ADDRESS_START: u64 = 1024;
-
-/// The start address for pre-deployed smart contracts.
-pub const PREDEPLOY_ADDRESS_START: u64 = 2048;
-
-pub type NFTBalance = u128;

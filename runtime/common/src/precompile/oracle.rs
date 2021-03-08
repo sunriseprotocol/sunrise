@@ -1,0 +1,74 @@
+use frame_support::{debug, sp_runtime::FixedPointNumber};
+use srs_pallet_evm::{Context, ExitError, ExitSucceed, Precompile};
+use srs_primitives::{evm::AddressMapping as AddressMappingT, CurrencyId, Moment};
+use sp_core::U256;
+use sp_std::{convert::TryFrom, fmt::Debug, marker::PhantomData, prelude::*, result};
+
+use orml_traits::DataProviderExtended as OracleT;
+
+use super::input::{Input, InputT};
+use srs_pallet_support::Price;
+use orml_oracle::TimestampedValue;
+
+/// The `Oracle` impl precompile.
+///
+///
+/// `input` data starts with `action`.
+///
+/// Actions:
+/// - Get price. Rest `input` bytes: `currency_id`.
+pub struct OraclePrecompile<AccountId, AddressMapping, Oracle>(PhantomData<(AccountId, AddressMapping, Oracle)>);
+
+enum Action {
+	GetPrice,
+}
+
+impl TryFrom<u8> for Action {
+	type Error = ();
+
+	fn try_from(value: u8) -> Result<Self, Self::Error> {
+		match value {
+			0 => Ok(Action::GetPrice),
+			_ => Err(()),
+		}
+	}
+}
+
+impl<AccountId, AddressMapping, Oracle> Precompile for OraclePrecompile<AccountId, AddressMapping, Oracle>
+where
+	AccountId: Debug + Clone,
+	AddressMapping: AddressMappingT<AccountId>,
+	Oracle: OracleT<CurrencyId, TimestampedValue<Price, Moment>>,
+{
+	fn execute(
+		input: &[u8],
+		_target_gas: Option<u64>,
+		_context: &Context,
+	) -> result::Result<(ExitSucceed, Vec<u8>, u64), ExitError> {
+		//TODO: evaluate cost
+
+		debug::debug!(target: "evm", "input: {:?}", input);
+
+		let input = Input::<Action, AccountId, AddressMapping>::new(input);
+
+		let action = input.action()?;
+
+		match action {
+			Action::GetPrice => {
+				let key = input.currency_id_at(1)?;
+				let value = Oracle::get_no_op(&key).unwrap_or_else(|| TimestampedValue {
+					value: Default::default(),
+					timestamp: Default::default(),
+				});
+				Ok((ExitSucceed::Returned, vec_u8_from_timestamped(value), 0))
+			}
+		}
+	}
+}
+
+fn vec_u8_from_timestamped(value: TimestampedValue<Price, Moment>) -> Vec<u8> {
+	let mut be_bytes = [0u8; 64];
+	U256::from(value.value.into_inner()).to_big_endian(&mut be_bytes[..32]);
+	U256::from(value.timestamp).to_big_endian(&mut be_bytes[32..64]);
+	be_bytes.to_vec()
+}

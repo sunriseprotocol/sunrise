@@ -1,5 +1,5 @@
 [package]
-name = "pallet-staking-pool-rpc"
+name = "srs-pallet-staking-pool-rpc"
 version = "0.1.0"
 authors = ["Sunrise Prtocol"]
 edition = "2018"
@@ -13,5 +13,5 @@ jsonrpc-derive = "15.0.0"
 sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 sp-api = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 sp-blockchain = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
-pallet-staking-pool-rpc-runtime-api = { path = "runtime-api" }
-pallet-support = { path = "../../support" }
+srs-pallet-staking-pool-rpc-runtime-api = { path = "runtime-api" }
+srs-pallet-support = { path = "../../support" }

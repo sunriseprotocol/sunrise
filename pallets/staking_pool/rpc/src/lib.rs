@@ -3,7 +3,7 @@
 use codec::Codec;
 use jsonrpc_core::{Error as RpcError, ErrorCode, Result};
 use jsonrpc_derive::rpc;
-use module_staking_pool_rpc_runtime_api::BalanceInfo;
+use srs_pallet_staking_pool_rpc_runtime_api::BalanceInfo;
 use srs_pallet_support::ExchangeRate;
 use sp_api::ProvideRuntimeApi;
 use sp_blockchain::HeaderBackend;
@@ -14,7 +14,7 @@ use sp_runtime::{
 use std::sync::Arc;
 
 pub use self::gen_client::Client as StakingPoolClient;
-pub use module_staking_pool_rpc_runtime_api::StakingPoolApi as StakingPoolRuntimeApi;
+pub use srs_pallet_staking_pool_rpc_runtime_api::StakingPoolApi as StakingPoolRuntimeApi;
 
 #[rpc]
 pub trait StakingPoolApi<BlockHash, AccountId, ResponseType> {

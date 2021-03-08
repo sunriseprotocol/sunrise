@@ -15,12 +15,18 @@ use srs_primitives::PRECOMPILE_ADDRESS_START;
 use sp_core::H160;
 use sp_std::{marker::PhantomData, prelude::*};
 
+pub mod dex;
 pub mod input;
 pub mod multicurrency;
+pub mod nft;
+pub mod oracle;
 pub mod schedule_call;
 pub mod state_rent;
 
+pub use dex::DexPrecompile;
 pub use multicurrency::MultiCurrencyPrecompile;
+pub use nft::NFTPrecompile;
+pub use oracle::OraclePrecompile;
 pub use schedule_call::ScheduleCallPrecompile;
 pub use state_rent::StateRentPrecompile;
 

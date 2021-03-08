@@ -16,8 +16,8 @@ use sp_runtime::{
 use std::convert::{TryFrom, TryInto};
 
 use call_request::CallRequest;
-pub use module_evm::ExitReason;
-pub use module_evm_rpc_runtime_api::EVMRuntimeRPCApi;
+pub use srs_pallet_evm::ExitReason;
+pub use srs_pallet_evm_rpc_runtime_api::EVMRuntimeRPCApi;
 
 pub use crate::evm_api::{EVMApi as EVMApiT, EVMApiServer};
 

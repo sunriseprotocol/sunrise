@@ -13,7 +13,7 @@ use sp_runtime::{
 };
 use sp_std::prelude::*;
 use srs_pallet_support::{
-	ExchangeRate, HomaProtocol, NomineesProvider, OnNewEra, PolkadotBridge, PolkadotBridgeCall, PolkadotBridgeState,
+	ExchangeRate, Slip, NomineesProvider, OnNewEra, PolkadotBridge, PolkadotBridgeCall, PolkadotBridgeState,
 	PolkadotBridgeType, PolkadotStakingLedger, PolkadotUnlockChunk, Rate, Ratio,
 };
 
@@ -124,11 +124,11 @@ pub mod module {
 		type DefaultExchangeRate: Get<ExchangeRate>;
 
 		/// The staking pool's module id, keep all staking currency belong to
-		/// Homa protocol.
+		/// Slip protocol.
 		#[pallet::constant]
 		type ModuleId: Get<ModuleId>;
 
-		/// The sub account indexs of parachain to vault assets of Homa protocol
+		/// The sub account indexs of parachain to vault assets of Slip protocol
 		/// in Polkadot.
 		#[pallet::constant]
 		type PoolAccountIndexes: Get<Vec<u32>>;
@@ -139,14 +139,14 @@ pub mod module {
 		/// Calculation model for unbond fees
 		type FeeModel: FeeModel<Balance>;
 
-		/// The nominees selected by governance of Homa protocol.
+		/// The nominees selected by governance of Slip protocol.
 		type Nominees: NomineesProvider<PolkadotAccountIdOf<Self>>;
 
 		/// The Bridge to do accross-chain operations between parachain and
 		/// relaychain.
 		type Bridge: PolkadotBridge<Self::AccountId, Self::BlockNumber, Balance, EraIndex>;
 
-		/// The currency for managing assets related to Homa protocol.
+		/// The currency for managing assets related to Slip protocol.
 		type Currency: MultiCurrency<Self::AccountId, CurrencyId = CurrencyId, Balance = Balance>;
 	}
 
@@ -540,7 +540,7 @@ impl<T: Config> Pallet<T> {
 
 		// require polkadot bridge to payout nominator.
 		// TODO: record the balances of bridge before and after payout_nominator,
-		// and oncommision to homa treasury according to `RewardFeeRatio`.
+		// and oncommision to slip treasury according to `RewardFeeRatio`.
 		Self::payout_nominator();
 
 		StakingPoolLedger::<T>::mutate(|ledger| {
@@ -633,7 +633,7 @@ impl<T: Config> OnNewEra<EraIndex> for Pallet<T> {
 	}
 }
 
-impl<T: Config> HomaProtocol<T::AccountId, Balance, EraIndex> for Pallet<T> {
+impl<T: Config> Slip<T::AccountId, Balance, EraIndex> for Pallet<T> {
 	type Balance = Balance;
 
 	#[transactional]
