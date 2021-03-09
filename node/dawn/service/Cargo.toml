@@ -75,7 +75,6 @@ sunrise-rpc = { path = "../../../rpc" }
 
 srs-runtime-common = { path = "../../../runtime/common" }
 dawn-runtime = { path = "../../../runtime/dawn", optional = true }
-sunrise-runtime = { path = "../../../runtime/sunrise", optional = true }
 
 
 [dev-dependencies]

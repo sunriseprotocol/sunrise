@@ -1448,7 +1448,7 @@ dependencies = [
  "srs-pallet-transaction-payment",
  "srs-primitives",
  "srs-runtime-common",
- "substrate-wasm-builder 3.0.0",
+ "substrate-wasm-builder",
  "xcm",
  "xcm-builder",
  "xcm-executor",
@@ -1568,7 +1568,7 @@ dependencies = [
  "frame-support",
  "frame-system",
  "hex-literal 0.3.1",
- "orml-currencies 0.4.0-dev",
+ "orml-currencies",
  "orml-tokens 0.4.0-dev",
  "orml-traits 0.4.0-dev",
  "pallet-balances",
@@ -2074,20 +2074,6 @@ dependencies = [
  "sp-runtime",
  "sp-std",
  "sp-version",
-]
-
-[[package]]
-name = "frame-system-benchmarking"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-benchmarking",
- "frame-support",
- "frame-system",
- "parity-scale-codec",
- "sp-core",
- "sp-runtime",
- "sp-std",
 ]
 
 [[package]]
@@ -3182,7 +3168,7 @@ dependencies = [
  "sp-transaction-pool",
  "sp-version",
  "static_assertions",
- "substrate-wasm-builder 3.0.0",
+ "substrate-wasm-builder",
 ]
 
 [[package]]
@@ -4345,22 +4331,6 @@ dependencies = [
 [[package]]
 name = "orml-currencies"
 version = "0.4.0-dev"
-source = "git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1#727d6ee4e1280994d4ab584c7eb680c55419346f"
-dependencies = [
- "frame-support",
- "frame-system",
- "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "orml-utilities 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "parity-scale-codec",
- "serde",
- "sp-io",
- "sp-runtime",
- "sp-std",
-]
-
-[[package]]
-name = "orml-currencies"
-version = "0.4.0-dev"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -4467,7 +4437,6 @@ dependencies = [
  "frame-system",
  "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
  "parity-scale-codec",
- "serde",
  "sp-io",
  "sp-runtime",
  "sp-std",
@@ -4604,24 +4573,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6ff55baddef9e4ad00f88b6c743a2a8062d4c6ade126c2a528644b8e444d52ce"
 dependencies = [
  "stable_deref_trait",
-]
-
-[[package]]
-name = "pallet-aura"
-version = "3.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "frame-support",
- "frame-system",
- "pallet-session",
- "pallet-timestamp",
- "parity-scale-codec",
- "serde",
- "sp-application-crypto",
- "sp-consensus-aura",
- "sp-runtime",
- "sp-std",
- "sp-timestamp",
 ]
 
 [[package]]
@@ -5048,7 +4999,6 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-inherents",
- "sp-io",
  "sp-runtime",
  "sp-std",
  "sp-timestamp",
@@ -5671,7 +5621,7 @@ dependencies = [
  "sp-core",
  "sp-trie",
  "structopt",
- "substrate-build-script-utils 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "substrate-build-script-utils",
  "thiserror",
  "tracing-futures",
  "try-runtime-cli",
@@ -6231,7 +6181,7 @@ dependencies = [
  "sp-transaction-pool",
  "sp-version",
  "static_assertions",
- "substrate-wasm-builder 3.0.0",
+ "substrate-wasm-builder",
 ]
 
 [[package]]
@@ -7104,7 +7054,7 @@ dependencies = [
  "sp-std",
  "sp-transaction-pool",
  "sp-version",
- "substrate-wasm-builder 3.0.0",
+ "substrate-wasm-builder",
  "xcm",
  "xcm-builder",
  "xcm-executor",
@@ -7451,38 +7401,6 @@ dependencies = [
  "sp-blockchain",
  "sp-consensus",
  "sp-runtime",
-]
-
-[[package]]
-name = "sc-consensus-aura"
-version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "derive_more",
- "futures 0.3.12",
- "futures-timer 3.0.2",
- "log",
- "parity-scale-codec",
- "parking_lot 0.11.1",
- "sc-block-builder",
- "sc-client-api",
- "sc-consensus-slots",
- "sc-telemetry",
- "sp-api",
- "sp-application-crypto",
- "sp-block-builder",
- "sp-blockchain",
- "sp-consensus",
- "sp-consensus-aura",
- "sp-consensus-slots",
- "sp-core",
- "sp-inherents",
- "sp-io",
- "sp-keystore",
- "sp-runtime",
- "sp-timestamp",
- "sp-version",
- "substrate-prometheus-endpoint",
 ]
 
 [[package]]
@@ -8800,21 +8718,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "sp-consensus-aura"
-version = "0.9.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "parity-scale-codec",
- "sp-api",
- "sp-application-crypto",
- "sp-consensus-slots",
- "sp-inherents",
- "sp-runtime",
- "sp-std",
- "sp-timestamp",
-]
-
-[[package]]
 name = "sp-consensus-babe"
 version = "0.9.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
@@ -9375,7 +9278,7 @@ dependencies = [
  "frame-support",
  "frame-system",
  "impl-trait-for-tuples 0.1.3",
- "orml-currencies 0.4.0-dev",
+ "orml-currencies",
  "orml-tokens 0.4.0-dev",
  "orml-traits 0.4.0-dev",
  "pallet-balances",
@@ -9401,7 +9304,7 @@ dependencies = [
  "frame-support",
  "frame-system",
  "libsecp256k1",
- "orml-currencies 0.4.0-dev",
+ "orml-currencies",
  "orml-tokens 0.4.0-dev",
  "orml-traits 0.4.0-dev",
  "pallet-balances",
@@ -9499,21 +9402,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "srs-pallet-exchange-rpc"
-version = "0.1.0"
-dependencies = [
- "jsonrpc-core",
- "jsonrpc-core-client",
- "jsonrpc-derive 15.1.0",
- "parity-scale-codec",
- "serde",
- "sp-api",
- "sp-blockchain",
- "sp-runtime",
- "srs-pallet-exchange-rpc-runtime-api",
-]
-
-[[package]]
 name = "srs-pallet-exchange-rpc-runtime-api"
 version = "0.1.0"
 dependencies = [
@@ -9576,7 +9464,7 @@ version = "0.1.0"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-currencies 0.4.0-dev",
+ "orml-currencies",
  "orml-tokens 0.4.0-dev",
  "orml-traits 0.4.0-dev",
  "pallet-balances",
@@ -9644,7 +9532,7 @@ version = "0.1.0"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-currencies 0.4.0-dev",
+ "orml-currencies",
  "orml-tokens 0.4.0-dev",
  "orml-traits 0.4.0-dev",
  "pallet-balances",
@@ -9926,15 +9814,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-build-script-utils"
-version = "3.0.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bd540ba72520174c2c73ce96bf507eeba3cc8a481f58be92525b69110e1fa645"
-dependencies = [
- "platforms",
-]
-
-[[package]]
 name = "substrate-frame-rpc-system"
 version = "3.0.0"
 source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
@@ -9988,21 +9867,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "substrate-wasm-builder"
-version = "4.0.0"
-source = "git+https://github.com/paritytech/substrate?branch=rococo-v1#debec916998233a287fb9e5a099c08d5e4a23db2"
-dependencies = [
- "ansi_term 0.12.1",
- "atty",
- "build-helper",
- "cargo_metadata",
- "tempfile",
- "toml",
- "walkdir",
- "wasm-gc-api",
-]
-
-[[package]]
 name = "subtle"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -10013,54 +9877,6 @@ name = "subtle"
 version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1e81da0851ada1f3e9d4312c704aa4f8806f0f9d69faaf8df2f3464b4a9437c2"
-
-[[package]]
-name = "sunrise"
-version = "0.1.0"
-dependencies = [
- "frame-benchmarking",
- "frame-benchmarking-cli",
- "futures 0.3.12",
- "hex-literal 0.3.1",
- "jsonrpc-core",
- "pallet-transaction-payment-rpc",
- "parity-scale-codec",
- "parity-util-mem",
- "sc-basic-authorship",
- "sc-cli",
- "sc-client-api",
- "sc-consensus",
- "sc-consensus-aura",
- "sc-executor",
- "sc-finality-grandpa",
- "sc-keystore",
- "sc-rpc",
- "sc-rpc-api",
- "sc-service",
- "sc-telemetry",
- "sc-transaction-pool",
- "serde",
- "serde_json",
- "sp-api",
- "sp-block-builder",
- "sp-blockchain",
- "sp-consensus",
- "sp-consensus-aura",
- "sp-core",
- "sp-finality-grandpa",
- "sp-inherents",
- "sp-runtime",
- "sp-transaction-pool",
- "srs-pallet-evm",
- "srs-pallet-evm-rpc-runtime-api",
- "srs-pallet-exchange-rpc",
- "srs-primitives",
- "srs-runtime-common",
- "structopt",
- "substrate-build-script-utils 3.0.0 (registry+https://github.com/rust-lang/crates.io-index)",
- "substrate-frame-rpc-system",
- "sunrise-runtime",
-]
 
 [[package]]
 name = "sunrise-cli"
@@ -10079,7 +9895,7 @@ dependencies = [
  "sp-core",
  "sp-runtime",
  "structopt",
- "substrate-build-script-utils 3.0.0 (git+https://github.com/paritytech/substrate?branch=rococo-v1)",
+ "substrate-build-script-utils",
  "sunrise-inspect",
  "sunrise-service",
 ]
@@ -10130,54 +9946,6 @@ dependencies = [
  "srs-primitives",
  "srs-runtime-common",
  "substrate-frame-rpc-system",
-]
-
-[[package]]
-name = "sunrise-runtime"
-version = "0.1.0"
-dependencies = [
- "evm",
- "frame-benchmarking",
- "frame-executive",
- "frame-support",
- "frame-system",
- "frame-system-benchmarking",
- "frame-system-rpc-runtime-api",
- "hex-literal 0.3.1",
- "orml-currencies 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library?branch=sw/rococo-v1)",
- "orml-tokens 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "pallet-aura",
- "pallet-balances",
- "pallet-grandpa",
- "pallet-randomness-collective-flip",
- "pallet-sudo",
- "pallet-timestamp",
- "pallet-transaction-payment",
- "pallet-transaction-payment-rpc-runtime-api",
- "parity-scale-codec",
- "serde",
- "smallvec 1.6.1",
- "sp-api",
- "sp-block-builder",
- "sp-consensus-aura",
- "sp-core",
- "sp-inherents",
- "sp-offchain",
- "sp-runtime",
- "sp-session",
- "sp-std",
- "sp-transaction-pool",
- "sp-version",
- "srs-pallet-evm",
- "srs-pallet-evm-accounts",
- "srs-pallet-evm-bridge",
- "srs-pallet-exchange",
- "srs-pallet-exchange-rpc-runtime-api",
- "srs-pallet-template",
- "srs-pallet-tokens",
- "srs-primitives",
- "substrate-wasm-builder 4.0.0",
 ]
 
 [[package]]
@@ -10244,7 +10012,6 @@ dependencies = [
  "srs-runtime-common",
  "substrate-prometheus-endpoint",
  "sunrise-rpc",
- "sunrise-runtime",
 ]
 
 [[package]]
@@ -11515,7 +11282,7 @@ dependencies = [
  "sp-transaction-pool",
  "sp-version",
  "static_assertions",
- "substrate-wasm-builder 3.0.0",
+ "substrate-wasm-builder",
 ]
 
 [[package]]
