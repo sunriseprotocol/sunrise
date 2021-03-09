@@ -48,6 +48,6 @@ std = [
 	"srs-pallet-evm-bridge/std",
 	"orml-traits/std",
 	"orml-utilities/std",
- 	"srs-primitives/std",
- 	"srs-pallet-support/std",
+	"srs-primitives/std",
+	"srs-pallet-support/std",
 ]

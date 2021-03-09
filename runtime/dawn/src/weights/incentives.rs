@@ -42,4 +42,24 @@ impl<T: frame_system::Config> srs_pallet_incentives::WeightInfo for WeightInfo<T
 			.saturating_add((5_340_000 as Weight).saturating_mul(c as Weight))
 			.saturating_add(DbWeight::get().writes((1 as Weight).saturating_mul(c as Weight)))
 	}
+	fn deposit_exchange_share() -> Weight {
+		(219_025_000 as Weight)
+			.saturating_add(DbWeight::get().reads(7 as Weight))
+			.saturating_add(DbWeight::get().writes(6 as Weight))
+	}
+	fn withdraw_exchange_share() -> Weight {
+		(373_854_000 as Weight)
+			.saturating_add(DbWeight::get().reads(6 as Weight))
+			.saturating_add(DbWeight::get().writes(6 as Weight))
+	}
+	fn update_exchange_incentive_rewards(c: u32) -> Weight {
+		(4_846_000 as Weight)
+			.saturating_add((4_851_000 as Weight).saturating_mul(c as Weight))
+			.saturating_add(DbWeight::get().writes((1 as Weight).saturating_mul(c as Weight)))
+	}
+	fn update_exchange_saving_rates(c: u32) -> Weight {
+		(3_896_000 as Weight)
+			.saturating_add((5_340_000 as Weight).saturating_mul(c as Weight))
+			.saturating_add(DbWeight::get().writes((1 as Weight).saturating_mul(c as Weight)))
+	}
 }

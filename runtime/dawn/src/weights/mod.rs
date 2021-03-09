@@ -14,3 +14,11 @@ pub mod nft;
 pub mod prices;
 pub mod slip;
 pub mod transaction_payment;
+
+pub mod orml_auction;
+pub mod orml_authority;
+pub mod orml_gradually_update;
+pub mod orml_oracle;
+pub mod orml_rewards;
+pub mod orml_tokens;
+pub mod orml_vesting;

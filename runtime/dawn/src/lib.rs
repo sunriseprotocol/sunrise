@@ -1,4 +1,4 @@
-Deliberately break the compilation here to validate the cargo files are correct
+//Deliberately break the compilation here to validate the cargo files are correct
 
 //! The Dev runtime. This can be compiled with `#[no_std]`, ready for Wasm.
 
@@ -86,8 +86,10 @@ pub use srs_primitives::{
 	CurrencyId, DataProviderId, EraIndex, Hash, Moment, Nonce, Share, Signature, TokenSymbol, TradingPair,
 };
 pub use srs_runtime_common::{
+	cent, deposit, dollar, microcent, millicent,
 	BlockLength, BlockWeights, CurveFeeModel, ExchangeRate, GasToWeight, OffchainSolutionWeightLimit, Price, Rate,
-	Ratio, SystemContractsFilter, TimeStampedPrice, AVERAGE_ON_INITIALIZE_RATIO,
+	Ratio, SystemContractsFilter, TimeStampedPrice, AVERAGE_ON_INITIALIZE_RATIO, SRS, SUSD, DOT, LDOT, PHA, PLM, 
+	POLKABTC, RENBTC, XBTC,
 };
 
 mod authority;
@@ -231,6 +233,14 @@ impl frame_system::Config for Runtime {
 
 parameter_types! {
 	pub const IndexDeposit: Balance = DOLLARS;
+}
+
+impl pallet_indices::Config for Runtime {
+	type AccountIndex = AccountIndex;
+	type Event = Event;
+	type Currency = Balances;
+	type Deposit = IndexDeposit;
+	type WeightInfo = ();
 }
 
 parameter_types! {
@@ -503,6 +513,22 @@ parameter_types! {
 	pub const MaximumReasonLength: u32 = 16384;
 }
 
+impl pallet_treasury::Config for Runtime {
+	type ModuleId = SunriseTreasuryModuleId;
+	type Currency = Balances;
+	type ApproveOrigin = EnsureRootOrHalfGeneralCouncil;
+	type RejectOrigin = EnsureRootOrHalfGeneralCouncil;
+	type Event = Event;
+	type OnSlash = ();
+	type ProposalBond = ProposalBond;
+	type ProposalBondMinimum = ProposalBondMinimum;
+	type SpendPeriod = SpendPeriod;
+	type Burn = Burn;
+	type BurnDestination = ();
+	type SpendFunds = Bounties;
+	type WeightInfo = ();
+}
+
 impl pallet_bounties::Config for Runtime {
 	type Event = Event;
 	type BountyDepositBase = BountyDepositBase;
@@ -543,6 +569,16 @@ impl pallet_recovery::Config for Runtime {
 	type RecoveryDeposit = RecoveryDeposit;
 }
 
+/*
+impl orml_auction::Config for Runtime {
+	type Event = Event;
+	type Balance = Balance;
+	type AuctionId = AuctionId;
+	type Handler = AuctionManager;
+	type WeightInfo = weights::orml_auction::WeightInfo<Runtime>;
+}
+*/
+
 impl orml_authority::Config for Runtime {
 	type Event = Event;
 	type Origin = Origin;
@@ -554,6 +590,34 @@ impl orml_authority::Config for Runtime {
 	type WeightInfo = ();
 }
 
+parameter_types! {
+	pub CandidacyBond: Balance = 10 * dollar(LDOT);
+	// 1 storage item created, key size is 32 bytes, value size is 16+16.
+	pub VotingBondBase: Balance = 1 * 15 * cent(LDOT) + 64 * 6 * cent(LDOT);
+	// additional data per vote is 32 bytes (account id).
+	pub VotingBondFactor: Balance = 32 * 6 * cent(LDOT);
+	pub const TermDuration: BlockNumber = 7 * DAYS;
+	pub const DesiredMembers: u32 = 13;
+	pub const DesiredRunnersUp: u32 = 7;
+}
+
+impl pallet_elections_phragmen::Config for Runtime {
+	type ModuleId = ElectionsPhragmenModuleId;
+	type Event = Event;
+	type Currency = CurrencyAdapter<Runtime, GetLiquidCurrencyId>;
+	type CurrencyToVote = U128CurrencyToVote;
+	type ChangeMembers = SlipCouncil;
+	type InitializeMembers = SlipCouncil;
+	type CandidacyBond = CandidacyBond;
+	type VotingBondBase = VotingBondBase;
+	type VotingBondFactor = VotingBondFactor;
+	type TermDuration = TermDuration;
+	type DesiredMembers = DesiredMembers;
+	type DesiredRunnersUp = DesiredRunnersUp;
+	type LoserCandidate = ();
+	type KickedMember = ();
+	type WeightInfo = ();
+}
 
 
 parameter_types! {
@@ -761,12 +825,12 @@ impl orml_nft::Config for Runtime {
 
 parameter_types! {
 	// One storage item; key size 32, value size 8; .
-	pub const ProxyDepositBase: Balance = deposit(1, 8);
+	pub const ProxyDepositBase: Balance = deposit(1, 8, SRS);
 	// Additional storage item size of 33 bytes.
-	pub const ProxyDepositFactor: Balance = deposit(0, 33);
+	pub const ProxyDepositFactor: Balance = deposit(0, 33, SRS);
 	pub const MaxProxies: u16 = 32;
-	pub const AnnouncementDepositBase: Balance = deposit(1, 8);
-	pub const AnnouncementDepositFactor: Balance = deposit(0, 66);
+	pub const AnnouncementDepositBase: Balance = deposit(1, 8, SRS);
+	pub const AnnouncementDepositFactor: Balance = deposit(0, 66, SRS);
 	pub const MaxPending: u16 = 32;
 }
 
@@ -1028,7 +1092,7 @@ macro_rules! construct_dawn_runtime {
 				OperatorMembershipBand: pallet_membership::<Instance6>::{Module, Call, Storage, Event<T>, Config<T>},
 
 				// ORML Core
-				Auction: orml_auction::{Module, Storage, Call, Event<T>},
+				//Auction: orml_auction::{Module, Storage, Call, Event<T>},
 				Rewards: orml_rewards::{Module, Storage, Call},
 				OrmlNFT: orml_nft::{Module, Storage, Config<T>},
 
@@ -1040,6 +1104,14 @@ macro_rules! construct_dawn_runtime {
 
 				// Exchange
 				Exchange: srs_pallet_exchange::{Module, Storage, Call, Event<T>, Config<T>},
+
+				// Honzon
+				//AuctionManager: module_auction_manager::{Module, Storage, Call, Event<T>, ValidateUnsigned},
+				//Loans: module_loans::{Module, Storage, Call, Event<T>},
+				//Honzon: module_honzon::{Module, Storage, Call, Event<T>},
+				//CdpTreasury: module_cdp_treasury::{Module, Storage, Call, Config, Event<T>},
+				//CdpEngine: module_cdp_engine::{Module, Storage, Call, Event<T>, Config, ValidateUnsigned},
+				//EmergencyShutdown: module_emergency_shutdown::{Module, Storage, Call, Event<T>},
 
 				// Slip
 				//Slip: srs_pallet_slip::{Module, Call},
@@ -1347,7 +1419,7 @@ impl_runtime_apis! {
 
 			orml_add_benchmark!(params, batches, orml_tokens, benchmarking::tokens);
 			orml_add_benchmark!(params, batches, orml_vesting, benchmarking::vesting);
-			orml_add_benchmark!(params, batches, orml_auction, benchmarking::auction);
+			//orml_add_benchmark!(params, batches, orml_auction, benchmarking::auction);
 			orml_add_benchmark!(params, batches, srs_pallet_currencies, benchmarking::currencies);
 
 			orml_add_benchmark!(params, batches, orml_authority, benchmarking::authority);
@@ -1439,6 +1511,13 @@ impl srs_pallet_dex::Config for Runtime {
 }
 
 
+impl srs_pallet_tokens::Config for Runtime {
+	type Event = Event;
+	type Balance = u128;
+	type AssetId = u64;
+}
+
+
 impl srs_pallet_exchange::Config for Runtime {
 	type Event = Event;
 	type Currency = Currencies;
@@ -1452,7 +1531,7 @@ impl srs_pallet_exchange::Config for Runtime {
 
 parameter_types! {
 	// All currency types except for native currency, Sort by fee charge order
-	pub AllNonNativeCurrencyIds: Vec<CurrencyId> = vec![CurrencyId::Token(TokenSymbol::AUSD), CurrencyId::Token(TokenSymbol::LDOT), CurrencyId::Token(TokenSymbol::DOT), CurrencyId::Token(TokenSymbol::XBTC), CurrencyId::Token(TokenSymbol::RENBTC), CurrencyId::Token(TokenSymbol::POLKABTC), CurrencyId::Token(TokenSymbol::PLM), CurrencyId::Token(TokenSymbol::PHA)];
+	pub AllNonNativeCurrencyIds: Vec<CurrencyId> = vec![CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::LDOT), CurrencyId::Token(TokenSymbol::DOT), CurrencyId::Token(TokenSymbol::XBTC), CurrencyId::Token(TokenSymbol::RENBTC), CurrencyId::Token(TokenSymbol::POLKABTC), CurrencyId::Token(TokenSymbol::PLM), CurrencyId::Token(TokenSymbol::PHA)];
 	pub MaxSlippageSwapWithDEX: Ratio = Ratio::saturating_from_rational(5, 100);
 }
 
@@ -1479,6 +1558,31 @@ impl srs_pallet_evm_accounts::Config for Runtime {
 	type MergeAccount = Currencies;
 	type WeightInfo = weights::evm_accounts::WeightInfo<Runtime>;
 }
+
+parameter_types! {
+	pub const AccumulatePeriod: BlockNumber = MINUTES;
+}
+
+impl srs_pallet_incentives::Config for Runtime {
+	type Event = Event;
+	type LoansIncentivePool = ZeroAccountId;
+	type DexIncentivePool = ZeroAccountId;
+	type ExchangeIncentivePool = ZeroAccountId;
+	type HomaIncentivePool = ZeroAccountId;
+	type SlipIncentivePool = ZeroAccountId;
+	type AccumulatePeriod = AccumulatePeriod;
+	type IncentiveCurrencyId = GetNativeCurrencyId;
+	type SavingCurrencyId = GetStableCurrencyId;
+	type UpdateOrigin = EnsureRootOrHalfHonzonCouncil;
+	type CDPTreasury = CdpTreasury;
+	type Currency = Currencies;
+	type DEX = Dex;
+	type Exchange = Exchange;
+	type EmergencyShutdown = EmergencyShutdown;
+	type ModuleId = IncentivesModuleId;
+	type WeightInfo = weights::incentives::WeightInfo<Runtime>;
+}
+
 
 impl srs_pallet_airdrop::Config for Runtime {
 	type Event = Event;
@@ -1584,7 +1688,7 @@ impl srs_pallet_evm::Config for Runtime {
 	type NetworkContractSource = NetworkContractSource;
 	type DeveloperDeposit = DeveloperDeposit;
 	type DeploymentFee = DeploymentFee;
-	type TreasuryAccount = DSWFModuleId;
+	type TreasuryAccount = TreasuryModuleAccount;
 	type FreeDeploymentOrigin = EnsureRootOrHalfGeneralCouncil;
 	type WeightInfo = weights::evm::WeightInfo<Runtime>;
 

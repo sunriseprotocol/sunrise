@@ -5,6 +5,7 @@ authors = ["Sunrise Protocol"]
 edition = "2018"
 
 [dependencies]
+bstringify = "0.1.2"
 serde = { optional = true, version = '1.0.101' }
 codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
 sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
@@ -13,7 +14,9 @@ sp-runtime = { git = "https://github.com/paritytech/substrate.git", branch = "ro
 sp-std = { git = "https://github.com/paritytech/substrate.git", branch = "rococo-v1", default-features = false }
 evm = { version = "0.24.0", default-features = false, features = ["with-codec"] }
 
-
+[dev-dependencies]
+frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+serde_json = { version = "1.0.61" }
 
 [features]
 default = ["std"]

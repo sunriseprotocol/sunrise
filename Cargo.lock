@@ -597,6 +597,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "bstringify"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bd769563b4ea2953e2825c9e6b7470a5f55f67e0be00030bf3e390a2a6071f64"
+
+[[package]]
 name = "build-helper"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1375,8 +1381,8 @@ dependencies = [
  "orml-oracle",
  "orml-oracle-rpc-runtime-api",
  "orml-rewards",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "orml-vesting",
  "orml-xcm-support",
  "orml-xtokens",
@@ -1569,8 +1575,8 @@ dependencies = [
  "frame-system",
  "hex-literal 0.3.1",
  "orml-currencies",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "parity-scale-codec",
  "serde",
@@ -4282,11 +4288,12 @@ dependencies = [
 
 [[package]]
 name = "orml-auction"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-traits 0.4.0-dev",
+ "funty",
+ "orml-traits 0.4.1-dev",
  "parity-scale-codec",
  "serde",
  "sp-core",
@@ -4297,11 +4304,12 @@ dependencies = [
 
 [[package]]
 name = "orml-authority"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-traits 0.4.0-dev",
+ "funty",
+ "orml-traits 0.4.1-dev",
  "pallet-scheduler",
  "parity-scale-codec",
  "serde",
@@ -4313,14 +4321,16 @@ dependencies = [
 
 [[package]]
 name = "orml-benchmarking"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
  "frame-system",
+ "funty",
  "hex-literal 0.2.1",
  "parity-scale-codec",
  "paste 0.1.18",
+ "serde",
  "sp-api",
  "sp-io",
  "sp-runtime",
@@ -4330,13 +4340,14 @@ dependencies = [
 
 [[package]]
 name = "orml-currencies"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "orml-utilities 0.4.0-dev",
+ "funty",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
+ "orml-utilities 0.4.1-dev",
  "pallet-balances",
  "parity-scale-codec",
  "serde",
@@ -4348,11 +4359,13 @@ dependencies = [
 
 [[package]]
 name = "orml-gradually-update"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
+ "funty",
  "parity-scale-codec",
+ "serde",
  "sp-core",
  "sp-io",
  "sp-runtime",
@@ -4361,10 +4374,11 @@ dependencies = [
 
 [[package]]
 name = "orml-nft"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
+ "funty",
  "parity-scale-codec",
  "serde",
  "sp-core",
@@ -4375,12 +4389,13 @@ dependencies = [
 
 [[package]]
 name = "orml-oracle"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-traits 0.4.0-dev",
- "orml-utilities 0.4.0-dev",
+ "funty",
+ "orml-traits 0.4.1-dev",
+ "orml-utilities 0.4.1-dev",
  "parity-scale-codec",
  "serde",
  "sp-application-crypto",
@@ -4392,8 +4407,9 @@ dependencies = [
 
 [[package]]
 name = "orml-oracle-rpc"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
+ "funty",
  "jsonrpc-core",
  "jsonrpc-core-client",
  "jsonrpc-derive 15.1.0",
@@ -4406,8 +4422,9 @@ dependencies = [
 
 [[package]]
 name = "orml-oracle-rpc-runtime-api"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
+ "funty",
  "parity-scale-codec",
  "sp-api",
  "sp-std",
@@ -4415,11 +4432,12 @@ dependencies = [
 
 [[package]]
 name = "orml-rewards"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-traits 0.4.0-dev",
+ "funty",
+ "orml-traits 0.4.1-dev",
  "parity-scale-codec",
  "serde",
  "sp-core",
@@ -4435,7 +4453,7 @@ source = "git+https://github.com/open-web3-stack/open-runtime-module-library.git
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
+ "orml-traits 0.4.0-dev",
  "parity-scale-codec",
  "sp-io",
  "sp-runtime",
@@ -4444,14 +4462,13 @@ dependencies = [
 
 [[package]]
 name = "orml-tokens"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-traits 0.4.0-dev",
- "pallet-bounties",
+ "funty",
+ "orml-traits 0.4.1-dev",
  "pallet-elections-phragmen",
- "pallet-tips",
  "pallet-treasury",
  "parity-scale-codec",
  "serde",
@@ -4469,7 +4486,7 @@ dependencies = [
  "frame-support",
  "impl-trait-for-tuples 0.1.3",
  "num-traits",
- "orml-utilities 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
+ "orml-utilities 0.4.0-dev",
  "parity-scale-codec",
  "serde",
  "sp-io",
@@ -4479,12 +4496,13 @@ dependencies = [
 
 [[package]]
 name = "orml-traits"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
+ "funty",
  "impl-trait-for-tuples 0.1.3",
  "num-traits",
- "orml-utilities 0.4.0-dev",
+ "orml-utilities 0.4.1-dev",
  "parity-scale-codec",
  "serde",
  "sp-io",
@@ -4507,10 +4525,11 @@ dependencies = [
 
 [[package]]
 name = "orml-utilities"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
+ "funty",
  "parity-scale-codec",
  "serde",
  "serde_json",
@@ -4521,10 +4540,11 @@ dependencies = [
 
 [[package]]
 name = "orml-vesting"
-version = "0.4.0-dev"
+version = "0.4.1-dev"
 dependencies = [
  "frame-support",
  "frame-system",
+ "funty",
  "pallet-balances",
  "parity-scale-codec",
  "serde",
@@ -4539,7 +4559,7 @@ name = "orml-xcm-support"
 version = "0.3.3-dev"
 dependencies = [
  "frame-support",
- "orml-traits 0.4.0-dev",
+ "orml-traits 0.4.1-dev",
  "parity-scale-codec",
  "sp-runtime",
  "sp-std",
@@ -4554,7 +4574,7 @@ dependencies = [
  "cumulus-primitives-core",
  "frame-support",
  "frame-system",
- "orml-tokens 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
  "parity-scale-codec",
  "polkadot-core-primitives",
  "serde",
@@ -9230,9 +9250,9 @@ dependencies = [
  "clear_on_drop",
  "frame-support",
  "frame-system",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
- "orml-utilities 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
+ "orml-utilities 0.4.1-dev",
  "pallet-balances",
  "pallet-timestamp",
  "parity-scale-codec",
@@ -9254,8 +9274,8 @@ dependencies = [
  "frame-benchmarking",
  "frame-support",
  "frame-system",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "parity-scale-codec",
  "serde",
@@ -9279,8 +9299,8 @@ dependencies = [
  "frame-system",
  "impl-trait-for-tuples 0.1.3",
  "orml-currencies",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "pallet-timestamp",
  "parity-scale-codec",
@@ -9305,8 +9325,8 @@ dependencies = [
  "frame-system",
  "libsecp256k1",
  "orml-currencies",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "parity-scale-codec",
  "serde",
@@ -9387,9 +9407,9 @@ dependencies = [
  "frame-benchmarking",
  "frame-support",
  "frame-system",
- "orml-tokens 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "orml-traits 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
- "orml-utilities 0.4.0-dev (git+https://github.com/open-web3-stack/open-runtime-module-library.git?branch=sw/rococo-v1)",
+ "orml-tokens 0.4.0-dev",
+ "orml-traits 0.4.0-dev",
+ "orml-utilities 0.4.0-dev",
  "parity-scale-codec",
  "serde",
  "sp-core",
@@ -9420,8 +9440,8 @@ dependencies = [
  "frame-support",
  "frame-system",
  "orml-rewards",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "parity-scale-codec",
  "serde",
@@ -9441,8 +9461,8 @@ dependencies = [
  "frame-support",
  "frame-system",
  "orml-nft",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "pallet-proxy",
  "pallet-timestamp",
@@ -9465,8 +9485,8 @@ dependencies = [
  "frame-support",
  "frame-system",
  "orml-currencies",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "parity-scale-codec",
  "serde",
@@ -9484,7 +9504,7 @@ version = "0.1.0"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-traits 0.4.0-dev",
+ "orml-traits 0.4.1-dev",
  "parity-scale-codec",
  "serde",
  "sp-core",
@@ -9501,7 +9521,7 @@ version = "0.1.0"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-traits 0.4.0-dev",
+ "orml-traits 0.4.1-dev",
  "parity-scale-codec",
  "serde",
  "sp-core",
@@ -9533,8 +9553,8 @@ dependencies = [
  "frame-support",
  "frame-system",
  "orml-currencies",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "parity-scale-codec",
  "serde",
@@ -9580,7 +9600,7 @@ version = "0.1.0"
 dependencies = [
  "frame-support",
  "impl-trait-for-tuples 0.1.3",
- "orml-traits 0.4.0-dev",
+ "orml-traits 0.4.1-dev",
  "parity-scale-codec",
  "sp-core",
  "sp-runtime",
@@ -9621,8 +9641,8 @@ version = "0.1.0"
 dependencies = [
  "frame-support",
  "frame-system",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "pallet-proxy",
  "pallet-transaction-payment",
@@ -9645,9 +9665,12 @@ dependencies = [
 name = "srs-primitives"
 version = "0.1.0"
 dependencies = [
+ "bstringify",
  "evm",
+ "frame-support",
  "parity-scale-codec",
  "serde",
+ "serde_json",
  "sp-core",
  "sp-io",
  "sp-runtime",
@@ -9662,8 +9685,8 @@ dependencies = [
  "frame-system",
  "hex-literal 0.3.1",
  "orml-oracle",
- "orml-tokens 0.4.0-dev",
- "orml-traits 0.4.0-dev",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
  "pallet-balances",
  "pallet-proxy",
  "pallet-scheduler",

@@ -1,6 +1,7 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![allow(clippy::unnecessary_cast)]
 
+pub mod currency;
 pub mod evm;
 pub mod mocks;
 
@@ -19,8 +20,13 @@ use sp_std::{
 	prelude::*,
 };
 
+pub use currency::{CurrencyId, TokenSymbol};
+
 #[cfg(feature = "std")]
 use serde::{Deserialize, Serialize};
+
+#[cfg(test)]
+mod tests;
 
 pub type Decimals = u8;
 pub type AssetId = u64;
@@ -131,15 +137,24 @@ impl TradingPair {
 	}
 }
 
-/// The start address for pre-compiles.
-pub const PRECOMPILE_ADDRESS_START: u64 = 1024;
-
-/// The start address for pre-deployed smart contracts.
-pub const PREDEPLOY_ADDRESS_START: u64 = 2048;
+/// Ethereum precompiles
+/// 0 - 0x400
+/// Acala precompiles
+/// 0x400 - 0x800
+pub const PRECOMPILE_ADDRESS_START: u64 = 0x400;
+/// Predeployed system contracts (except Mirrored ERC20)
+/// 0x800 - 0x1000
+pub const PREDEPLOY_ADDRESS_START: u64 = 0x800;
+/// Mirrored Tokens
+/// 0x01000000
+pub const MIRRORED_TOKENS_ADDRESS_START: u64 = 0x01000000;
+/// Mirrored NFT
+/// 0x02000000
+pub const MIRRORED_NFT_ADDRESS_START: u64 = 0x02000000;
 
 pub type NFTBalance = u128;
 
-
+/*
 #[derive(Encode, Decode, Eq, PartialEq, Copy, Clone, RuntimeDebug, PartialOrd, Ord)]
 #[cfg_attr(feature = "std", derive(Serialize, Deserialize))]
 pub enum TokenSymbol {
@@ -254,3 +269,4 @@ impl From<CurrencyId> for [u8; 32] {
 		bytes
 	}
 }
+*/

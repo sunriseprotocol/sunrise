@@ -11,7 +11,7 @@ use frame_support::{
 };
 use frame_system::limits;
 pub use srs_pallet_support::{ExchangeRate, PrecompileCallerFilter, Price, Rate, Ratio};
-use srs_primitives::{PRECOMPILE_ADDRESS_START, PREDEPLOY_ADDRESS_START};
+use srs_primitives::{Balance, CurrencyId, PRECOMPILE_ADDRESS_START, PREDEPLOY_ADDRESS_START};
 use sp_core::H160;
 use sp_runtime::{
 	traits::{Convert, Saturating},
@@ -25,6 +25,10 @@ pub mod precompile;
 pub use precompile::{
 	AllPrecompiles, DexPrecompile, MultiCurrencyPrecompile, NFTPrecompile, OraclePrecompile, ScheduleCallPrecompile, 
 	StateRentPrecompile,
+};
+
+pub use srs_primitives::currency::{
+	GetDecimals, SRS, SUSD, DOT, KAR, KSM, KUSD, LDOT, LKSM, PHA, PLM, POLKABTC, RENBTC, SDN, XBTC,
 };
 
 pub type TimeStampedPrice = orml_oracle::TimestampedValue<Price, srs_primitives::Moment>;
@@ -339,6 +343,27 @@ parameter_types! {
 		.expect("Normal extrinsics have weight limit configured by default; qed")
 		.saturating_sub(BlockExecutionWeight::get());
 }
+
+pub fn dollar(currency_id: CurrencyId) -> Balance {
+	10u128.saturating_pow(currency_id.decimals())
+}
+
+pub fn cent(currency_id: CurrencyId) -> Balance {
+	dollar(currency_id) / 100
+}
+
+pub fn millicent(currency_id: CurrencyId) -> Balance {
+	cent(currency_id) / 1000
+}
+
+pub fn microcent(currency_id: CurrencyId) -> Balance {
+	millicent(currency_id) / 1000
+}
+
+pub fn deposit(items: u32, bytes: u32, currency_id: CurrencyId) -> Balance {
+	items as Balance * 15 * cent(currency_id) + (bytes as Balance) * 6 * cent(currency_id)
+}
+
 
 #[cfg(test)]
 mod tests {
