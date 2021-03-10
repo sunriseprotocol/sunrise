@@ -48,8 +48,8 @@ where
 	C: Send + Sync + 'static,
 	C::Api: substrate_frame_rpc_system::AccountNonceApi<Block, AccountId, Nonce>,
 	C::Api: pallet_transaction_payment_rpc::TransactionPaymentRuntimeApi<Block, Balance>,
-	C::Api: orml_oracle_rpc::OracleRuntimeApi<Block, DataProviderId, CurrencyId, srs_runtime_common::TimeStampedPrice>,
-	C::Api: srs_pallet_staking_pool_rpc::StakingPoolRuntimeApi<Block, AccountId, Balance>,
+//TODO	C::Api: orml_oracle_rpc::OracleRuntimeApi<Block, DataProviderId, CurrencyId, srs_runtime_common::TimeStampedPrice>,
+//TODO	C::Api: srs_pallet_staking_pool_rpc::StakingPoolRuntimeApi<Block, AccountId, Balance>,
 	C::Api: EVMRuntimeRPCApi<Block, Balance>,
 	C::Api: BlockBuilder<Block>,
 	P: TransactionPool + Sync + Send + 'static,
@@ -77,8 +77,8 @@ where
 	// Making synchronous calls in light client freezes the browser currently,
 	// more context: https://github.com/paritytech/substrate/pull/3480
 	// These RPCs should use an asynchronous caller instead.
-	io.extend_with(OracleApi::to_delegate(Oracle::new(client.clone())));
-	io.extend_with(StakingPoolApi::to_delegate(StakingPool::new(client.clone())));
+//TODO	io.extend_with(OracleApi::to_delegate(Oracle::new(client.clone())));
+//TODO	io.extend_with(StakingPoolApi::to_delegate(StakingPool::new(client.clone())));
 	io.extend_with(EVMApiServer::to_delegate(EVMApi::new(client)));
 
 	io

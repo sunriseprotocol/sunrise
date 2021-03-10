@@ -64,7 +64,7 @@ use xcm_executor::{Config, XcmExecutor};
 mod weights;
 
 pub use frame_support::{
-	construct_runtime, debug, parameter_types,
+	construct_runtime, log, parameter_types,
 	traits::{
 		Contains, ContainsLengthBound, EnsureOrigin, Filter, Get, IsType, KeyOwnerProofSystem, LockIdentifier,
 		Randomness, U128CurrencyToVote,
@@ -82,7 +82,7 @@ pub use sp_runtime::{Perbill, Percent, Permill, Perquintill};
 pub use authority::AuthorityConfigImpl;
 pub use constants::{currency::*, fee::*, time::*};
 pub use srs_primitives::{
-	AccountId, AccountIndex, Amount, AuctionId, AuthoritysOriginId, Balance, BlockNumber,
+	AccountId, AccountIndex, AirDropCurrencyId, Amount, AuctionId, AuthoritysOriginId, Balance, BlockNumber,
 	CurrencyId, DataProviderId, EraIndex, Hash, Moment, Nonce, Share, Signature, TokenSymbol, TradingPair,
 };
 pub use srs_runtime_common::{
@@ -465,8 +465,8 @@ impl pallet_membership::Config<TechnicalCommitteeMembershipInstance> for Runtime
 	type MembershipChanged = TechnicalCommittee;
 }
 
-type OperatorMembershipInstanceAcala = pallet_membership::Instance5;
-impl pallet_membership::Config<OperatorMembershipInstanceAcala> for Runtime {
+type OperatorMembershipInstanceSunrise = pallet_membership::Instance5;
+impl pallet_membership::Config<OperatorMembershipInstanceSunrise> for Runtime {
 	type Event = Event;
 	type AddOrigin = EnsureRootOrTwoThirdsGeneralCouncil;
 	type RemoveOrigin = EnsureRootOrTwoThirdsGeneralCouncil;
@@ -635,9 +635,7 @@ impl orml_authority::Config for Runtime {
 
 parameter_types! {
 	pub CandidacyBond: Balance = 10 * dollar(LDOT);
-	// 1 storage item created, key size is 32 bytes, value size is 16+16.
-	pub VotingBondBase: Balance = 1 * 15 * cent(LDOT) + 64 * 6 * cent(LDOT);
-	// additional data per vote is 32 bytes (account id).
+	pub VotingBondBase: Balance = 2 * dollar(LDOT);
 	pub VotingBondFactor: Balance = dollar(LDOT);
 	pub const TermDuration: BlockNumber = 7 * DAYS;
 	pub const DesiredMembers: u32 = 13;
@@ -661,7 +659,6 @@ impl pallet_elections_phragmen::Config for Runtime {
 	type KickedMember = ();
 	type WeightInfo = ();
 }
-
 
 parameter_types! {
 	pub const MinimumCount: u32 = 1;
@@ -900,7 +897,7 @@ where
 		);
 		let raw_payload = SignedPayload::new(call, extra)
 			.map_err(|e| {
-				debug::warn!("Unable to create signed payload: {:?}", e);
+				log::warn!("Unable to create signed payload: {:?}", e);
 			})
 			.ok()?;
 		let signature = raw_payload.using_encoded(|payload| C::sign(payload, public))?;
@@ -1054,12 +1051,12 @@ impl orml_nft::Config for Runtime {
 
 parameter_types! {
 	// One storage item; key size 32, value size 8; .
-	pub const ProxyDepositBase: Balance = deposit(1, 8, SRS);
+	pub ProxyDepositBase: Balance = deposit(1, 8, SRS);
 	// Additional storage item size of 33 bytes.
-	pub const ProxyDepositFactor: Balance = deposit(0, 33, SRS);
+	pub ProxyDepositFactor: Balance = deposit(0, 33, SRS);
 	pub const MaxProxies: u16 = 32;
-	pub const AnnouncementDepositBase: Balance = deposit(1, 8, SRS);
-	pub const AnnouncementDepositFactor: Balance = deposit(0, 66, SRS);
+	pub AnnouncementDepositBase: Balance = deposit(1, 8, SRS);
+	pub AnnouncementDepositFactor: Balance = deposit(0, 66, SRS);
 	pub const MaxPending: u16 = 32;
 }
 
@@ -1219,6 +1216,7 @@ impl cumulus_pallet_xcm_handler::Config for Runtime {
 	type XcmExecutor = XcmExecutor<XcmConfig>;
 	type UpwardMessageSender = ParachainSystem;
 	type HrmpMessageSender = ParachainSystem;
+	type SendXcmOrigin = EnsureRoot<AccountId>;
 }
 
 #[cfg(not(feature = "standalone"))]
@@ -1286,6 +1284,7 @@ macro_rules! construct_dawn_runtime {
 				// Utility
 				Utility: pallet_utility::{Module, Call, Event},
 				Multisig: pallet_multisig::{Module, Call, Storage, Event<T>},
+				Recovery: pallet_recovery::{Module, Call, Storage, Event<T>},
 				Proxy: pallet_proxy::{Module, Call, Storage, Event<T>},
 				Scheduler: pallet_scheduler::{Module, Call, Storage, Event<T>},
 
@@ -1317,7 +1316,7 @@ macro_rules! construct_dawn_runtime {
 				SunriseOracle: orml_oracle::<Instance1>::{Module, Storage, Call, Config<T>, Event<T>},
 				BandOracle: orml_oracle::<Instance2>::{Module, Storage, Call, Config<T>, Event<T>},
 				// OperatorMembership must be placed after Oracle or else will have race condition on initialization
-				OperatorMembershipAcala: pallet_membership::<Instance5>::{Module, Call, Storage, Event<T>, Config<T>},
+				OperatorMembershipSunrise: pallet_membership::<Instance5>::{Module, Call, Storage, Event<T>, Config<T>},
 				OperatorMembershipBand: pallet_membership::<Instance6>::{Module, Call, Storage, Event<T>, Config<T>},
 
 				// ORML Core
@@ -1334,10 +1333,10 @@ macro_rules! construct_dawn_runtime {
 				// Exchange
 				// Exchange: srs_pallet_exchange::{Module, Storage, Call, Event<T>, Config<T>},
 
-				// Honzon
+				// SHY Sunrise High Yield
 				AuctionManager: srs_pallet_auction_manager::{Module, Storage, Call, Event<T>, ValidateUnsigned},
 				Loans: srs_pallet_loans::{Module, Storage, Call, Event<T>},
-				//Honzon: module_honzon::{Module, Storage, Call, Event<T>},
+				Shy: srs_pallet_shy::{Module, Storage, Call, Event<T>},
 				ShyTreasury: srs_pallet_shy_treasury::{Module, Storage, Call, Config, Event<T>},
 				ShyEngine: srs_pallet_shy_engine::{Module, Storage, Call, Event<T>, Config, ValidateUnsigned},
 				EmergencyShutdown: srs_pallet_emergency_shutdown::{Module, Storage, Call, Event<T>},
@@ -1355,7 +1354,7 @@ macro_rules! construct_dawn_runtime {
 				NFT: srs_pallet_nft::{Module, Call, Event<T>},
 
 				// Ecosystem modules
-				// RenVmBridge: ecosystem_renvm_bridge::{Module, Call, Config, Storage, Event<T>, ValidateUnsigned},
+				RenVmBridge: ecosystem_renvm_bridge::{Module, Call, Config, Storage, Event<T>, ValidateUnsigned},
 
 				EVM: srs_pallet_evm::{Module, Config<T>, Call, Storage, Event<T>},
 				EVMBridge: srs_pallet_evm_bridge::{Module},
@@ -1663,7 +1662,7 @@ impl_runtime_apis! {
 }
 
 #[cfg(not(feature = "standalone"))]
-cumulus_pallet_parachain_system::register_validate_block!(Block, Executive);
+cumulus_pallet_parachain_system::register_validate_block!(Runtime, Executive);
 
 #[cfg(test)]
 mod tests {

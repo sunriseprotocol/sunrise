@@ -1,0 +1,39 @@
+[package]
+authors = ['Sunrise Protocol']
+description = 'Sunrise Dawn Collator'
+edition = '2018'
+homepage = 'https://sunriseprotocol.com'
+license = 'Apache 2.0'
+name = 'dawn'
+repository = 'https://github.com/sunriseprotocol/sunrise'
+version = '0.1.0'
+
+[[bin]]
+name = 'dawn'
+
+[dependencies]
+futures = "0.3.4"
+parity-util-mem = { version = "0.9.0", default-features = false, features = ["jemalloc-global"] }
+sunrise-cli = { path = "cli" }
+sunrise-service = { path = "service" }
+dawn-runtime = { path = "../../runtime/dawn", optional = true }
+
+#TODO: This is a workaround for issue https://github.com/bitvecto-rs/bitvec/issues/105. Remove it once fixed.
+#funty = { version = "=1.1.0" }
+
+[features]
+default = [ "with-dawn-runtime" ]
+
+runtime-benchmarks = [
+	"sunrise-cli/runtime-benchmarks",
+]
+
+with-dawn-runtime = [
+	"sunrise-service/with-dawn-runtime",
+	"sunrise-cli/with-dawn-runtime",
+]
+
+with-all-runtime = [
+	"sunrise-service/with-dawn-runtime",
+	"sunrise-cli/with-dawn-runtime",
+]

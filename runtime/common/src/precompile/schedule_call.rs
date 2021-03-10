@@ -2,7 +2,7 @@
 #![allow(clippy::type_complexity)]
 
 use frame_support::{
-	debug,
+	log,
 	dispatch::Dispatchable,
 	parameter_types,
 	traits::{
@@ -100,7 +100,7 @@ impl<AccountId, AddressMapping, Scheduler, ChargeTransactionPayment, Call, Origi
 		_target_gas: Option<u64>,
 		_context: &Context,
 	) -> result::Result<(ExitSucceed, Vec<u8>, u64), ExitError> {
-		debug::debug!(target: "evm", "schedule call: input: {:?}", input);
+		log::debug!(target: "evm", "schedule call: input: {:?}", input);
 
 		// Solidity dynamic arrays will add the array size to the front of the array,
 		// pre-compile needs to deal with the `size`.
@@ -120,7 +120,7 @@ impl<AccountId, AddressMapping, Scheduler, ChargeTransactionPayment, Call, Origi
 				let input_len = input.u32_at(7)?;
 				let input_data = input.bytes_at(8 * PER_PARAM_BYTES, input_len as usize)?;
 
-				debug::debug!(
+				log::debug!(
 					target: "evm",
 					"schedule call: from: {:?}, target: {:?}, value: {:?}, gas_limit: {:?}, storage_limit: {:?}, min_delay: {:?}, input_len: {:?}, input_data: {:?}",
 					from,

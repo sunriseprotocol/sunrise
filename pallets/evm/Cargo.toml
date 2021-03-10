@@ -36,8 +36,8 @@ srs-primitives = { package = "srs-primitives", path = "../../primitives", defaul
 
 [dev-dependencies]
 env_logger = "0.7"
-orml-currencies = { path = "../../orml/currencies", default-features = false }
-orml-tokens = { path = "../../orml/tokens", default-features = false }
+orml-currencies = { path = "../../orml/currencies" }
+orml-tokens = { path = "../../orml/tokens" }
 
 [features]
 default = ["std"]
@@ -60,8 +60,8 @@ std = [
 	"evm-gasometer/std",
 	"pallet-timestamp/std",
 	"ripemd160/std",
-	"orml-traits/std",
 	"srs-primitives/std",
+	"orml-traits/std",
 	"srs-pallet-support/std",
 ]
 with-ethereum-compatibility = []

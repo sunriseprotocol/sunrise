@@ -1,7 +1,7 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![allow(clippy::unused_unit)]
 
-use frame_support::{pallet_prelude::*, transactional};
+use frame_support::{log, pallet_prelude::*, transactional};
 use frame_system::pallet_prelude::*;
 use orml_traits::BasicCurrency;
 use srs_primitives::{Balance, EraIndex};
@@ -240,7 +240,7 @@ impl<T: Config> Pallet<T> {
 				let current_era = Self::current_era();
 				let unbonded_era_index = current_era + T::BondingDuration::get();
 				status.unbonding.push((unbonded_era_index, amount));
-				debug::debug!(
+				log::debug!(
 					target: "polkadot bridge simulator",
 					"sub account {:?} unbond: {:?} at {:?}",
 					account_index, amount, current_era,
@@ -282,7 +282,7 @@ impl<T: Config> Pallet<T> {
 				status.bonded = bonded;
 				status.unbonding = unbonding;
 
-				debug::debug!(
+				log::debug!(
 					target: "polkadot bridge simulator",
 					"sub account {:?} rebond: {:?}",
 					account_index, rebond_balance,
@@ -323,7 +323,7 @@ impl<T: Config> Pallet<T> {
 			let reward = status.mock_reward_rate.saturating_mul_int(status.bonded);
 			status.bonded = status.bonded.saturating_add(reward);
 
-			debug::debug!(
+			log::debug!(
 				target: "polkadot bridge simulator",
 				"sub account {:?} get reward: {:?}",
 				account_index, reward,
@@ -334,7 +334,7 @@ impl<T: Config> Pallet<T> {
 	/// simulate nominate by sub account
 	fn sub_account_nominate(_account_index: u32, _targets: Vec<T::PolkadotAccountId>) {}
 
-	/// simulate transfer dot from sunrise to parachain sub account in
+	/// simulate transfer dot from acala to parachain sub account in
 	/// polkadot
 	fn transfer_to_sub_account(account_index: u32, from: &T::AccountId, amount: Balance) -> DispatchResult {
 		T::DOTCurrency::withdraw(from, amount)?;
@@ -344,7 +344,7 @@ impl<T: Config> Pallet<T> {
 		Ok(())
 	}
 
-	/// simulate receive dot from parachain sub account in polkadot to sunrise
+	/// simulate receive dot from parachain sub account in polkadot to acala
 	fn receive_from_sub_account(account_index: u32, to: &T::AccountId, amount: Balance) -> DispatchResult {
 		SubAccounts::<T>::try_mutate(account_index, |status| -> DispatchResult {
 			status.available = status.available.checked_sub(amount).ok_or(Error::<T>::NotEnough)?;

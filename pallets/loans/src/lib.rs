@@ -9,8 +9,7 @@
 #![allow(clippy::unused_unit)]
 #![allow(clippy::collapsible_if)]
 
-use frame_support::pallet_prelude::*;
-use frame_support::transactional;
+use frame_support::{log, pallet_prelude::*, transactional};
 use orml_traits::{Happened, MultiCurrency, MultiCurrencyExtended};
 use srs_primitives::{Amount, Balance, CurrencyId};
 use sp_runtime::{
@@ -121,7 +120,7 @@ impl<T: Config> Pallet<T> {
 		T::ModuleId::get().into_account()
 	}
 
-	/// confiscate collateral and debit to shy treasury.
+	/// confiscate collateral and debit to cdp treasury.
 	///
 	/// Ensured atomic.
 	#[transactional]
@@ -135,10 +134,10 @@ impl<T: Config> Pallet<T> {
 		let collateral_adjustment = Self::amount_try_from_balance(collateral_confiscate)?;
 		let debit_adjustment = Self::amount_try_from_balance(debit_decrease)?;
 
-		// transfer collateral to shy treasury
+		// transfer collateral to cdp treasury
 		T::SHYTreasury::deposit_collateral(&Self::account_id(), currency_id, collateral_confiscate)?;
 
-		// deposit debit to shy treasury
+		// deposit debit to cdp treasury
 		let bad_debt_value = T::RiskManager::get_bad_debt_value(currency_id, debit_decrease);
 		T::SHYTreasury::on_system_debit(bad_debt_value)?;
 
@@ -186,11 +185,11 @@ impl<T: Config> Pallet<T> {
 			// check debit cap when increase debit
 			T::RiskManager::check_debit_cap(currency_id, Self::total_positions(currency_id).debit)?;
 
-			// issue debit with collateral backed by shy treasury
+			// issue debit with collateral backed by cdp treasury
 			T::SHYTreasury::issue_debit(who, T::Convert::convert((currency_id, debit_balance_adjustment)), true)?;
 		} else if debit_adjustment.is_negative() {
 			// repay debit
-			// burn debit by shy treasury
+			// burn debit by cdp treasury
 			T::SHYTreasury::burn_debit(who, T::Convert::convert((currency_id, debit_balance_adjustment)))?;
 		}
 
@@ -275,7 +274,7 @@ impl<T: Config> Pallet<T> {
 					// No providers for the locks. This is impossible under normal circumstances
 					// since the funds that are under the lock will themselves be stored in the
 					// account and therefore will need a reference.
-					frame_support::debug::warn!(
+					log::warn!(
 						"Warning: Attempt to introduce lock consumer reference, yet no providers. \
 						This is unexpected but should be safe."
 					);
