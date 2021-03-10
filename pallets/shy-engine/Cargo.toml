@@ -1,0 +1,47 @@
+[package]
+name = "srs-pallet-shy-engine"
+version = "0.1.0"
+authors = ["Sunrise Developers"]
+edition = "2018"
+
+[dependencies]
+serde = { version = "1.0.101", optional = true }
+codec = { package = "parity-scale-codec", version = "2.0.0", default-features = false }
+frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+orml-tokens = { path = "../../orml/tokens", default-features = false }
+orml-traits = { path = "../../orml/traits", default-features = false }
+orml-utilities = { path = "../../orml/utilities", default-features = false }
+sp-application-crypto = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+srs-pallet-support = { package = "srs-pallet-support", path = "../support", default-features = false }
+srs-pallet-loans = { package = "srs-pallet-loans", path = "../loans", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
+
+[dev-dependencies]
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+orml-currencies = { path = "../../orml/currencies", default-features = false }
+srs-pallet-dex = { path = "../dex" }
+srs-pallet-shy-treasury = { package = "srs-pallet-shy-treasury", path = "../shy-treasury" }
+
+[features]
+default = ["std"]
+std = [
+	"serde",
+	"codec/std",
+	"frame-support/std",
+	"frame-system/std",
+	"orml-tokens/std",
+	"orml-traits/std",
+	"sp-application-crypto/std",
+	"sp-io/std",
+	"sp-runtime/std",
+	"sp-std/std",
+	"srs-pallet-support/std",
+	"srs-pallet-loans/std",
+	"srs-primitives/std",
+	"orml-utilities/std",
+]

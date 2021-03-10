@@ -1432,25 +1432,28 @@ dependencies = [
  "sp-transaction-pool",
  "sp-version",
  "srs-pallet-airdrop",
+ "srs-pallet-auction-manager",
  "srs-pallet-currencies",
  "srs-pallet-dex",
+ "srs-pallet-emergency-shutdown",
  "srs-pallet-evm",
  "srs-pallet-evm-accounts",
  "srs-pallet-evm-bridge",
  "srs-pallet-evm-rpc-runtime-api",
- "srs-pallet-exchange",
- "srs-pallet-exchange-rpc-runtime-api",
  "srs-pallet-incentives",
+ "srs-pallet-loans",
  "srs-pallet-nft",
  "srs-pallet-nominees-election",
  "srs-pallet-polkadot-bridge",
  "srs-pallet-prices",
+ "srs-pallet-shy",
+ "srs-pallet-shy-engine",
+ "srs-pallet-shy-treasury",
  "srs-pallet-slip",
  "srs-pallet-staking-pool",
  "srs-pallet-staking-pool-rpc-runtime-api",
  "srs-pallet-support",
  "srs-pallet-template",
- "srs-pallet-tokens",
  "srs-pallet-transaction-payment",
  "srs-primitives",
  "srs-runtime-common",
@@ -9244,6 +9247,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "srs-pallet-auction-manager"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-auction",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
+ "orml-utilities 0.4.1-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-dex",
+ "srs-pallet-shy-treasury",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
 name = "srs-pallet-currencies"
 version = "0.1.0"
 dependencies = [
@@ -9269,7 +9295,7 @@ dependencies = [
 
 [[package]]
 name = "srs-pallet-dex"
-version = "0.1.0"
+version = "0.7.3"
 dependencies = [
  "frame-benchmarking",
  "frame-support",
@@ -9283,6 +9309,28 @@ dependencies = [
  "sp-io",
  "sp-runtime",
  "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-emergency-shutdown"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-currencies",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-loans",
+ "srs-pallet-shy-treasury",
  "srs-pallet-support",
  "srs-primitives",
 ]
@@ -9435,7 +9483,7 @@ dependencies = [
 
 [[package]]
 name = "srs-pallet-incentives"
-version = "0.1.0"
+version = "0.7.3"
 dependencies = [
  "frame-support",
  "frame-system",
@@ -9449,6 +9497,27 @@ dependencies = [
  "sp-io",
  "sp-runtime",
  "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-loans"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-currencies",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-shy-treasury",
  "srs-pallet-support",
  "srs-primitives",
 ]
@@ -9521,6 +9590,7 @@ version = "0.1.0"
 dependencies = [
  "frame-support",
  "frame-system",
+ "orml-tokens 0.4.1-dev",
  "orml-traits 0.4.1-dev",
  "parity-scale-codec",
  "serde",
@@ -9528,6 +9598,77 @@ dependencies = [
  "sp-io",
  "sp-runtime",
  "sp-std",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-shy"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-currencies",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-loans",
+ "srs-pallet-shy-engine",
+ "srs-pallet-shy-treasury",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-shy-engine"
+version = "0.1.0"
+dependencies = [
+ "frame-support",
+ "frame-system",
+ "orml-currencies",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
+ "orml-utilities 0.4.1-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-application-crypto",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-dex",
+ "srs-pallet-loans",
+ "srs-pallet-shy-treasury",
+ "srs-pallet-support",
+ "srs-primitives",
+]
+
+[[package]]
+name = "srs-pallet-shy-treasury"
+version = "0.1.0"
+dependencies = [
+ "frame-benchmarking",
+ "frame-support",
+ "frame-system",
+ "orml-auction",
+ "orml-currencies",
+ "orml-tokens 0.4.1-dev",
+ "orml-traits 0.4.1-dev",
+ "pallet-balances",
+ "parity-scale-codec",
+ "serde",
+ "sp-core",
+ "sp-io",
+ "sp-runtime",
+ "sp-std",
+ "srs-pallet-dex",
  "srs-pallet-support",
  "srs-primitives",
 ]
@@ -9541,6 +9682,7 @@ dependencies = [
  "parity-scale-codec",
  "serde",
  "sp-runtime",
+ "sp-std",
  "srs-pallet-staking-pool",
  "srs-pallet-support",
  "srs-primitives",

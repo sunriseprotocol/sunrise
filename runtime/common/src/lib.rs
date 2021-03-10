@@ -38,7 +38,7 @@ pub type TimeStampedPrice = orml_oracle::TimestampedValue<Price, srs_primitives:
 parameter_types! {
 	pub const StakingUnsignedPriority: TransactionPriority = TransactionPriority::max_value() / 2;
 	pub const RenvmBridgeUnsignedPriority: TransactionPriority = TransactionPriority::max_value() / 2;
-	pub const CdpEngineUnsignedPriority: TransactionPriority = TransactionPriority::max_value();
+	pub const ShyEngineUnsignedPriority: TransactionPriority = TransactionPriority::max_value();
 	pub const AuctionManagerUnsignedPriority: TransactionPriority = TransactionPriority::max_value() - 1;
 }
 

@@ -3,7 +3,7 @@
 //! ## Overview
 //!
 //! The data from Oracle cannot be used in business, prices module will do some
-//! process and feed prices for Sunrise. Process include:
+//! process and feed prices for Acala. Process include:
 //!   - specify a fixed price for stable currency
 //!   - feed price in USD or related price bewteen two currencies
 //!   - lock/unlock the price data get from oracle
@@ -13,21 +13,20 @@
 
 use frame_support::{pallet_prelude::*, transactional};
 use frame_system::pallet_prelude::*;
-use orml_traits::{DataFeeder, DataProvider};
-use srs_primitives::CurrencyId;
-use sp_runtime::traits::{CheckedDiv, CheckedMul};
-use srs_pallet_support::{ExchangeRateProvider, Price, PriceProvider};
+use orml_traits::{DataFeeder, DataProvider, MultiCurrency};
+use srs_primitives::{currency::GetDecimals, Balance, CurrencyId};
+use sp_runtime::{
+	traits::{CheckedDiv, CheckedMul},
+	FixedPointNumber,
+};
+use srs_pallet_support::{DEXManager, ExchangeRateProvider, Price, PriceProvider};
 
-mod default_weight;
 mod mock;
 mod tests;
+pub mod weights;
 
 pub use module::*;
-
-pub trait WeightInfo {
-	fn lock_price() -> Weight;
-	fn unlock_price() -> Weight;
-}
+pub use weights::WeightInfo;
 
 #[frame_support::pallet]
 pub mod module {
@@ -41,19 +40,19 @@ pub mod module {
 		type Source: DataProvider<CurrencyId, Price> + DataFeeder<CurrencyId, Price, Self::AccountId>;
 
 		#[pallet::constant]
-		/// The stable currency id, it should be SUSD in Sunrise.
+		/// The stable currency id, it should be AUSD in Acala.
 		type GetStableCurrencyId: Get<CurrencyId>;
 
 		#[pallet::constant]
-		/// The fixed prices of stable currency, it should be 1 USD in Sunrise.
+		/// The fixed prices of stable currency, it should be 1 USD in Acala.
 		type StableCurrencyFixedPrice: Get<Price>;
 
 		#[pallet::constant]
-		/// The staking currency id, it should be DOT in Sunrise.
+		/// The staking currency id, it should be DOT in Acala.
 		type GetStakingCurrencyId: Get<CurrencyId>;
 
 		#[pallet::constant]
-		/// The liquid currency id, it should be LDOT in Sunrise.
+		/// The liquid currency id, it should be LDOT in Acala.
 		type GetLiquidCurrencyId: Get<CurrencyId>;
 
 		/// The origin which may lock and unlock prices feed to system.
@@ -62,6 +61,12 @@ pub mod module {
 		/// The provider of the exchange rate between liquid currency and
 		/// staking currency.
 		type LiquidStakingExchangeRateProvider: ExchangeRateProvider;
+
+		/// DEX provide liquidity info.
+		type DEX: DEXManager<Self::AccountId, CurrencyId, Balance>;
+
+		/// Currency provide the total insurance of LPToken.
+		type Currency: MultiCurrency<Self::AccountId, CurrencyId = CurrencyId, Balance = Balance>;
 
 		/// Weight information for the extrinsics in this module.
 		type WeightInfo: WeightInfo;
@@ -118,7 +123,8 @@ pub mod module {
 }
 
 impl<T: Config> PriceProvider<CurrencyId> for Pallet<T> {
-	/// get relative price between two currency types
+	/// get exchange rate between two currency types
+	/// Note: this returns the price for 1 basic unit
 	fn get_relative_price(base_currency_id: CurrencyId, quote_currency_id: CurrencyId) -> Option<Price> {
 		if let (Some(base_price), Some(quote_price)) =
 			(Self::get_price(base_currency_id), Self::get_price(quote_currency_id))
@@ -129,19 +135,45 @@ impl<T: Config> PriceProvider<CurrencyId> for Pallet<T> {
 		}
 	}
 
-	/// get price in USD
+	/// get the exchange rate of specific currency to USD
+	/// Note: this returns the price for 1 basic unit
 	fn get_price(currency_id: CurrencyId) -> Option<Price> {
-		if currency_id == T::GetStableCurrencyId::get() {
+		let maybe_feed_price = if currency_id == T::GetStableCurrencyId::get() {
 			// if is stable currency, return fixed price
 			Some(T::StableCurrencyFixedPrice::get())
 		} else if currency_id == T::GetLiquidCurrencyId::get() {
-			// if is slip liquid currency, return the product of staking currency price and
+			// if is homa liquid currency, return the product of staking currency price and
 			// liquid/staking exchange rate.
-			Self::get_price(T::GetStakingCurrencyId::get())
-				.and_then(|n| n.checked_mul(&T::LiquidStakingExchangeRateProvider::get_exchange_rate()))
+			return Self::get_price(T::GetStakingCurrencyId::get())
+				.and_then(|n| n.checked_mul(&T::LiquidStakingExchangeRateProvider::get_exchange_rate()));
+		} else if let CurrencyId::DEXShare(symbol_0, symbol_1) = currency_id {
+			let token_0 = CurrencyId::Token(symbol_0);
+			let token_1 = CurrencyId::Token(symbol_1);
+			let (pool_0, _) = T::DEX::get_liquidity_pool(token_0, token_1);
+			let total_shares = T::Currency::total_issuance(currency_id);
+
+			return {
+				if let (Some(ratio), Some(price_0)) = (
+					Price::checked_from_rational(pool_0, total_shares),
+					Self::get_price(token_0),
+				) {
+					ratio
+						.checked_mul(&price_0)
+						.and_then(|n| n.checked_mul(&Price::saturating_from_integer(2)))
+				} else {
+					None
+				}
+			};
 		} else {
 			// if locked price exists, return it, otherwise return latest price from oracle.
 			Self::locked_price(currency_id).or_else(|| T::Source::get(&currency_id))
+		};
+		let maybe_adjustment_multiplier = 10u128.checked_pow(currency_id.decimals());
+
+		if let (Some(feed_price), Some(adjustment_multiplier)) = (maybe_feed_price, maybe_adjustment_multiplier) {
+			Price::checked_from_rational(feed_price.into_inner(), adjustment_multiplier)
+		} else {
+			None
 		}
 	}
 

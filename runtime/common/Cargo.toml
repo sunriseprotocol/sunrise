@@ -21,8 +21,8 @@ orml-traits = { path = "../../orml/traits", default-features = false }
 srs-pallet-evm = { path = "../../pallets/evm", default-features = false }
 srs-pallet-support = { path = "../../pallets/support", default-features = false }
 srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
-srs-pallet-transaction-payment = { path = "../../pallets/transaction_payment", default-features = false }
-srs-pallet-staking-pool = { path = "../../pallets/staking_pool", default-features = false }
+srs-pallet-transaction-payment = { path = "../../pallets/transaction-payment", default-features = false }
+srs-pallet-staking-pool = { path = "../../pallets/staking-pool", default-features = false }
 
 
 [dev-dependencies]

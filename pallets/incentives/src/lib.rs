@@ -1,5 +1,6 @@
 #![cfg_attr(not(feature = "std"), no_std)]
 #![allow(clippy::unused_unit)]
+#![allow(clippy::upper_case_acronyms)]
 
 use frame_support::{pallet_prelude::*, transactional};
 use frame_system::pallet_prelude::*;
@@ -10,43 +11,25 @@ use sp_runtime::{
 	DispatchResult, FixedPointNumber, ModuleId, RuntimeDebug,
 };
 use sp_std::prelude::*;
-use srs_pallet_support::{CDPTreasury, DEXIncentives, DEXManager, ExchangeIncentives, ExchangeManager,EmergencyShutdown, Rate};
+use srs_pallet_support::{SHYTreasury, DEXIncentives, DEXManager, EmergencyShutdown, Rate};
 
-mod default_weight;
 mod mock;
 mod tests;
+pub mod weights;
 
 pub use module::*;
-
-pub trait WeightInfo {
-	fn deposit_dex_share() -> Weight;
-	fn withdraw_dex_share() -> Weight;
-	fn claim_rewards() -> Weight;
-	fn deposit_exchange_share() -> Weight;
-	fn withdraw_exchange_share() -> Weight;
-	fn update_loans_incentive_rewards(c: u32) -> Weight;
-	fn update_dex_incentive_rewards(c: u32) -> Weight;
-	fn update_exchange_incentive_rewards(c: u32) -> Weight;
-	fn update_slip_incentive_reward() -> Weight;
-	fn update_dex_saving_rates(c: u32) -> Weight;
-	fn update_exchange_saving_rates(c: u32) -> Weight;
-}
+pub use weights::WeightInfo;
 
 /// PoolId for various rewards pools
 #[derive(Encode, Decode, Copy, Clone, PartialEq, Eq, RuntimeDebug)]
 pub enum PoolId {
-	/// Rewards(ACA) pool for users who open CDP
+	/// Rewards(SRS) pool for users who open SHY
 	Loans(CurrencyId),
 	/// Rewards(SRS) pool for market makers who provide dex liquidity
 	DexIncentive(CurrencyId),
-	/// Rewards(SRS) pool for market makers who provide exchange liquidity
-	ExchangeIncentive(CurrencyId),
 	/// Rewards(SUSD) pool for liquidators who provide dex liquidity to
 	/// participate automatic liquidation
 	DexSaving(CurrencyId),
-	/// Rewards(SUSD) pool for liquidators who provide dex liquidity to
-	/// participate automatic liquidation
-	ExchangeSaving(CurrencyId),
 	/// Rewards(SRS) pool for users who staking by Slip protocol
 	Slip,
 }
@@ -70,11 +53,6 @@ pub mod module {
 		#[pallet::constant]
 		type DexIncentivePool: Get<Self::AccountId>;
 
-		/// The vault account to keep rewards for type ExchangeIncentive and
-		/// ExchangeSaving PoolId
-		#[pallet::constant]
-		type ExchangeIncentivePool: Get<Self::AccountId>;
-
 		/// The vault account to keep rewards for type SlipIncentive PoolId
 		#[pallet::constant]
 		type SlipIncentivePool: Get<Self::AccountId>;
@@ -83,28 +61,25 @@ pub mod module {
 		#[pallet::constant]
 		type AccumulatePeriod: Get<Self::BlockNumber>;
 
-		/// The incentive reward type (should be ACA)
+		/// The incentive reward type (should be SRS)
 		#[pallet::constant]
 		type IncentiveCurrencyId: Get<CurrencyId>;
 
-		/// The saving reward type (should be AUSD)
+		/// The saving reward type (should be SUSD)
 		#[pallet::constant]
 		type SavingCurrencyId: Get<CurrencyId>;
 
 		/// The origin which may update incentive related params
 		type UpdateOrigin: EnsureOrigin<Self::Origin>;
 
-		/// CDP treasury to issue rewards in AUSD
-		type CDPTreasury: CDPTreasury<Self::AccountId, Balance = Balance, CurrencyId = CurrencyId>;
+		/// SHY treasury to issue rewards in SUSD
+		type SHYTreasury: SHYTreasury<Self::AccountId, Balance = Balance, CurrencyId = CurrencyId>;
 
 		/// Currency for transfer/issue assets
 		type Currency: MultiCurrency<Self::AccountId, CurrencyId = CurrencyId, Balance = Balance>;
 
 		/// DEX to supply liquidity info
 		type DEX: DEXManager<Self::AccountId, CurrencyId, Balance>;
-
-		/// Exchange to supply liquidity info
-		type Exchange: ExchangeManager<Self::AccountId, CurrencyId, Balance>;
 
 		/// Emergency shutdown.
 		type EmergencyShutdown: EmergencyShutdown;
@@ -132,10 +107,8 @@ pub mod module {
 		DepositDEXShare(T::AccountId, CurrencyId, Balance),
 		/// Withdraw DEX share. \[who, dex_share_type, withdraw_amount\]
 		WithdrawDEXShare(T::AccountId, CurrencyId, Balance),
-		/// Deposit Exchange share. \[who, exchange_share_type, deposit_amount\]
-		DepositExchangeShare(T::AccountId, CurrencyId, Balance),
-		/// Withdraw Exchange share. \[who, exchange_share_type, withdraw_amount\]
-		WithdrawExchangeShare(T::AccountId, CurrencyId, Balance),
+		/// Claim rewards. \[who, pool_id\]
+		ClaimRewards(T::AccountId, T::PoolId),
 	}
 
 	/// Mapping from collateral currency type to its loans incentive reward
@@ -150,12 +123,6 @@ pub mod module {
 	#[pallet::getter(fn dex_incentive_rewards)]
 	pub type DEXIncentiveRewards<T: Config> = StorageMap<_, Twox64Concat, CurrencyId, Balance, ValueQuery>;
 
-	/// Mapping from exchange liquidity currency type to its loans incentive reward
-	/// amount per period
-	#[pallet::storage]
-	#[pallet::getter(fn exchange_incentive_rewards)]
-	pub type ExchangeIncentiveRewards<T: Config> = StorageMap<_, Twox64Concat, CurrencyId, Balance, ValueQuery>;
-
 	/// Slip incentive reward amount
 	#[pallet::storage]
 	#[pallet::getter(fn slip_incentive_reward)]
@@ -165,11 +132,6 @@ pub mod module {
 	#[pallet::storage]
 	#[pallet::getter(fn dex_saving_rates)]
 	pub type DEXSavingRates<T: Config> = StorageMap<_, Twox64Concat, CurrencyId, Rate, ValueQuery>;
-
-	/// Mapping from exchange liquidity currency type to its saving rate
-	#[pallet::storage]
-	#[pallet::getter(fn exchange_saving_rates)]
-	pub type ExchangeSavingRates<T: Config> = StorageMap<_, Twox64Concat, CurrencyId, Rate, ValueQuery>;
 
 	#[pallet::pallet]
 	pub struct Pallet<T>(PhantomData<T>);
@@ -208,30 +170,7 @@ pub mod module {
 		pub fn claim_rewards(origin: OriginFor<T>, pool_id: T::PoolId) -> DispatchResultWithPostInfo {
 			let who = ensure_signed(origin)?;
 			<orml_rewards::Module<T>>::claim_rewards(&who, pool_id);
-			Ok(().into())
-		}
-
-		#[pallet::weight(<T as Config>::WeightInfo::deposit_exchange_share())]
-		#[transactional]
-		pub fn deposit_exchange_share(
-			origin: OriginFor<T>,
-			lp_currency_id: CurrencyId,
-			amount: Balance,
-		) -> DispatchResultWithPostInfo {
-			let who = ensure_signed(origin)?;
-			Self::do_deposit_exchange_share(&who, lp_currency_id, amount)?;
-			Ok(().into())
-		}
-
-		#[pallet::weight(<T as Config>::WeightInfo::withdraw_exchange_share())]
-		#[transactional]
-		pub fn withdraw_exchange_share(
-			origin: OriginFor<T>,
-			lp_currency_id: CurrencyId,
-			amount: Balance,
-		) -> DispatchResultWithPostInfo {
-			let who = ensure_signed(origin)?;
-			Self::do_withdraw_exchange_share(&who, lp_currency_id, amount)?;
+			Self::deposit_event(Event::ClaimRewards(who, pool_id));
 			Ok(().into())
 		}
 
@@ -262,20 +201,6 @@ pub mod module {
 			Ok(().into())
 		}
 
-		#[pallet::weight(<T as Config>::WeightInfo::update_exchange_incentive_rewards(updates.len() as u32))]
-		#[transactional]
-		pub fn update_exchange_incentive_rewards(
-			origin: OriginFor<T>,
-			updates: Vec<(CurrencyId, Balance)>,
-		) -> DispatchResultWithPostInfo {
-			T::UpdateOrigin::ensure_origin(origin)?;
-			for (currency_id, amount) in updates {
-				ensure!(currency_id.is_exchange_share_currency_id(), Error::<T>::InvalidCurrencyId);
-				ExchangeIncentiveRewards::<T>::insert(currency_id, amount);
-			}
-			Ok(().into())
-		}
-
 		#[pallet::weight(<T as Config>::WeightInfo::update_slip_incentive_reward())]
 		#[transactional]
 		pub fn update_slip_incentive_reward(origin: OriginFor<T>, update: Balance) -> DispatchResultWithPostInfo {
@@ -294,20 +219,6 @@ pub mod module {
 			for (currency_id, rate) in updates {
 				ensure!(currency_id.is_dex_share_currency_id(), Error::<T>::InvalidCurrencyId);
 				DEXSavingRates::<T>::insert(currency_id, rate);
-			}
-			Ok(().into())
-		}
-
-		#[pallet::weight(<T as Config>::WeightInfo::update_exchange_saving_rates(updates.len() as u32))]
-		#[transactional]
-		pub fn update_exchange_saving_rates(
-			origin: OriginFor<T>,
-			updates: Vec<(CurrencyId, Rate)>,
-		) -> DispatchResultWithPostInfo {
-			T::UpdateOrigin::ensure_origin(origin)?;
-			for (currency_id, rate) in updates {
-				ensure!(currency_id.is_exchange_share_currency_id(), Error::<T>::InvalidCurrencyId);
-				ExchangeSavingRates::<T>::insert(currency_id, rate);
 			}
 			Ok(().into())
 		}
@@ -354,45 +265,6 @@ impl<T: Config> DEXIncentives<T::AccountId, CurrencyId, Balance> for Pallet<T> {
 		<orml_rewards::Module<T>>::remove_share(who, PoolId::DexSaving(lp_currency_id), amount.unique_saturated_into());
 
 		Self::deposit_event(Event::WithdrawDEXShare(who.clone(), lp_currency_id, amount));
-		Ok(())
-	}
-}
-
-
-impl<T: Config> ExchangeIncentives<T::AccountId, CurrencyId, Balance> for Pallet<T> {
-	fn do_deposit_exchange_share(who: &T::AccountId, lp_currency_id: CurrencyId, amount: Balance) -> DispatchResult {
-		ensure!(lp_currency_id.is_exchange_share_currency_id(), Error::<T>::InvalidCurrencyId);
-
-		T::Currency::transfer(lp_currency_id, who, &Self::account_id(), amount)?;
-		<orml_rewards::Module<T>>::add_share(
-			who,
-			PoolId::ExchangeIncentive(lp_currency_id),
-			amount.unique_saturated_into(),
-		);
-		<orml_rewards::Module<T>>::add_share(who, PoolId::ExchangeSaving(lp_currency_id), amount.unique_saturated_into());
-
-		Self::deposit_event(Event::DepositExchangeShare(who.clone(), lp_currency_id, amount));
-		Ok(())
-	}
-
-	fn do_withdraw_exchange_share(who: &T::AccountId, lp_currency_id: CurrencyId, amount: Balance) -> DispatchResult {
-		ensure!(lp_currency_id.is_exchange_share_currency_id(), Error::<T>::InvalidCurrencyId);
-		ensure!(
-			<orml_rewards::Module<T>>::share_and_withdrawn_reward(PoolId::ExchangeIncentive(lp_currency_id), &who).0
-				>= amount && <orml_rewards::Module<T>>::share_and_withdrawn_reward(PoolId::ExchangeSaving(lp_currency_id), &who)
-				.0 >= amount,
-			Error::<T>::NotEnough,
-		);
-
-		T::Currency::transfer(lp_currency_id, &Self::account_id(), &who, amount)?;
-		<orml_rewards::Module<T>>::remove_share(
-			who,
-			PoolId::ExchangeIncentive(lp_currency_id),
-			amount.unique_saturated_into(),
-		);
-		<orml_rewards::Module<T>>::remove_share(who, PoolId::ExchangeSaving(lp_currency_id), amount.unique_saturated_into());
-
-		Self::deposit_event(Event::WithdrawExchangeShare(who.clone(), lp_currency_id, amount));
 		Ok(())
 	}
 }
@@ -468,24 +340,6 @@ impl<T: Config> RewardHandler<T::AccountId, T::BlockNumber> for Pallet<T> {
 							}
 						}
 
-
-						PoolId::ExchangeIncentive(currency_id) => {
-							let incentive_reward = Self::exchange_incentive_rewards(currency_id);
-
-							// TODO: transfer from RESERVED TREASURY instead of issuing
-							if !incentive_reward.is_zero()
-								&& T::Currency::deposit(
-									incentive_currency_id,
-									&T::ExchangeIncentivePool::get(),
-									incentive_reward,
-								)
-								.is_ok()
-							{
-								callback(pool_id, incentive_reward);
-								accumulated_incentive = accumulated_incentive.saturating_add(incentive_reward);
-							}
-						}
-
 						PoolId::DexSaving(currency_id) => {
 							let dex_saving_rate = Self::dex_saving_rates(currency_id);
 							if !dex_saving_rate.is_zero() {
@@ -502,40 +356,8 @@ impl<T: Config> RewardHandler<T::AccountId, T::BlockNumber> for Pallet<T> {
 
 									if !saving_currency_amount.is_zero() {
 										let saving_reward = dex_saving_rate.saturating_mul_int(saving_currency_amount);
-										if T::CDPTreasury::issue_debit(
+										if T::SHYTreasury::issue_debit(
 											&T::DexIncentivePool::get(),
-											saving_reward,
-											false,
-										)
-										.is_ok()
-										{
-											callback(pool_id, saving_reward);
-											accumulated_saving = accumulated_saving.saturating_add(saving_reward);
-										}
-									}
-								}
-							}
-						}
-
-
-						PoolId::ExchangeSaving(currency_id) => {
-							let exchange_saving_rate = Self::exchange_saving_rates(currency_id);
-							if !exchange_saving_rate.is_zero() {
-								if let Some((currency_id_a, currency_id_b)) = currency_id.split_exchange_share_currency_id()
-								{
-									// accumulate saving reward only for liquidity pool of saving currency id
-									let saving_currency_amount = if currency_id_a == saving_currency_id {
-										T::Exchange::get_liquidity_pool(saving_currency_id, currency_id_b).0
-									} else if currency_id_b == saving_currency_id {
-										T::Exchange::get_liquidity_pool(saving_currency_id, currency_id_a).0
-									} else {
-										Zero::zero()
-									};
-
-									if !saving_currency_amount.is_zero() {
-										let saving_reward = exchange_saving_rate.saturating_mul_int(saving_currency_amount);
-										if T::CDPTreasury::issue_debit(
-											&T::ExchangeIncentivePool::get(),
 											saving_reward,
 											false,
 										)
@@ -584,9 +406,7 @@ impl<T: Config> RewardHandler<T::AccountId, T::BlockNumber> for Pallet<T> {
 		let (pool_account, currency_id) = match pool_id {
 			PoolId::Loans(_) => (T::LoansIncentivePool::get(), T::IncentiveCurrencyId::get()),
 			PoolId::DexIncentive(_) => (T::DexIncentivePool::get(), T::IncentiveCurrencyId::get()),
-			PoolId::ExchangeIncentive(_) => (T::ExchangeIncentivePool::get(), T::IncentiveCurrencyId::get()),
 			PoolId::DexSaving(_) => (T::DexIncentivePool::get(), T::SavingCurrencyId::get()),
-			PoolId::ExchangeSaving(_) => (T::ExchangeIncentivePool::get(), T::SavingCurrencyId::get()),
 			PoolId::Slip => (T::SlipIncentivePool::get(), T::IncentiveCurrencyId::get()),
 		};
 

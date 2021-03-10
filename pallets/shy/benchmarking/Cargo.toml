@@ -1,0 +1,48 @@
+[package]
+name = "module-honzon-benchmarking"
+version = "0.7.3"
+authors = ["Acala Developers"]
+edition = "2018"
+
+[dependencies]
+sp-runtime = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-std = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-support = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-system = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+frame-benchmarking = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+orml-oracle = { path = "../../../orml/oracle", default-features = false }
+orml-traits = { path = "../../../orml/traits", default-features = false }
+srs-pallet-shy = { package = "srs-pallet-shy", path = "../../shy", default-features = false }
+srs-pallet-prices = { package = "srs-pallet-prices", path = "../../prices", default-features = false }
+srs-primitives = { package = "srs-primitives", path = "../../../primitives", default-features = false }
+srs-pallet-support = { package = "srs-pallet-support", path = "../../support", default-features = false }
+srs-pallet-shy-engine = { package = "srs-pallet-shy-engine", path = "../../shy_engine", default-features = false }
+srs-pallet-loans = { package = "srs-pallet-loans", path = "../../loans", default-features = false }
+
+[dev-dependencies]
+serde = { version = "1.0.101" }
+codec = { package = "parity-scale-codec", version = "2.0.0", features = ["derive"] }
+sp-core = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+sp-io = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+pallet-balances = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1", default-features = false }
+orml-currencies = { path = "../../../orml/currencies", default-features = false }
+orml-tokens = { path = "../../../orml/tokens", default-features = false }
+srs-pallet-shy-treasury = { package = "srs-pallet-shy-treasury", path = "../../shy_treasury", default-features = false }
+pallet-timestamp = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
+
+[features]
+default = ["std"]
+std = [
+	"sp-runtime/std",
+	"sp-std/std",
+	"frame-support/std",
+	"frame-system/std",
+	"frame-benchmarking/std",
+	"srs-pallet-shy/std",
+	"srs-pallet-shy-engine/std",
+	"srs-pallet-loans/std",
+	"srs-pallet-support/std",
+	"orml-oracle/std",
+	"orml-traits/std",
+	"srs-palletprices/std",
+]

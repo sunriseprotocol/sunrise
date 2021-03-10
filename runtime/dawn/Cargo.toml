@@ -105,26 +105,32 @@ orml-xcm-support = { path = "../../orml/xcm-support", default-features = false }
 srs-primitives = { package = "srs-primitives", path = "../../primitives", default-features = false }
 srs-runtime-common = { path = "../common", default-features = false }
 srs-pallet-airdrop = { path = '../../pallets/airdrop', default-features = false }
+srs-pallet-auction-manager = { path = '../../pallets/auction-manager', default-features = false }
 srs-pallet-currencies = { path = '../../pallets/currencies', default-features = false }
 srs-pallet-dex = { path = '../../pallets/dex', default-features = false }
+srs-pallet-emergency-shutdown = { path = "../../pallets/emergency-shutdown", default-features = false }
 srs-pallet-evm = { path = "../../pallets/evm", default-features = false }
 srs-pallet-evm-rpc-runtime-api = { path = "../../pallets/evm/rpc/runtime_api", default-features = false }
 srs-pallet-evm-accounts = { path = "../../pallets/evm-accounts", default-features = false }
 srs-pallet-evm-bridge = { path = "../../pallets/evm-bridge", default-features = false }
-srs-pallet-exchange = { path = '../../pallets/exchange', default-features = false }
-srs-pallet-exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false}
+##srs-pallet-exchange = { path = '../../pallets/exchange', default-features = false }
+##srs-pallet-exchange-rpc-runtime-api = { path = '../../pallets/exchange/rpc/runtime-api', default-features = false}
 srs-pallet-incentives = { path = '../../pallets/incentives', default-features = false }
+srs-pallet-loans = { path = '../../pallets/loans', default-features = false }
 srs-pallet-nft = { path = '../../pallets/nft', default-features = false }
-srs-pallet-nominees-election = { path = '../../pallets/nominees_election', default-features = false }
-srs-pallet-polkadot-bridge = { path = '../../pallets/polkadot_bridge', default-features = false }
+srs-pallet-nominees-election = { path = '../../pallets/nominees-election', default-features = false }
+srs-pallet-polkadot-bridge = { path = '../../pallets/polkadot-bridge', default-features = false }
 srs-pallet-prices = { path = '../../pallets/prices', default-features = false }
+srs-pallet-shy = { path = '../../pallets/shy', default-features = false }
+srs-pallet-shy-engine = { path = '../../pallets/shy-engine', default-features = false }
+srs-pallet-shy-treasury = { path = '../../pallets/shy-treasury', default-features = false }
 srs-pallet-slip = { path = '../../pallets/slip', default-features = false }
-srs-pallet-staking-pool = { path = '../../pallets/staking_pool', default-features = false }
-srs-pallet-staking-pool-rpc-runtime-api = { path = '../../pallets/staking_pool/rpc/runtime-api', default-features = false }
+srs-pallet-staking-pool = { path = '../../pallets/staking-pool', default-features = false }
+srs-pallet-staking-pool-rpc-runtime-api = { path = '../../pallets/staking-pool/rpc/runtime-api', default-features = false }
 srs-pallet-support = { path = '../../pallets/support', default-features = false }
 srs-pallet-template = { path = '../../pallets/template', default-features = false }
-srs-pallet-tokens = { path = '../../pallets/tokens', default-features = false }
-srs-pallet-transaction-payment = { path = '../../pallets/transaction_payment', default-features = false }
+##srs-pallet-tokens = { path = '../../pallets/tokens', default-features = false }
+srs-pallet-transaction-payment = { path = '../../pallets/transaction-payment', default-features = false }
 
 # ecosystem dependencies
 ecosystem-renvm-bridge = { path = "../../ecosystem-pallets/ren/renvm-bridge", default-features = false }
@@ -217,24 +223,31 @@ std = [
 	"orml-xcm-support/std",
 
  	"srs-pallet-airdrop/std",
+ 	"srs-pallet-auction-manager/std",
  	"srs-pallet-currencies/std",
  	"srs-pallet-dex/std",
+  	"srs-pallet-emergency-shutdown/std",
   	"srs-pallet-evm/std",
   	"srs-pallet-evm-rpc-runtime-api/std",
   	"srs-pallet-evm-accounts/std",
   	"srs-pallet-evm-bridge/std",
- 	"srs-pallet-exchange/std",
- 	"srs-pallet-exchange-rpc-runtime-api/std",
+## 	"srs-pallet-exchange/std",
+## 	"srs-pallet-exchange-rpc-runtime-api/std",
  	"srs-pallet-incentives/std",
+ 	"srs-pallet-loans/std",
  	"srs-pallet-nft/std",
  	"srs-pallet-nominees-election/std",
  	"srs-pallet-polkadot-bridge/std",
+ 	"srs-pallet-prices/std",
  	"srs-pallet-slip/std",
+ 	"srs-pallet-shy/std",
+ 	"srs-pallet-shy-engine/std",
+ 	"srs-pallet-shy-treasury/std",
  	"srs-pallet-staking-pool/std",
  	"srs-pallet-staking-pool-rpc-runtime-api/std",
  	"srs-pallet-support/std",
  	"srs-pallet-template/std",
- 	"srs-pallet-tokens/std",
+## 	"srs-pallet-tokens/std",
  	"srs-pallet-transaction-payment/std",
 	
  	"srs-primitives/std",

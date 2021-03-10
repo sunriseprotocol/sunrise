@@ -1,19 +1,20 @@
 //! A list of the different weight modules for our runtime.
 #![allow(clippy::unnecessary_cast)]
 
-//pub mod auction_manager;
-//pub mod cdp_engine;
-//pub mod cdp_treasury;
-pub mod dex;
-//pub mod emergency_shutdown;
-pub mod evm;
-pub mod evm_accounts;
-//pub mod honzon;
-pub mod incentives;
-pub mod nft;
-pub mod prices;
-pub mod slip;
-pub mod transaction_payment;
+pub mod srs_pallet_auction_manager;
+pub mod srs_pallet_currencies;
+pub mod srs_pallet_dex;
+pub mod srs_pallet_emergency_shutdown;
+pub mod srs_pallet_evm;
+pub mod srs_pallet_evm_accounts;
+pub mod srs_pallet_incentives;
+pub mod srs_pallet_nft;
+pub mod srs_pallet_prices;
+pub mod srs_pallet_slip;
+pub mod srs_pallet_shy;
+pub mod srs_pallet_shy_engine;
+pub mod srs_pallet_shy_treasury;
+pub mod srs_pallet_transaction_payment;
 
 pub mod orml_auction;
 pub mod orml_authority;

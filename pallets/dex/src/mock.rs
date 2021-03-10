@@ -3,7 +3,6 @@
 #![cfg(test)]
 
 use super::*;
-use crate::mock::sp_api_hidden_includes_construct_runtime::hidden_include::inherent::BlockT;
 use frame_support::{construct_runtime, ord_parameter_types, parameter_types};
 use frame_system::EnsureSignedBy;
 use orml_traits::{parameter_type_with_key, MultiReservableCurrency};
@@ -16,12 +15,12 @@ pub type AccountId = u128;
 
 pub const ALICE: AccountId = 1;
 pub const BOB: AccountId = 2;
-pub const SUSD: CurrencyId = CurrencyId::Token(TokenSymbol::SUSD);
+pub const AUSD: CurrencyId = CurrencyId::Token(TokenSymbol::AUSD);
 pub const XBTC: CurrencyId = CurrencyId::Token(TokenSymbol::XBTC);
 pub const DOT: CurrencyId = CurrencyId::Token(TokenSymbol::DOT);
-pub const SRS: CurrencyId = CurrencyId::Token(TokenSymbol::SRS);
-pub const SUSD_XBTC_PAIR: TradingPair = TradingPair(SUSD, XBTC);
-pub const SUSD_DOT_PAIR: TradingPair = TradingPair(SUSD, DOT);
+pub const ACA: CurrencyId = CurrencyId::Token(TokenSymbol::ACA);
+pub const AUSD_XBTC_PAIR: TradingPair = TradingPair(AUSD, XBTC);
+pub const AUSD_DOT_PAIR: TradingPair = TradingPair(AUSD, DOT);
 pub const DOT_XBTC_PAIR: TradingPair = TradingPair(DOT, XBTC);
 
 mod dex {
@@ -58,7 +57,7 @@ impl frame_system::Config for Runtime {
 }
 
 parameter_type_with_key! {
-	pub ExistentialDeposits: |currency_id: CurrencyId| -> Balance {
+	pub ExistentialDeposits: |_currency_id: CurrencyId| -> Balance {
 		Default::default()
 	};
 }
@@ -92,7 +91,7 @@ ord_parameter_types! {
 parameter_types! {
 	pub const GetExchangeFee: (u32, u32) = (1, 100);
 	pub const TradingPathLimit: u32 = 3;
-	pub const DEXModuleId: ModuleId = ModuleId(*b"SRS/dexm");
+	pub const DEXModuleId: ModuleId = ModuleId(*b"aca/dexm");
 }
 
 impl Config for Runtime {
@@ -106,8 +105,8 @@ impl Config for Runtime {
 	type ListingOrigin = EnsureSignedBy<ListingOrigin, AccountId>;
 }
 
-pub type Block = sp_runtime::generic::Block<Header, UncheckedExtrinsic>;
-pub type UncheckedExtrinsic = sp_runtime::generic::UncheckedExtrinsic<u32, Call, u32, ()>;
+type UncheckedExtrinsic = frame_system::mocking::MockUncheckedExtrinsic<Runtime>;
+type Block = frame_system::mocking::MockBlock<Runtime>;
 
 construct_runtime!(
 	pub enum Runtime where
@@ -132,8 +131,8 @@ impl Default for ExtBuilder {
 	fn default() -> Self {
 		Self {
 			endowed_accounts: vec![
-				(ALICE, SUSD, 1_000_000_000_000_000_000u128),
-				(BOB, SUSD, 1_000_000_000_000_000_000u128),
+				(ALICE, AUSD, 1_000_000_000_000_000_000u128),
+				(BOB, AUSD, 1_000_000_000_000_000_000u128),
 				(ALICE, XBTC, 1_000_000_000_000_000_000u128),
 				(BOB, XBTC, 1_000_000_000_000_000_000u128),
 				(ALICE, DOT, 1_000_000_000_000_000_000u128),
@@ -150,13 +149,13 @@ impl ExtBuilder {
 	pub fn initialize_listing_trading_pairs(mut self) -> Self {
 		self.initial_listing_trading_pairs = vec![
 			(
-				SUSD_DOT_PAIR,
+				AUSD_DOT_PAIR,
 				(5_000_000_000_000u128, 1_000_000_000_000u128),
 				(5_000_000_000_000_000u128, 1_000_000_000_000_000u128),
 				10,
 			),
 			(
-				SUSD_XBTC_PAIR,
+				AUSD_XBTC_PAIR,
 				(20_000_000_000_000u128, 1_000_000_000u128),
 				(20_000_000_000_000_000u128, 1_000_000_000_000u128),
 				10,
@@ -172,7 +171,7 @@ impl ExtBuilder {
 	}
 
 	pub fn initialize_enabled_trading_pairs(mut self) -> Self {
-		self.initial_enabled_trading_pairs = vec![SUSD_DOT_PAIR, SUSD_XBTC_PAIR, DOT_XBTC_PAIR];
+		self.initial_enabled_trading_pairs = vec![AUSD_DOT_PAIR, AUSD_XBTC_PAIR, DOT_XBTC_PAIR];
 		self
 	}
 
@@ -180,8 +179,8 @@ impl ExtBuilder {
 		self.initial_added_liquidity_pools = vec![(
 			who,
 			vec![
-				(SUSD_DOT_PAIR, (1_000_000u128, 2_000_000u128)),
-				(SUSD_XBTC_PAIR, (1_000_000u128, 2_000_000u128)),
+				(AUSD_DOT_PAIR, (1_000_000u128, 2_000_000u128)),
+				(AUSD_XBTC_PAIR, (1_000_000u128, 2_000_000u128)),
 				(DOT_XBTC_PAIR, (1_000_000u128, 2_000_000u128)),
 			],
 		)];

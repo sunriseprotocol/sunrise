@@ -129,10 +129,10 @@ parameter_types! {
 	pub const SunriseTreasuryModuleId: ModuleId = ModuleId(*b"srs/trsy");
 	pub const LoansModuleId: ModuleId = ModuleId(*b"srs/loan");
 	pub const DEXModuleId: ModuleId = ModuleId(*b"srs/dexm");
-	pub const ExchangeModuleId: ModuleId = ModuleId(*b"exchange");
-//	pub const CDPTreasuryModuleId: ModuleId = ModuleId(*b"srs/cdpt");
+	pub const ExchangeModuleId: ModuleId = ModuleId(*b"srs/exch");
+	pub const SHYTreasuryModuleId: ModuleId = ModuleId(*b"srs/shyp");
 	pub const StakingPoolModuleId: ModuleId = ModuleId(*b"srs/stkp");
-//	pub const HonzonTreasuryModuleId: ModuleId = ModuleId(*b"srs/hztr");
+	pub const SHYModuleId: ModuleId = ModuleId(*b"srs/shym");
 	pub const SlipTreasuryModuleId: ModuleId = ModuleId(*b"srs/hmtr");
 	pub const IncentivesModuleId: ModuleId = ModuleId(*b"srs/inct");
 	// Decentralized Sovereign Wealth Fund
@@ -147,9 +147,9 @@ pub fn get_all_module_accounts() -> Vec<AccountId> {
 		LoansModuleId::get().into_account(),
 		DEXModuleId::get().into_account(),
 		ExchangeModuleId::get().into_account(),
-//		CDPTreasuryModuleId::get().into_account(),
+		SHYTreasuryModuleId::get().into_account(),
 		StakingPoolModuleId::get().into_account(),
-//		HonzonTreasuryModuleId::get().into_account(),
+		SHYModuleId::get().into_account(),
 		SlipTreasuryModuleId::get().into_account(),
 		IncentivesModuleId::get().into_account(),
 		DSWFModuleId::get().into_account(),
@@ -302,6 +302,12 @@ type EnsureRootOrHalfGeneralCouncil = EnsureOneOf<
 	pallet_collective::EnsureProportionMoreThan<_1, _2, AccountId, GeneralCouncilInstance>,
 >;
 
+type EnsureRootOrHalfShyCouncil = EnsureOneOf<
+	AccountId,
+	EnsureRoot<AccountId>,
+	pallet_collective::EnsureProportionMoreThan<_1, _2, AccountId, ShyCouncilInstance>,
+>;
+
 type EnsureRootOrHalfSlipCouncil = EnsureOneOf<
 	AccountId,
 	EnsureRoot<AccountId>,
@@ -360,6 +366,43 @@ impl pallet_membership::Config<GeneralCouncilMembershipInstance> for Runtime {
 	type PrimeOrigin = EnsureRootOrThreeFourthsGeneralCouncil;
 	type MembershipInitialized = GeneralCouncil;
 	type MembershipChanged = GeneralCouncil;
+}
+
+parameter_types! {
+	pub const ShyCouncilMotionDuration: BlockNumber = 7 * DAYS;
+	pub const ShyCouncilMaxProposals: u32 = 100;
+	pub const ShyCouncilMaxMembers: u32 = 100;
+}
+
+type ShyCouncilInstance = pallet_collective::Instance2;
+impl pallet_collective::Config<ShyCouncilInstance> for Runtime {
+	type Origin = Origin;
+	type Proposal = Call;
+	type Event = Event;
+	type MotionDuration = ShyCouncilMotionDuration;
+	type MaxProposals = ShyCouncilMaxProposals;
+	type MaxMembers = ShyCouncilMaxMembers;
+	type DefaultVote = pallet_collective::PrimeDefaultVote;
+	type WeightInfo = ();
+}
+
+
+type ShyCouncilMembershipInstance = pallet_membership::Instance2;
+impl pallet_membership::Config<ShyCouncilMembershipInstance> for Runtime {
+	type Event = Event;
+	type AddOrigin = EnsureRootOrTwoThirdsGeneralCouncil;
+	type RemoveOrigin = EnsureRootOrTwoThirdsGeneralCouncil;
+	type SwapOrigin = EnsureRootOrTwoThirdsGeneralCouncil;
+	type ResetOrigin = EnsureRootOrTwoThirdsGeneralCouncil;
+	type PrimeOrigin = EnsureRootOrTwoThirdsGeneralCouncil;
+	type MembershipInitialized = ShyCouncil;
+	type MembershipChanged = ShyCouncil;
+}
+
+parameter_types! {
+	pub const HomaCouncilMotionDuration: BlockNumber = 7 * DAYS;
+	pub const HomaCouncilMaxProposals: u32 = 100;
+	pub const HomaCouncilMaxMembers: u32 = 100;
 }
 
 parameter_types! {
@@ -569,7 +612,7 @@ impl pallet_recovery::Config for Runtime {
 	type RecoveryDeposit = RecoveryDeposit;
 }
 
-/*
+
 impl orml_auction::Config for Runtime {
 	type Event = Event;
 	type Balance = Balance;
@@ -577,7 +620,7 @@ impl orml_auction::Config for Runtime {
 	type Handler = AuctionManager;
 	type WeightInfo = weights::orml_auction::WeightInfo<Runtime>;
 }
-*/
+
 
 impl orml_authority::Config for Runtime {
 	type Event = Event;
@@ -595,7 +638,7 @@ parameter_types! {
 	// 1 storage item created, key size is 32 bytes, value size is 16+16.
 	pub VotingBondBase: Balance = 1 * 15 * cent(LDOT) + 64 * 6 * cent(LDOT);
 	// additional data per vote is 32 bytes (account id).
-	pub VotingBondFactor: Balance = 32 * 6 * cent(LDOT);
+	pub VotingBondFactor: Balance = dollar(LDOT);
 	pub const TermDuration: BlockNumber = 7 * DAYS;
 	pub const DesiredMembers: u32 = 13;
 	pub const DesiredRunnersUp: u32 = 7;
@@ -671,7 +714,7 @@ parameter_type_with_key! {
 }
 
 parameter_types! {
-	pub SunriseModuleAccount: AccountId = DSWFModuleId::get().into_account();
+	pub TreasuryModuleAccount: AccountId = SunriseTreasuryModuleId::get().into_account();
 }
 
 impl orml_tokens::Config for Runtime {
@@ -681,9 +724,48 @@ impl orml_tokens::Config for Runtime {
 	type CurrencyId = CurrencyId;
 	type WeightInfo = ();
 	type ExistentialDeposits = ExistentialDeposits;
-	type OnDust = orml_tokens::TransferDust<Runtime, SunriseModuleAccount>;
+	type OnDust = orml_tokens::TransferDust<Runtime, TreasuryModuleAccount>;
 }
 
+parameter_types! {
+	pub StableCurrencyFixedPrice: Price = Price::saturating_from_rational(1, 1);
+}
+
+impl srs_pallet_prices::Config for Runtime {
+	type Event = Event;
+	type Source = AggregatedDataProvider;
+	type GetStableCurrencyId = GetStableCurrencyId;
+	type StableCurrencyFixedPrice = StableCurrencyFixedPrice;
+	type GetStakingCurrencyId = GetStakingCurrencyId;
+	type GetLiquidCurrencyId = GetLiquidCurrencyId;
+	type LockOrigin = EnsureRootOrTwoThirdsGeneralCouncil;
+	type LiquidStakingExchangeRateProvider = LiquidStakingExchangeRateProvider;
+	type DEX = Dex;
+	type Currency = Currencies;
+	type WeightInfo = weights::srs_pallet_prices::WeightInfo<Runtime>;
+}
+
+parameter_types! {
+	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::SRS);
+	pub const GetStableCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::SUSD);
+	pub const GetLDOTCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::LDOT);
+}
+
+pub struct LiquidStakingExchangeRateProvider;
+impl srs_pallet_support::ExchangeRateProvider for LiquidStakingExchangeRateProvider {
+	fn get_exchange_rate() -> ExchangeRate {
+		StakingPool::liquid_exchange_rate()
+	}
+}
+
+impl srs_pallet_currencies::Config for Runtime {
+	type Event = Event;
+	type MultiCurrency = Tokens;
+	type NativeCurrency = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
+	type WeightInfo = ();
+	type AddressMapping = EvmAddressMapping<Runtime>;
+	type EVMBridge = EVMBridge;
+}
 
 pub struct EnsureRootOrSunriseTreasury;
 impl EnsureOrigin<Origin> for EnsureRootOrSunriseTreasury {
@@ -748,6 +830,40 @@ impl orml_gradually_update::Config for Runtime {
 	type WeightInfo = ();
 }
 
+parameter_types! {
+	pub MinimumIncrementSize: Rate = Rate::saturating_from_rational(2, 100);
+	pub const AuctionTimeToClose: BlockNumber = 15 * MINUTES;
+	pub const AuctionDurationSoftCap: BlockNumber = 2 * HOURS;
+}
+
+impl srs_pallet_auction_manager::Config for Runtime {
+	type Event = Event;
+	type Currency = Currencies;
+	type Auction = Auction;
+	type MinimumIncrementSize = MinimumIncrementSize;
+	type AuctionTimeToClose = AuctionTimeToClose;
+	type AuctionDurationSoftCap = AuctionDurationSoftCap;
+	type GetStableCurrencyId = GetStableCurrencyId;
+	type GetNativeCurrencyId = GetNativeCurrencyId;
+	type SHYTreasury = ShyTreasury;
+	type DEX = Dex;
+	type PriceSource = Prices;
+	type UnsignedPriority = srs_runtime_common::AuctionManagerUnsignedPriority;
+	type EmergencyShutdown = EmergencyShutdown;
+	type WeightInfo = weights::srs_pallet_auction_manager::WeightInfo<Runtime>;
+}
+
+impl srs_pallet_loans::Config for Runtime {
+	type Event = Event;
+	type Convert = srs_pallet_shy_engine::DebitExchangeRateConvertor<Runtime>;
+	type Currency = Currencies;
+	type RiskManager = ShyEngine;
+	type SHYTreasury = ShyTreasury;
+	type ModuleId = LoansModuleId;
+	type OnUpdateLoan = srs_pallet_incentives::OnUpdateLoan<Runtime>;
+}
+
+
 impl<LocalCall> frame_system::offchain::CreateSignedTransaction<LocalCall> for Runtime
 where
 	Call: From<LocalCall>,
@@ -806,6 +922,119 @@ where
 	type OverarchingCall = Call;
 	type Extrinsic = UncheckedExtrinsic;
 }
+
+parameter_types! {
+	pub CollateralCurrencyIds: Vec<CurrencyId> = vec![DOT, LDOT, XBTC, RENBTC, POLKABTC, PLM, PHA];
+	pub DefaultLiquidationRatio: Ratio = Ratio::saturating_from_rational(110, 100);
+	pub DefaultDebitExchangeRate: ExchangeRate = ExchangeRate::saturating_from_rational(1, 10);
+	pub DefaultLiquidationPenalty: Rate = Rate::saturating_from_rational(5, 100);
+	pub MinimumDebitValue: Balance = dollar(SUSD);
+	pub MaxSlippageSwapWithDEX: Ratio = Ratio::saturating_from_rational(5, 100);
+}
+
+impl srs_pallet_shy_engine::Config for Runtime {
+	type Event = Event;
+	type PriceSource = Prices;
+	type CollateralCurrencyIds = CollateralCurrencyIds;
+	type DefaultLiquidationRatio = DefaultLiquidationRatio;
+	type DefaultDebitExchangeRate = DefaultDebitExchangeRate;
+	type DefaultLiquidationPenalty = DefaultLiquidationPenalty;
+	type MinimumDebitValue = MinimumDebitValue;
+	type GetStableCurrencyId = GetStableCurrencyId;
+	type SHYTreasury = ShyTreasury;
+	type UpdateOrigin = EnsureRootOrHalfShyCouncil;
+	type MaxSlippageSwapWithDEX = MaxSlippageSwapWithDEX;
+	type DEX = Dex;
+	type UnsignedPriority = srs_runtime_common::ShyEngineUnsignedPriority;
+	type EmergencyShutdown = EmergencyShutdown;
+	type WeightInfo = weights::srs_pallet_shy_engine::WeightInfo<Runtime>;
+}
+
+impl srs_pallet_shy::Config for Runtime {
+	type Event = Event;
+	type WeightInfo = weights::srs_pallet_shy::WeightInfo<Runtime>;
+}
+
+impl srs_pallet_emergency_shutdown::Config for Runtime {
+	type Event = Event;
+	type CollateralCurrencyIds = CollateralCurrencyIds;
+	type PriceSource = Prices;
+	type SHYTreasury = ShyTreasury;
+	type AuctionManagerHandler = AuctionManager;
+	type ShutdownOrigin = EnsureRootOrHalfGeneralCouncil;
+	type WeightInfo = weights::srs_pallet_emergency_shutdown::WeightInfo<Runtime>;
+}
+
+parameter_types! {
+	pub const GetExchangeFee: (u32, u32) = (1, 1000);	// 0.1%
+	pub const TradingPathLimit: u32 = 3;
+	pub EnabledTradingPairs: Vec<TradingPair> = vec![
+		TradingPair::new(SUSD, SRS),
+		TradingPair::new(SUSD, DOT),
+		TradingPair::new(SUSD, LDOT),
+		TradingPair::new(SUSD, XBTC),
+		TradingPair::new(SUSD, RENBTC),
+		TradingPair::new(SUSD, POLKABTC),
+		TradingPair::new(SUSD, PLM),
+		TradingPair::new(SUSD, PHA),
+	];
+}
+
+impl srs_pallet_dex::Config for Runtime {
+	type Event = Event;
+	type Currency = Currencies;
+	type GetExchangeFee = GetExchangeFee;
+	type TradingPathLimit = TradingPathLimit;
+	type ModuleId = DEXModuleId;
+	type DEXIncentives = Incentives;
+	type WeightInfo = weights::srs_pallet_dex::WeightInfo<Runtime>;
+	type ListingOrigin = EnsureRootOrHalfGeneralCouncil;
+}
+
+parameter_types! {
+	pub const MaxAuctionsCount: u32 = 100;
+}
+
+impl srs_pallet_shy_treasury::Config for Runtime {
+	type Event = Event;
+	type Currency = Currencies;
+	type GetStableCurrencyId = GetStableCurrencyId;
+	type AuctionManagerHandler = AuctionManager;
+	type UpdateOrigin = EnsureRootOrHalfShyCouncil;
+	type DEX = Dex;
+	type MaxAuctionsCount = MaxAuctionsCount;
+	type ModuleId = SHYTreasuryModuleId;
+	type WeightInfo = weights::srs_pallet_shy_treasury::WeightInfo<Runtime>;
+}
+
+parameter_types! {
+	// All currency types except for native currency, Sort by fee charge order
+	pub AllNonNativeCurrencyIds: Vec<CurrencyId> = vec![SUSD, LDOT, DOT, XBTC, RENBTC, POLKABTC, PLM, PHA];
+}
+
+impl srs_pallet_transaction_payment::Config for Runtime {
+	type AllNonNativeCurrencyIds = AllNonNativeCurrencyIds;
+	type NativeCurrencyId = GetNativeCurrencyId;
+	type StableCurrencyId = GetStableCurrencyId;
+	type Currency = Balances;
+	type MultiCurrency = Currencies;
+	type OnTransactionPayment = SunriseTreasury;
+	type TransactionByteFee = TransactionByteFee;
+	type WeightToFee = WeightToFee;
+	type FeeMultiplierUpdate = TargetedFeeAdjustment<Self, TargetBlockFullness, AdjustmentVariable, MinimumMultiplier>;
+	type DEX = Dex;
+	type MaxSlippageSwapWithDEX = MaxSlippageSwapWithDEX;
+	type WeightInfo = weights::srs_pallet_transaction_payment::WeightInfo<Runtime>;
+}
+
+impl srs_pallet_evm_accounts::Config for Runtime {
+	type Event = Event;
+	type Currency = Balances;
+	type AddressMapping = EvmAddressMapping<Runtime>;
+	type MergeAccount = Currencies;
+	type WeightInfo = weights::srs_pallet_evm_accounts::WeightInfo<Runtime>;
+}
+
 
 
 impl orml_rewards::Config for Runtime {
@@ -1074,8 +1303,8 @@ macro_rules! construct_dawn_runtime {
 				// Governance
 				GeneralCouncil: pallet_collective::<Instance1>::{Module, Call, Storage, Origin<T>, Event<T>, Config<T>},
 				GeneralCouncilMembership: pallet_membership::<Instance1>::{Module, Call, Storage, Event<T>, Config<T>},
-				//HonzonCouncil: pallet_collective::<Instance2>::{Module, Call, Storage, Origin<T>, Event<T>, Config<T>},
-				//HonzonCouncilMembership: pallet_membership::<Instance2>::{Module, Call, Storage, Event<T>, Config<T>},
+				ShyCouncil: pallet_collective::<Instance2>::{Module, Call, Storage, Origin<T>, Event<T>, Config<T>},
+				ShyCouncilMembership: pallet_membership::<Instance2>::{Module, Call, Storage, Event<T>, Config<T>},
 				SlipCouncil: pallet_collective::<Instance3>::{Module, Call, Storage, Origin<T>, Event<T>, Config<T>},
 				SlipCouncilMembership: pallet_membership::<Instance3>::{Module, Call, Storage, Event<T>, Config<T>},
 				TechnicalCommittee: pallet_collective::<Instance4>::{Module, Call, Storage, Origin<T>, Event<T>, Config<T>},
@@ -1092,26 +1321,26 @@ macro_rules! construct_dawn_runtime {
 				OperatorMembershipBand: pallet_membership::<Instance6>::{Module, Call, Storage, Event<T>, Config<T>},
 
 				// ORML Core
-				//Auction: orml_auction::{Module, Storage, Call, Event<T>},
+				Auction: orml_auction::{Module, Storage, Call, Event<T>},
 				Rewards: orml_rewards::{Module, Storage, Call},
 				OrmlNFT: orml_nft::{Module, Storage, Config<T>},
 
 				// Sunrise Core
-				//Prices: srs_pallet_prices::{Module, Storage, Call, Event<T>},
+				Prices: srs_pallet_prices::{Module, Storage, Call, Event<T>},
 
 				// DEX
 				Dex: srs_pallet_dex::{Module, Storage, Call, Event<T>, Config<T>},
 
 				// Exchange
-				Exchange: srs_pallet_exchange::{Module, Storage, Call, Event<T>, Config<T>},
+				// Exchange: srs_pallet_exchange::{Module, Storage, Call, Event<T>, Config<T>},
 
 				// Honzon
-				//AuctionManager: module_auction_manager::{Module, Storage, Call, Event<T>, ValidateUnsigned},
-				//Loans: module_loans::{Module, Storage, Call, Event<T>},
+				AuctionManager: srs_pallet_auction_manager::{Module, Storage, Call, Event<T>, ValidateUnsigned},
+				Loans: srs_pallet_loans::{Module, Storage, Call, Event<T>},
 				//Honzon: module_honzon::{Module, Storage, Call, Event<T>},
-				//CdpTreasury: module_cdp_treasury::{Module, Storage, Call, Config, Event<T>},
-				//CdpEngine: module_cdp_engine::{Module, Storage, Call, Event<T>, Config, ValidateUnsigned},
-				//EmergencyShutdown: module_emergency_shutdown::{Module, Storage, Call, Event<T>},
+				ShyTreasury: srs_pallet_shy_treasury::{Module, Storage, Call, Config, Event<T>},
+				ShyEngine: srs_pallet_shy_engine::{Module, Storage, Call, Event<T>, Config, ValidateUnsigned},
+				EmergencyShutdown: srs_pallet_emergency_shutdown::{Module, Storage, Call, Event<T>},
 
 				// Slip
 				//Slip: srs_pallet_slip::{Module, Call},
@@ -1407,11 +1636,11 @@ impl_runtime_apis! {
 			add_benchmark!(params, batches, nft, NftBench::<Runtime>);
 			orml_add_benchmark!(params, batches, dex, benchmarking::dex);
 			orml_add_benchmark!(params, batches, auction_manager, benchmarking::auction_manager);
-			orml_add_benchmark!(params, batches, cdp_engine, benchmarking::cdp_engine);
+			orml_add_benchmark!(params, batches, shy_engine, benchmarking::shy_engine);
 			orml_add_benchmark!(params, batches, emergency_shutdown, benchmarking::emergency_shutdown);
 			orml_add_benchmark!(params, batches, evm, benchmarking::evm);
 			orml_add_benchmark!(params, batches, honzon, benchmarking::honzon);
-			orml_add_benchmark!(params, batches, cdp_treasury, benchmarking::cdp_treasury);
+			orml_add_benchmark!(params, batches, shy_treasury, benchmarking::shy_treasury);
 			orml_add_benchmark!(params, batches, transaction_payment, benchmarking::transaction_payment);
 			orml_add_benchmark!(params, batches, incentives, benchmarking::incentives);
 			orml_add_benchmark!(params, batches, prices, benchmarking::prices);
@@ -1461,56 +1690,7 @@ fn transfer() {
 
 
 // Sunrise Pallet implementations
-
-parameter_types! {
-	pub const GetNativeCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::SRS);
-	pub const GetStableCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::SUSD);
-	pub const GetLDOTCurrencyId: CurrencyId = CurrencyId::Token(TokenSymbol::LDOT);
-}
-
-pub struct LiquidStakingExchangeRateProvider;
-impl srs_pallet_support::ExchangeRateProvider for LiquidStakingExchangeRateProvider {
-	fn get_exchange_rate() -> ExchangeRate {
-		StakingPool::liquid_exchange_rate()
-	}
-}
-
-impl srs_pallet_currencies::Config for Runtime {
-	type Event = Event;
-	type MultiCurrency = Tokens;
-	type NativeCurrency = BasicCurrencyAdapter<Runtime, Balances, Amount, BlockNumber>;
-	type WeightInfo = ();
-	type AddressMapping = EvmAddressMapping<Runtime>;
-	type EVMBridge = EVMBridge;
-}
-
-parameter_types! {
-	pub const GetExchangeFee: (u32, u32) = (1, 1000);	// 0.1%
-	pub const TradingPathLimit: u32 = 3;
-	pub EnabledTradingPairs: Vec<TradingPair> = vec![
-		TradingPair::new(CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::SRS)),
-		TradingPair::new(CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::DOT)),
-		TradingPair::new(CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::LDOT)),
-		TradingPair::new(CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::XBTC)),
-		TradingPair::new(CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::RENBTC)),
-		TradingPair::new(CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::POLKABTC)),
-		TradingPair::new(CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::PLM)),
-		TradingPair::new(CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::PHA)),
-	];
-}
-
-impl srs_pallet_dex::Config for Runtime {
-	type Event = Event;
-	type Currency = Currencies;
-	type GetExchangeFee = GetExchangeFee;
-	type TradingPathLimit = TradingPathLimit;
-	type ModuleId = DEXModuleId;
-	type DEXIncentives = Incentives;
-	type WeightInfo = weights::dex::WeightInfo<Runtime>;
-	type ListingOrigin = EnsureRootOrHalfGeneralCouncil;
-}
-
-
+/*
 impl srs_pallet_tokens::Config for Runtime {
 	type Event = Event;
 	type Balance = u128;
@@ -1528,37 +1708,7 @@ impl srs_pallet_exchange::Config for Runtime {
 	type TokenFunctions = Tokens;
 
 }
-
-parameter_types! {
-	// All currency types except for native currency, Sort by fee charge order
-	pub AllNonNativeCurrencyIds: Vec<CurrencyId> = vec![CurrencyId::Token(TokenSymbol::SUSD), CurrencyId::Token(TokenSymbol::LDOT), CurrencyId::Token(TokenSymbol::DOT), CurrencyId::Token(TokenSymbol::XBTC), CurrencyId::Token(TokenSymbol::RENBTC), CurrencyId::Token(TokenSymbol::POLKABTC), CurrencyId::Token(TokenSymbol::PLM), CurrencyId::Token(TokenSymbol::PHA)];
-	pub MaxSlippageSwapWithDEX: Ratio = Ratio::saturating_from_rational(5, 100);
-}
-
-impl srs_pallet_transaction_payment::Config for Runtime {
-	type AllNonNativeCurrencyIds = AllNonNativeCurrencyIds;
-	type NativeCurrencyId = GetNativeCurrencyId;
-	type StableCurrencyId = GetStableCurrencyId;
-	type Currency = Balances;
-	type MultiCurrency = Currencies;
-	type OnTransactionPayment = SunriseTreasury;
-	type TransactionByteFee = TransactionByteFee;
-	type WeightToFee = WeightToFee;
-	type FeeMultiplierUpdate = TargetedFeeAdjustment<Self, TargetBlockFullness, AdjustmentVariable, MinimumMultiplier>;
-	type DEX = Dex;
-	type MaxSlippageSwapWithDEX = MaxSlippageSwapWithDEX;
-	type WeightInfo = weights::transaction_payment::WeightInfo<Runtime>;
-}
-
-impl srs_pallet_evm_accounts::Config for Runtime {
-	type Event = Event;
-	type Currency = Balances;
-	type KillAccount = frame_system::Consumer<Runtime>;
-	type AddressMapping = EvmAddressMapping<Runtime>;
-	type MergeAccount = Currencies;
-	type WeightInfo = weights::evm_accounts::WeightInfo<Runtime>;
-}
-
+*/
 parameter_types! {
 	pub const AccumulatePeriod: BlockNumber = MINUTES;
 }
@@ -1567,20 +1717,19 @@ impl srs_pallet_incentives::Config for Runtime {
 	type Event = Event;
 	type LoansIncentivePool = ZeroAccountId;
 	type DexIncentivePool = ZeroAccountId;
-	type ExchangeIncentivePool = ZeroAccountId;
-	type HomaIncentivePool = ZeroAccountId;
+//	type ExchangeIncentivePool = ZeroAccountId;
 	type SlipIncentivePool = ZeroAccountId;
 	type AccumulatePeriod = AccumulatePeriod;
 	type IncentiveCurrencyId = GetNativeCurrencyId;
 	type SavingCurrencyId = GetStableCurrencyId;
-	type UpdateOrigin = EnsureRootOrHalfHonzonCouncil;
-	type CDPTreasury = CdpTreasury;
+	type UpdateOrigin = EnsureRootOrHalfGeneralCouncil;
+	type SHYTreasury = ShyTreasury;
 	type Currency = Currencies;
 	type DEX = Dex;
-	type Exchange = Exchange;
+//	type Exchange = Exchange;
 	type EmergencyShutdown = EmergencyShutdown;
 	type ModuleId = IncentivesModuleId;
-	type WeightInfo = weights::incentives::WeightInfo<Runtime>;
+	type WeightInfo = weights::srs_pallet_incentives::WeightInfo<Runtime>;
 }
 
 
@@ -1626,7 +1775,7 @@ impl srs_pallet_staking_pool::Config for Runtime {
 
 impl srs_pallet_slip::Config for Runtime {
 	type Slip = StakingPool;
-	type WeightInfo = weights::slip::WeightInfo<Runtime>;
+	type WeightInfo = weights::srs_pallet_slip::WeightInfo<Runtime>;
 }
 
 parameter_types! {
@@ -1656,7 +1805,7 @@ impl srs_pallet_nft::Config for Runtime {
 	type CreateTokenDeposit = CreateTokenDeposit;
 	type ModuleId = NftModuleId;
 	type Currency = Currency<Runtime, GetNativeCurrencyId>;
-	type WeightInfo = weights::nft::WeightInfo<Runtime>;
+	type WeightInfo = weights::srs_pallet_nft::WeightInfo<Runtime>;
 }
 
 
@@ -1690,7 +1839,7 @@ impl srs_pallet_evm::Config for Runtime {
 	type DeploymentFee = DeploymentFee;
 	type TreasuryAccount = TreasuryModuleAccount;
 	type FreeDeploymentOrigin = EnsureRootOrHalfGeneralCouncil;
-	type WeightInfo = weights::evm::WeightInfo<Runtime>;
+	type WeightInfo = weights::srs_pallet_evm::WeightInfo<Runtime>;
 
 	#[cfg(feature = "with-ethereum-compatibility")]
 	fn config() -> &'static evm::Config {

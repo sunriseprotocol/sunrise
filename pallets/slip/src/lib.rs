@@ -1,8 +1,8 @@
-//! # SLIP - Sunrise Liquidity Staking Protocol Pallet
+//! # Slip Pallet
 //!
 //! ## Overview
 //!
-//! The user entrance of Liquidity Staking  protocol. User can inject DOT into the staking
+//! The user entrance of Slip protocol. User can inject DOT into the staking
 //! pool and get LDOT, which is the redemption voucher for DOT owned by the
 //! staking pool. The staking pool will staking these DOT to get staking
 //! rewards. Holders of LDOT can choose different ways to redeem DOT.
@@ -14,17 +14,12 @@ use frame_support::{pallet_prelude::*, transactional};
 use frame_system::pallet_prelude::*;
 use srs_primitives::{Balance, EraIndex};
 use sp_runtime::RuntimeDebug;
-use srs_pallet_support::Slip;
+use srs_pallet_support::SlipProtocol;
 
-mod default_weight;
+pub mod weights;
 
 pub use module::*;
-
-pub trait WeightInfo {
-	fn mint() -> Weight;
-	fn redeem(strategy: &RedeemStrategy) -> Weight;
-	fn withdraw_redemption() -> Weight;
-}
+pub use weights::WeightInfo;
 
 /// Redemption modes:
 /// 1. Immediately: User will immediately get back DOT from the free pool,
@@ -47,8 +42,8 @@ pub mod module {
 
 	#[pallet::config]
 	pub trait Config: frame_system::Config {
-		/// The core of slip Liquidity Staking protocol.
-		type Slip: Slip<Self::AccountId, Balance, EraIndex>;
+		/// The core of Slip protocol.
+		type Slip: SlipProtocol<Self::AccountId, Balance, EraIndex>;
 
 		/// Weight information for the extrinsics in this module.
 		type WeightInfo: WeightInfo;
@@ -78,7 +73,11 @@ pub mod module {
 		///
 		/// - `amount`: the LDOT amount to redeem.
 		/// - `strategy`: redemption mode.
-		#[pallet::weight(<T as Config>::WeightInfo::redeem(strategy))]
+		#[pallet::weight(match *strategy {
+			RedeemStrategy::Immediately => <T as Config>::WeightInfo::redeem_immediately(),
+			RedeemStrategy::Target(_) => <T as Config>::WeightInfo::redeem_by_claim_unbonding(),
+			RedeemStrategy::WaitForUnbonding => <T as Config>::WeightInfo::redeem_wait_for_unbonding(),
+		})]
 		#[transactional]
 		pub fn redeem(
 			origin: OriginFor<T>,

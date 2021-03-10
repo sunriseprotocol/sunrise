@@ -28,7 +28,7 @@ substrate-frame-rpc-system = { git = "https://github.com/paritytech/substrate", 
 pallet-transaction-payment-rpc = { git = "https://github.com/paritytech/substrate", branch = "rococo-v1" }
 
 srs-primitives = { package = "srs-primitives", path = "../primitives" }
-srs-pallet-staking-pool-rpc = { path = "../pallets/staking_pool/rpc" }
+srs-pallet-staking-pool-rpc = { path = "../pallets/staking-pool/rpc" }
 orml-oracle-rpc = { path = "../orml/oracle/rpc" }
 srs-runtime-common = { path = "../runtime/common" }
 srs-pallet-evm-rpc = { path = "../pallets/evm/rpc" }

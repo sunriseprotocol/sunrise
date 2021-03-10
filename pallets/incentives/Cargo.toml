@@ -1,6 +1,6 @@
 [package]
 name = "srs-pallet-incentives"
-version = "0.1.0"
+version = "0.7.3"
 authors = ["Sunrise Protocol"]
 edition = "2018"
 

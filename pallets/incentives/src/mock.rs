@@ -3,7 +3,6 @@
 #![cfg(test)]
 
 use super::*;
-use crate::mock::sp_api_hidden_includes_construct_runtime::hidden_include::inherent::BlockT;
 use frame_support::{
 	construct_runtime,
 	dispatch::{DispatchError, DispatchResult},
@@ -11,23 +10,23 @@ use frame_support::{
 };
 use frame_system::EnsureSignedBy;
 use orml_traits::parameter_type_with_key;
-use primitives::TokenSymbol;
+use srs_primitives::TokenSymbol;
 use sp_core::H256;
 use sp_runtime::{testing::Header, traits::IdentityLookup};
 use sp_std::cell::RefCell;
-pub use support::{CDPTreasury, DEXManager, Price, Ratio};
+pub use srs_pallet_support::{SHYTreasury, DEXManager, Price, Ratio};
 
 pub type AccountId = u128;
 pub type BlockNumber = u64;
 
 pub const ALICE: AccountId = 1;
 pub const BOB: AccountId = 2;
-pub const ACA: CurrencyId = CurrencyId::Token(TokenSymbol::ACA);
-pub const AUSD: CurrencyId = CurrencyId::Token(TokenSymbol::AUSD);
+pub const SRS: CurrencyId = CurrencyId::Token(TokenSymbol::SRS);
+pub const SUSD: CurrencyId = CurrencyId::Token(TokenSymbol::SUSD);
 pub const BTC: CurrencyId = CurrencyId::Token(TokenSymbol::XBTC);
 pub const DOT: CurrencyId = CurrencyId::Token(TokenSymbol::DOT);
-pub const BTC_AUSD_LP: CurrencyId = CurrencyId::DEXShare(TokenSymbol::XBTC, TokenSymbol::AUSD);
-pub const DOT_AUSD_LP: CurrencyId = CurrencyId::DEXShare(TokenSymbol::DOT, TokenSymbol::AUSD);
+pub const BTC_SUSD_LP: CurrencyId = CurrencyId::DEXShare(TokenSymbol::XBTC, TokenSymbol::SUSD);
+pub const DOT_SUSD_LP: CurrencyId = CurrencyId::DEXShare(TokenSymbol::DOT, TokenSymbol::SUSD);
 
 mod incentives {
 	pub use super::super::*;
@@ -63,7 +62,7 @@ impl frame_system::Config for Runtime {
 }
 
 parameter_type_with_key! {
-	pub ExistentialDeposits: |currency_id: CurrencyId| -> Balance {
+	pub ExistentialDeposits: |_currency_id: CurrencyId| -> Balance {
 		Default::default()
 	};
 }
@@ -78,8 +77,8 @@ impl orml_tokens::Config for Runtime {
 	type OnDust = ();
 }
 
-pub struct MockCDPTreasury;
-impl CDPTreasury<AccountId> for MockCDPTreasury {
+pub struct MockSHYTreasury;
+impl SHYTreasury<AccountId> for MockSHYTreasury {
 	type Balance = Balance;
 	type CurrencyId = CurrencyId;
 
@@ -108,7 +107,7 @@ impl CDPTreasury<AccountId> for MockCDPTreasury {
 	}
 
 	fn issue_debit(who: &AccountId, debit: Balance, _: bool) -> DispatchResult {
-		TokensModule::deposit(ACA, who, debit)
+		TokensModule::deposit(SRS, who, debit)
 	}
 
 	fn burn_debit(_: &AccountId, _: Balance) -> DispatchResult {
@@ -132,10 +131,10 @@ pub struct MockDEX;
 impl DEXManager<AccountId, CurrencyId, Balance> for MockDEX {
 	fn get_liquidity_pool(currency_id_a: CurrencyId, currency_id_b: CurrencyId) -> (Balance, Balance) {
 		match (currency_id_a, currency_id_b) {
-			(AUSD, BTC) => (500, 100),
-			(AUSD, DOT) => (400, 100),
-			(BTC, AUSD) => (100, 500),
-			(DOT, AUSD) => (100, 400),
+			(SUSD, BTC) => (500, 100),
+			(SUSD, DOT) => (400, 100),
+			(BTC, SUSD) => (100, 500),
+			(DOT, SUSD) => (100, 400),
 			_ => (0, 0),
 		}
 	}
@@ -197,9 +196,9 @@ parameter_types! {
 	pub const DexIncentivePool: AccountId = 11;
 	pub const HomaIncentivePool: AccountId = 12;
 	pub const AccumulatePeriod: BlockNumber = 10;
-	pub const IncentiveCurrencyId: CurrencyId = ACA;
-	pub const SavingCurrencyId: CurrencyId = AUSD;
-	pub const IncentivesModuleId: ModuleId = ModuleId(*b"aca/inct");
+	pub const IncentiveCurrencyId: CurrencyId = SRS;
+	pub const SavingCurrencyId: CurrencyId = SUSD;
+	pub const IncentivesModuleId: ModuleId = ModuleId(*b"srs/inct");
 }
 
 ord_parameter_types! {
@@ -215,7 +214,7 @@ impl Config for Runtime {
 	type IncentiveCurrencyId = IncentiveCurrencyId;
 	type SavingCurrencyId = SavingCurrencyId;
 	type UpdateOrigin = EnsureSignedBy<Four, AccountId>;
-	type CDPTreasury = MockCDPTreasury;
+	type SHYTreasury = MockSHYTreasury;
 	type Currency = TokensModule;
 	type DEX = MockDEX;
 	type EmergencyShutdown = MockEmergencyShutdown;
@@ -223,8 +222,8 @@ impl Config for Runtime {
 	type WeightInfo = ();
 }
 
-pub type Block = sp_runtime::generic::Block<Header, UncheckedExtrinsic>;
-pub type UncheckedExtrinsic = sp_runtime::generic::UncheckedExtrinsic<u32, Call, u32, ()>;
+type UncheckedExtrinsic = frame_system::mocking::MockUncheckedExtrinsic<Runtime>;
+type Block = frame_system::mocking::MockBlock<Runtime>;
 
 construct_runtime!(
 	pub enum Runtime where
@@ -234,7 +233,7 @@ construct_runtime!(
 	{
 		System: frame_system::{Module, Call, Storage, Config, Event<T>},
 		IncentivesModule: incentives::{Module, Storage, Call, Event<T>},
-		TokensModule: orml_tokens::{Module, Storage, Event<T>, Config<T>},
+		TokensModule: orml_tokens::{Module, Storage, Event<T>},
 		RewardsModule: orml_rewards::{Module, Storage, Call},
 	}
 );
